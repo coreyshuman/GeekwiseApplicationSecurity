@@ -1,0 +1,9 @@
+version: "3.3"
+
+services:
+  postgres:
+    build: ./database
+    image: appsec-postgres:01-01
+    env_file: .env
+    ports:
+      - "5432:5432"
