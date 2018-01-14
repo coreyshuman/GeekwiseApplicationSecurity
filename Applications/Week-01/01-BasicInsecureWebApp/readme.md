@@ -1,5 +1,5 @@
 # Basic Insecure Web App
-## Application Security Week 01
+### Application Security Week 01
 
 A simple Node Express web application with Postgres database.  
 This application uses Docker to run a database, API server, and web front-end in 3 separate containers.
@@ -9,19 +9,20 @@ To start the application, run the following command in a terminal: `docker-compo
 Use a web browser and navigate to `http://localhost:8080` to view the web interface.
 
 ### Active API Endpoints
+This application includes a simple RESTful API that let's us save and retrieve car Make and Model information.
 Import the postman configuration in `postman-config` to easily navigate and test the API endpoints.
 
-
-GET http://localhost:3000/api/car  
 - Retrieve an array of all car objects.  
-POST http://localhost:3000/api/car
-- Insert a new car object.  
-GET http://localhost:3000/api/car/:id  
+  - GET http://localhost:3000/api/car  
+- Insert a new car object. 
+  - POST http://localhost:3000/api/car
 - Get a single car object.  
-PUT http://localhost:3000/api/car/:id  
+  - GET http://localhost:3000/api/car/:id  
 - Update a car object.  
-DELETE http://localhost:3000/api/car/:id  
+  - PUT http://localhost:3000/api/car/:id  
 - Delete a car object (using soft delete in this case).
+  - DELETE http://localhost:3000/api/car/:id  
+
 
 ### Project Layout
 - database

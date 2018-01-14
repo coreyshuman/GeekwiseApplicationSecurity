@@ -1,5 +1,5 @@
 # Application Security And Hardening
-### A Geekwise Academy programming course by Corey Shuman
+### A Geekwise Academy course by Corey Shuman
 
 This is a 12 week (72 hour) course on Application Security covering a variety of topics designed to give students the tools and knowledge they need to make their applications more secure.
 
