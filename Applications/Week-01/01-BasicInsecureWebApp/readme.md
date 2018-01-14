@@ -1,6 +1,6 @@
 # Basic Insecure Web App
 ### Application Security And Hardening
-**Week 01** [View Lecture Notes](../../LectureNotes/Week-01)
+**Week 01** [View Lecture Notes](../../../LectureNotes/Week-01)
 
 A simple Node Express web application with Postgres database.  
 This application uses Docker to run a database, API server, and web front-end in 3 separate containers.
