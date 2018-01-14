@@ -4,6 +4,25 @@ services:
   postgres:
     build: ./database
     image: appsec-postgres:01-01
-    env_file: .env
+    env_file: ./server/.env
+    networks:
+      - backend
     ports:
       - "5432:5432"
+  apiserver:
+    image: "node:9"
+    env_file: ./server/.env
+    working_dir: /home/node/server
+    depends_on: 
+      - postgres
+    networks:
+      - backend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./server:/home/node/server
+    entrypoint: "/home/node/server/scripts/entrypoint.sh"
+  
+
+networks:
+  backend:
