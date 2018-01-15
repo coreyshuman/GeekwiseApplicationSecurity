@@ -3,9 +3,12 @@
 
 [Return Home](../../../../)  
 
-[View Lecture Notes]()  
+[View Lecture Notes](http://coreyshuman.github.io/GeekwiseApplicationSecurity/LectureNotes/Week-01)  
 
 ### Goals
+- Outline the general goals and topics of the class
+- Review some examples and highlight the importance of Application Security
+- Setup a development environment for a simple NodeJS RESTful API and basic frontend application using Docker as our development platform
 
 ### Topics
 - Introduction to Docker
