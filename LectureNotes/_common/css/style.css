@@ -1,0 +1,52 @@
+body {
+    font-size: 1.2rem;
+}
+
+.header-text {
+    font-size: 2.2rem;
+}
+
+p.header-text,
+p.header-subtext {
+    margin-bottom: 2px;
+}
+
+.header-subtext {
+    font-size: 1.5em;
+}
+
+.bold {
+    font-weight: bold !important;
+}
+
+.italic {
+    font-style: italic !important;
+}
+
+a,
+a:visited {
+    color: darkred;
+    text-decoration: underline;
+}
+
+a:hover {
+    color: goldenrod;
+}
+
+.ui-list-1 {
+    list-style-type: disc;
+}
+
+.ui-list-2 {
+    list-style-type: circle;
+    margin-left: 20px;
+}
+
+.ui-list-3 {
+    list-style-type: square;
+    margin-left: 40px;
+}
+
+h2 {
+    font-style: italic !important;
+}
