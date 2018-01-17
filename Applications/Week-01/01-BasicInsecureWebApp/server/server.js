@@ -6,7 +6,13 @@ require('dotenv').config();
 
 const controllers = require('./controllers/controllers');
 
+//////////////////
+// Server Setup
+//////////////////
 
+app.set("env", process.env.NODE_ENV || "development");
+app.set("host", process.env.HOST || "0.0.0.0");
+app.set("port", process.env.PORT || 3000);
 
 ///////////////////////
 // Server Middleware
@@ -35,22 +41,6 @@ app.use(function(req, res, next) {
 //////////////////
 
 app.use('/api', controllers);
-
-
-//////////////////
-// Server Setup
-//////////////////
-
-app.set("env", process.env.NODE_ENV || "development");
-app.set("host", process.env.HOST || "0.0.0.0");
-app.set("port", process.env.PORT || 3000);
-
-app.listen(app.get("port"), function() {
-    console.log('\n' + '**********************************');
-    console.log('REST API listening on port ' + app.get("port"));
-    console.log('**********************************' + '\n');
-});
-
 
 ////////////////////
 // Error Handlers
@@ -83,6 +73,16 @@ app.use(function(err, req, res, next) {
             status: 'error',
             message: err.message
         });
+});
+
+/////////////////////////
+// Server Begin Listening
+/////////////////////////
+
+app.listen(app.get("port"), function() {
+    console.log('\n' + '**********************************');
+    console.log('REST API listening on port ' + app.get("port"));
+    console.log('**********************************' + '\n');
 });
 
 
