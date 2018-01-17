@@ -11,7 +11,7 @@ class CarDb {
     }
 
     static getAll() {
-        let query = `SELECT * FROM ${TABLENAME} WHERE is_deleted=false`;
+        let query = `SELECT * FROM ${TABLENAME} WHERE is_deleted=false ORDER BY id DESC`;
         console.log(query);
         return db.any(query);
     }
