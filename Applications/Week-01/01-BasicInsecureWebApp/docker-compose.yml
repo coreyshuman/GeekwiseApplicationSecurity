@@ -10,7 +10,7 @@ services:
     ports:
       - "5432:5432"
   apiserver:
-    image: "node:9"
+    image: "node:8"
     env_file: ./server/.env
     working_dir: /home/node/server
     depends_on: 

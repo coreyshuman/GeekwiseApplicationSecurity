@@ -1,7 +1,11 @@
+// server address
+let _baseUrl = "http://localhost";
+let _port = "3000";
+
 function getCars() {
     let list = document.getElementById("car-list");
     list.innerHTML = "";
-    jQuery.get("http://localhost:3000/api/car", function(data) {
+    jQuery.get(`${_baseUrl}:3000/api/car`, function(data) {
         data.data.forEach((car) => {
             var newElement = document.createElement("li");
             let edit = `<a href='#' data-carid='${car.id}' data-carmake='${car.make}' data-carmodel='${car.model}' onclick='editCar(event)'>edit</a>`;
@@ -27,13 +31,13 @@ function addCar(e) {
     }
 
     if (+carid.val() === 0) {
-        jQuery.post("http://localhost:3000/api/car", { make: makeVal, model: modelVal }, function(data) {
+        jQuery.post(`${_baseUrl}:${_port}/api/car`, { make: makeVal, model: modelVal }, function(data) {
             getCars();
         });
     } else {
         $.ajax({
                 method: "PUT",
-                url: "http://localhost:3000/api/car/" + carid.val(),
+                url: `${_baseUrl}:${_port}/api/car/${carid.val()}`,
                 data: { make: make.val(), model: model.val() }
             })
             .done(function(msg) {
@@ -73,7 +77,7 @@ function delCar(e) {
     if(confirm(`Are you sure you want to delete car #${carid}`)) {
         $.ajax({
                 method: "DELETE",
-                url: "http://localhost:3000/api/car/" + carid
+                url: `${_baseUrl}:${_port}/api/car/${carid}`
             })
             .done(function(msg) {
                 getCars();
@@ -84,6 +88,9 @@ function delCar(e) {
 
 // run getCars on 
 $(function() {
+    // server is running from same IP as front-end so get the hostname
+    _baseUrl = `http://${window.location.hostname}`;
     getCars();
     $("#add-car").on('submit', addCar);
+   
 });

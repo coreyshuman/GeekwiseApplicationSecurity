@@ -14,8 +14,5 @@
         "express": "^4.16.2",
         "morgan": "^1.9.0",
         "pg-promise": "^7.3.3"
-    },
-    "devDependencies": {
-        "nodemon": "^1.14.11"
     }
 }
