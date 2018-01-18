@@ -10,7 +10,7 @@ services:
     ports:
       - "5432:5432"
   apiserver:
-    image: "node:9"
+    image: "node:8"
     env_file: ./server/.env
     working_dir: /home/node/server
     depends_on: 
@@ -22,7 +22,14 @@ services:
     volumes:
       - ./server:/home/node/server
     entrypoint: "/home/node/server/scripts/entrypoint.sh"
-  
+  frontend:
+    image: "httpd:2.4"
+    volumes:
+      - ./front-end:/usr/local/apache2/htdocs/
+    networks:
+      - backend
+    ports:
+      - "8080:80"
 
 networks:
   backend:

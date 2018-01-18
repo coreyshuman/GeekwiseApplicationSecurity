@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h1>Application Security - Basic Insecure Web Application</h1>
+                <br>
+                <form class="form-inline" id="add-car">
+                    <input type="hidden" id="carid">
+                    <label class="sr-only" for="make">Make</label>
+                    <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="make" placeholder="Honda">
+
+                    <label class="sr-only" for="model">Model</label>
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <input type="text" class="form-control" id="model" placeholder="Civic">
+                    </div>
+
+                    <input type="submit" id="car-submit" class="btn btn-primary" value="Add Car">
+                </form>
+                <br>
+                <div class="car-container">
+                    <h3>Cars:</h3>
+                    <ul id="car-list"></ul>
+            </div>
+            </div>
+        </div>
+
+        <!-- jQuery first, then Tether, then Bootstrap JS. -->
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+        <script src="./scripts.js"></script>
+</body>
+
+</html>
