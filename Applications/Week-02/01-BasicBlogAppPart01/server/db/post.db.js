@@ -1,8 +1,8 @@
 const db = require('./db');
 
-const TABLENAME = 'cars';
+const TABLENAME = 'posts';
 
-class CarDb {
+class PostDb {
     static getOne(id) {
         id = parseInt(id);
         let query = `SELECT * FROM ${TABLENAME} WHERE is_deleted=false AND id = ${id}`;
@@ -21,7 +21,6 @@ class CarDb {
         let params = [];
         Object.keys(data).forEach((key) => {
             params.push(`${key} = '${data[key]}'`);
-            params.push(`updated_at = '${Date.now()}'`);
         });
         let query = `UPDATE ${TABLENAME} SET ${params.join()} WHERE is_deleted=false AND id = ${id} RETURNING *`;
         console.log(query);
@@ -55,11 +54,11 @@ class CarDb {
     }
 
     static search(param) {
-        //let query = `SELECT * FROM ${TABLENAME} WHERE is_deleted=false AND make ILIKE '%${param}%' OR model ILIKE '%${param}%'`;
-        let query = `SELECT * FROM ${TABLENAME} WHERE is_deleted=false AND make = '${param}'`;
+        let query = `SELECT * FROM ${TABLENAME} WHERE is_deleted=false AND post ILIKE '%${param}%' OR author ILIKE '%${param}%'`;
+        //let query = `SELECT * FROM ${TABLENAME} WHERE is_deleted=false AND make = '${param}'`;
         console.log(query);
         return db.any(query);
     }
 }
 
-module.exports = CarDb;
+module.exports = PostDb;
