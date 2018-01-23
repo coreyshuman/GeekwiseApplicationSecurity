@@ -17,5 +17,5 @@
 - User Data Sanitization
 
 ### Applications
-- [Week 02 - Insecure Blog App Part 1](../../Applications/Week-02/02-InsecureBlogPart01)
+- [Week 02 - Insecure Blog App Part 1](../../Applications/Week-02/01-BasicBlogAppPart01)
   - A work-in-progress blogging application that we will build up in the coming weeks. This application is the perfect platform for us to learn and practice application security fundamentals.
