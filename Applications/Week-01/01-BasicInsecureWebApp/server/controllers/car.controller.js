@@ -4,6 +4,8 @@ const Common = require('./common');
 
 class CarController {
     constructor(router) {
+        router.route('/car/search')
+            .post(this.search);
         router.route('/car/:id')
             .get(this.getOne)
             .put(this.updateOne)
@@ -27,7 +29,7 @@ class CarController {
             if (e.code == 0) {
                 return Common.resultNotFound(res);
             } else {
-                return Common.resultErr(res, e);
+                return Common.resultErr(res, e.message);
             }
         }
     }
@@ -46,7 +48,7 @@ class CarController {
             if (e.code == 0) {
                 return Common.resultNotFound(res);
             } else {
-                return Common.resultErr(res, e);
+                return Common.resultErr(res, e.message);
             }
         }
     }
@@ -62,10 +64,10 @@ class CarController {
             }
         } catch (e) {
             // handle error
-            if (e.code == 0) {
+            if (e.code && e.code === 0) {
                 return Common.resultNotFound(res);
             } else {
-                return Common.resultErr(res, e);
+                return Common.resultErr(res, e.message);
             }
         }
     }
@@ -80,10 +82,10 @@ class CarController {
             }
         } catch (e) {
             // handle error
-            if (e.code == 0) {
+            if (e.code && e.code === 0) {
                 return Common.resultNotFound(res);
             } else {
-                return Common.resultErr(res, e);
+                return Common.resultErr(res, e.message);
             }
         }
     }
@@ -98,7 +100,22 @@ class CarController {
                 return Common.resultNotFound(res);
             }
         } catch (e) {
-            return Common.resultErr(res, e);
+            return Common.resultErr(res, e.message);
+        }
+    }
+
+    async search(req, res, next) {
+        try {
+            const data = await CarDb.search(req.body.search);
+            if (data) {
+                let cars = data.map(car => { return new Car(car) });
+                return Common.resultOk(res, cars);
+            } else {
+                return Common.resultOk([]);
+            }
+        } catch (e) {
+            console.log('catch', e)
+            return Common.resultErr(res, e.message);
         }
     }
 }

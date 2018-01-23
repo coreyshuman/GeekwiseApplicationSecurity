@@ -21,6 +21,7 @@ class CarDb {
         let params = [];
         Object.keys(data).forEach((key) => {
             params.push(`${key} = '${data[key]}'`);
+            params.push(`updated_at = '${Date.now()}'`);
         });
         let query = `UPDATE ${TABLENAME} SET ${params.join()} WHERE is_deleted=false AND id = ${id} RETURNING *`;
         console.log(query);
@@ -30,7 +31,7 @@ class CarDb {
     static deleteOne(id) {
         id = parseInt(id);
         //let query = `DELETE FROM ${TABLENAME} WHERE id = ${id}`;
-        let query = `UPDATE ${TABLENAME} SET is_deleted=true WHERE id = ${id}`
+        let query = `UPDATE ${TABLENAME} SET is_deleted=true WHERE id = ${id}`;
         console.log(query);
         return db.result(query, [], r => r.rowCount);
     }
@@ -51,6 +52,13 @@ class CarDb {
         let query = `SELECT count(*) FROM ${TABLENAME}`;
         console.log(query);
         return db.one(query, [], a => +a.count);
+    }
+
+    static search(param) {
+        //let query = `SELECT * FROM ${TABLENAME} WHERE is_deleted=false AND make ILIKE '%${param}%' OR model ILIKE '%${param}%'`;
+        let query = `SELECT * FROM ${TABLENAME} WHERE is_deleted=false AND make = '${param}'`;
+        console.log(query);
+        return db.any(query);
     }
 }
 

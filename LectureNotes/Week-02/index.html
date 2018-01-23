@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="../common/css/style.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <p class="text-center header-text bold">Application Security and Hardening</p>
+                <p class="text-center header-text">Geekwise Academy</p>
+                <br>
+                <p class="text-center header-subtext italic">Week 02 - SQL Injection and Cross Site Scripting (XSS)</p>
+                <br>
+                <p class="text-center header-subtext bold">Instructors:</p>
+                <p class="text-center header-subtext">Corey Shuman</p>
+                <p class="text-center header-subtext ta-name-full"></p>
+                <br>
+                <p class="text-center header-subtext bold">Slack Channel:</p>
+                <p class="text-center header-subtext"><a href="https://geekwise.slack.com/messages/C8SHHJQLU/">#application-security</a></p>
+                <p class="text-center header-subtext bold">Github Repo:</p>
+                <p class="text-center header-subtext"><a href="https://github.com/coreyshuman/GeekwiseApplicationSecurity">https://github.com/coreyshuman/GeekwiseApplicationSecurity</a></p>
+                <p class="text-center header-subtext bold">Lecture Notes:</p>
+                <p class="text-center header-subtext"><a href="http://coreyshuman.github.io/GeekwiseApplicationSecurity/LectureNotes">http://coreyshuman.github.io/GeekwiseApplicationSecurity/LectureNotes</a></p>
+                <hr><br>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <p class="header-subtext bold">Table of Contents:</p>
+                <ul id="table-of-contents"></ul>
+                <hr><br>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h1>Goals for Week 2</h1>
+                <ul>
+                    <li>Begin exploring application security fundamentals, particularly SQL Injection and XSS.</li>
+                    <li>Practice performing these attacks on our app and then harden it from these vulnerabilities.</li>
+                    <li>Explore additional resources for application security.</li>
+                </ul>
+
+                <h2>Topics We Will Cover</h2>
+                <ul>
+                    <li>SQL Injection</li>
+                    <li>SQL Parameterization</li>
+                    <li>Cross Site Scripting (XSS)</li>
+                    <li>User Data Sanitization</li>
+                </ul>
+
+
+                <h1>Assignment Review</h1>
+                <ul>
+                    <li>Adding a field to our basic app</li>
+                    <li>Building our simple blogging app</li>
+                </ul>
+
+                <h1>Insecure Blogging Application Part 1</h1>
+                <p>Our basic application will give us an intruduction to NodeJS, Postgres, Postico, Postman, and Docker.</p>
+                <p><a href="https://github.com/coreyshuman/GeekwiseApplicationSecurity/tree/master/Applications/Week-01/01-BasicInsecureWebApp">Click Here</a> to go to the application page.</p>
+
+                <h1>Brief Introduction to SQL</h1>
+                <p>Resource: <a href="https://www.w3schools.com/sql/">https://www.w3schools.com/sql/</a></p>
+
+                <h1>SQL Injection Attacks</h1>
+                <p>Resource: <a href="https://www.w3schools.com/sql/sql_injection.asp">https://www.w3schools.com/sql/sql_injection.asp</a></p>
+
+
+                <h2>Try It: Attempt the Following SQL Injections</h2>
+                <ul>
+                    <li>Change the Make of all cars to 'Junk'</li>
+                    <li>Delete all entries from the database</li>
+                    <li>Add or remove columns from the table</li>
+                </ul>
+
+
+                <h1>SQL Injection Prevention and Defenses</h1>
+                <p>Resource: <a href="https://www.owasp.org/index.php/SQL_Injection_Prevention_Cheat_Sheet">https://www.owasp.org/index.php/SQL_Injection_Prevention_Cheat_Sheet</a></p>
+                <h2>Prepared Statements (Parameterized Queries)</h2>
+                <h2>Whitelist Input Validation</h2>
+                <h2>Escaping All User-Supplied Input (Last Resort)</h2>
+                <p>Why is this option challenging? <a href=" https://www.postgresql.org/docs/8.3/static/sql-syntax-lexical.html"> https://www.postgresql.org/docs/8.3/static/sql-syntax-lexical.html</a></p>
+
+
+                <h1>Homework: SQL Parameterization</h1>
+                <p>Use SQL parameterization to harden our Basic Insecure Web Application and Blogging Application.</p>
+                <ul>
+                    <li>Save your new version of the Basic Insecure App as <em>BasicWebAppParameterized</em></li>
+                    <li>Save your new version of the Blog App as <em>BasicBlogParameterized</em></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!--Footer-->
+    <br><br>
+    <footer class="page-footer">
+        <div style="background-color: #b9b9b9;">
+            <!-- Copyright-->
+            <div class="footer-copyright">
+                <div class="container-fluid text-center">
+                    &copy; 2017 -
+                    <script type="text/javascript">
+                        document.write(new Date().getFullYear());
+                    </script>
+                    <a href="https://geekwiseacademy.com">Geekwise Academy</a> &amp; <a href="http://coreyshuman.com">Corey Shuman</a>
+                </div>
+            </div>
+            <!--/.Copyright -->
+        </div>
+    </footer>
+    <!--/.Footer-->
+
+    <!-- jQuery first, then Tether, then Bootstrap JS. -->
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+    <script src="../common/js/scripts.js"></script>
+    <script src="../common/js/ta-name.js"></script>
+</body>
+
+</html>
