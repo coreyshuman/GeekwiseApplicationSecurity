@@ -1,0 +1,104 @@
+{
+	"variables": [],
+	"info": {
+		"name": "01-01_BasicInsecureApp",
+		"_postman_id": "ac104230-9eae-eb5a-6170-92e14aba4889",
+		"description": "Application Security basic insecure app example.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "/api/car/1",
+			"request": {
+				"url": "http://localhost:3000/api/car/1",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": "Get a single car"
+			},
+			"response": []
+		},
+		{
+			"name": "/api/car/",
+			"request": {
+				"url": "http://localhost:3000/api/car",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": "Get all cars"
+			},
+			"response": []
+		},
+		{
+			"name": "/api/car/",
+			"request": {
+				"url": "http://localhost:3000/api/car",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "make",
+							"value": "Honda",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "model",
+							"value": "Civic",
+							"type": "text",
+							"enabled": true
+						}
+					]
+				},
+				"description": "Create a new car entry"
+			},
+			"response": []
+		},
+		{
+			"name": "/api/car/1",
+			"request": {
+				"url": "http://localhost:3000/api/car/1",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "model",
+							"value": "Golf",
+							"type": "text",
+							"enabled": true
+						}
+					]
+				},
+				"description": "Update a car entry"
+			},
+			"response": []
+		},
+		{
+			"name": "/api/car/1",
+			"request": {
+				"url": "http://localhost:3000/api/car/1",
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"description": "Delete a car entry"
+			},
+			"response": []
+		}
+	]
+}
