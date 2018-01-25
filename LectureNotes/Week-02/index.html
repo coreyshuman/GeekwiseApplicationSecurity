@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="../common/css/style.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <p class="text-center header-text bold">Application Security and Hardening</p>
+                <p class="text-center header-text">Geekwise Academy</p>
+                <br>
+                <p class="text-center header-subtext italic">Week 02 - SQL Injection and Cross Site Scripting (XSS)</p>
+                <br>
+                <p class="text-center header-subtext bold">Instructors:</p>
+                <p class="text-center header-subtext">Corey Shuman</p>
+                <p class="text-center header-subtext ta-name-full"></p>
+                <br>
+                <p class="text-center header-subtext bold">Slack Channel:</p>
+                <p class="text-center header-subtext"><a href="https://geekwise.slack.com/messages/C8SHHJQLU/">#application-security</a></p>
+                <p class="text-center header-subtext bold">Github Repo:</p>
+                <p class="text-center header-subtext"><a href="https://github.com/coreyshuman/GeekwiseApplicationSecurity">https://github.com/coreyshuman/GeekwiseApplicationSecurity</a></p>
+                <p class="text-center header-subtext bold">Lecture Notes:</p>
+                <p class="text-center header-subtext"><a href="http://coreyshuman.github.io/GeekwiseApplicationSecurity/LectureNotes">http://coreyshuman.github.io/GeekwiseApplicationSecurity/LectureNotes</a></p>
+                <hr><br>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <p class="header-subtext bold">Table of Contents:</p>
+                <ul id="table-of-contents"></ul>
+                <hr><br>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h1>Goals for Week 2</h1>
+                <ul>
+                    <li>Begin exploring application security fundamentals, particularly SQL Injection and XSS.</li>
+                    <li>Practice performing these attacks on our app and then harden it from these vulnerabilities.</li>
+                    <li>Explore additional resources for application security.</li>
+                </ul>
+
+                <h2>Topics We Will Cover</h2>
+                <ul>
+                    <li>SQL Injection</li>
+                    <li>SQL Parameterization</li>
+                    <li>Cross Site Scripting (XSS)</li>
+                    <li>User Data Sanitization</li>
+                </ul>
+
+
+                <h1>Assignment Review</h1>
+                <ul>
+                    <li>Adding a field to our basic app</li>
+                    <li>Building our simple blogging app</li>
+                </ul>
+
+                <h1>Insecure Blogging Application Part 1</h1>
+                <p>Our basic application will give us an intruduction to NodeJS, Postgres, Postico, Postman, and Docker.</p>
+                <p><a href="https://github.com/coreyshuman/GeekwiseApplicationSecurity/tree/master/Applications/Week-01/01-BasicInsecureWebApp">Click Here</a> to go to the application page.</p>
+
+                <h1>Brief Introduction to SQL</h1>
+                <p>Resource: <a href="https://www.w3schools.com/sql/">https://www.w3schools.com/sql/</a></p>
+
+                <h1>SQL Injection Attacks</h1>
+                <p>Resource: <a href="https://www.w3schools.com/sql/sql_injection.asp">https://www.w3schools.com/sql/sql_injection.asp</a></p>
+
+
+                <h2>Try It: Attempt the Following SQL Injections</h2>
+                <ul>
+                    <li>Change the Make of all cars to 'Junk'</li>
+                    <li>Delete all entries from the database</li>
+                    <li>Add or remove columns from the table</li>
+                </ul>
+
+
+                <h1>SQL Injection Prevention and Defenses</h1>
+                <p>Resource: [OWASP SQL Injection Prevention Cheat Sheet](https://www.owasp.org/index.php/SQL_Injection_Prevention_Cheat_Sheet)</p>
+                <h2>Prepared Statements (Parameterized Queries)</h2>
+                <p>Resource: [OWASP Query Parameterization Cheat Sheet](https://www.owasp.org/index.php/Query_Parameterization_Cheat_Sheet)</p>
+                <p>Prepared statements are static queries that use placeholders (variables) to pass parameters into the query. This style allows the database to distinguish between code and data regardless of the payload (user input).
+                </p>
+                <p>Prepared statements ensure an attacker is not able to change the intent of a query, even if SQL commands are inserted by an attacker.</p>
+                <p>NodeJS (pg-promise):</p>
+                <pre>db.any('SELECT * FROM product WHERE price BETWEEN $1 AND $2', [1, 10])</pre>
+                <p>PHP:</p>
+                <pre>$stmt = $dbh->prepare("SELECT * FROM product WHERE price BETWEEN :price1 AND :price2");
+$stmt->bindParam(':price1', $price1);
+$stmt->bindParam(':price2', $price2);
+$price1 = 1;
+$price2 = 10;
+$stmt->execute();</pre>
+                <p>ASP.NET:</p>
+                <pre>SqlConnection objCon = new SqlConnection(ConnectionString);
+objCon.Open();
+SqlCommand objCommand = new SqlCommand(
+"SELECT * FROM product WHERE price BETWEEN @Price1 AND @Price2",
+objConnection);
+objCommand.Parameters.Add("@Price1", 1);
+objCommand.Parameters.Add("@Price2", 10);
+SqlDataReader objReader = objCommand.ExecuteReader();</pre>
+
+                <h2>Whitelist Input Validation</h2>
+                <p>Various parts of SQL queries aren't legal locations for the use of bind variables, such as the names of tables or columns, and the sort order indicator (ASC or DESC). In such situations, input validation or query redesign is the most appropriate
+                    defense. For the names of tables or columns, ideally those values come from the code, and not from user parameters. But if user parameter values are used to make different for table names and column names, then the parameter values
+                    should be mapped to the legal/expected table or column names to make sure unvalidated user input doesn't end up in the query.</p>
+                <p>Whitelist validation for table selection:</p>
+                <pre>String tableName;
+switch(PARAM):
+    case "Value1": tableName = "fooTable";
+        break;
+    case "Value2": tableName = "barTable";
+        break;
+    ...
+    default      : throw new InputValidationException("unexpected value provided for table name");</pre>
+                <p>Whitelist validation for Sort Order:</p>
+                <pre>public String someMethod(boolean sortOrder) {
+
+    String SQLquery = "some SQL ... order by Salary " + (sortOrder ? "ASC" : "DESC");
+    ...</pre>
+                <p>More examples are provided in the [OWASP Input Validation Cheat Sheet](https://www.owasp.org/index.php/Input_Validation_Cheat_Sheet)</p>
+                <h2>Escaping All User-Supplied Input (Last Resort)</h2>
+                <p>Why is this option challenging? <a href="https://www.postgresql.org/docs/8.3/static/sql-syntax-lexical.html"> https://www.postgresql.org/docs/8.3/static/sql-syntax-lexical.html</a></p>
+                <p>Also see [[User Data Validation (Sanitization)]]</p>
+
+                <h1>Assignment: SQL Parameterization</h1>
+                <p>Use SQL parameterization to harden our Basic Insecure Web Application and Blogging Application.</p>
+                <ul>
+                    <li>Save your new version of the Basic Insecure App as <em>BasicWebAppParameterized</em></li>
+                    <li>Save your new version of the Blog App as <em>BasicBlogParameterized</em></li>
+                </ul>
+
+                <h1>Cross Site Scripting (XSS)</h1>
+                <p>Cross Site Scripting is a type of attack where a script is injected into a website or web application so that it is run client-side for other users when the view the infected page. For example, if a user saves a script on a forum page,
+                    all users who view that page will have the script run on their web browser. These scripts can cause a variety of issues ranging from vandalism to credential theft.
+                </p>
+                <h2>Types of Cross Site Scripting</h2>
+                <h3>Stored XSS Attacks</h3>
+                <p>A stored attack has the script payload permanently stored to the web server, usually in a database. The script is then sent to the user as part of a result, text field, error message, etc.</p>
+                <h3>Reflected XSS Attachs</h3>
+                <p>A reflected attack is one where the script is not stored on the web server. Instead the server is used to distribute the injected script without the need for storage. The malicious script is transported to the victims via e-mail, a malicious
+                    link, a specially crafted form, or from the malicious site itself.</p>
+                <h2>Examples of XSS</h2>
+                <p>Basic Script Insertion</p>
+                <pre>&lt;script&gt;alert("You've been hacked!")&lt;/script&gt;</pre>
+                <p>DOM Attribute Insertion</p>
+                <pre>&lt;b onmouseover="alert('Are you havin fun yet?')"&gt;click me!&lt;/b&gt;</pre>
+                <p>Encoded URI Schemes</p>
+                <pre>&lt;img src=j&amp;#X41vascript:alert('test2')&gt;</pre>
+                <p>XSS Using Encoding</p>
+                <pre>&lt;META HTTP-EQUIV="refresh" CONTENT="0;url=data:text/html;base64,PHNjcmlwdD5hbGVydCgndGVzdDMnKTwvc2NyaXB0Pg"&gt;</pre>
+                <br>
+                <p>Additional Resources:</p>
+                <p><a href="https://www.owasp.org/index.php/Cross-site_Scripting_(XSS)">https://www.owasp.org/index.php/Cross-site_Scripting_(XSS)</a></p>
+
+                <h2>Reflected Attack Example</h2>
+                <p>Let's assume that we have an error page, which is handling requests for a non existing pages, a classic 404 error page. We may use the code below as an example to inform user about what specific page is missing:</p>
+                <pre>&lt;html&gt;
+&lt;body&gt;
+
+&lt;? php
+print "Not found: " . urldecode($_SERVER["REQUEST_URI"]);
+?&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+                <p>This link will open the page for us:</p>
+                <p><a href="http://localhost:8080/some_fake_page_name">http://localhost:8080/some_fake_page_name</a></p>
+                <p><a href="http://192.168.99.100:8080/some_fake_page_name">http://192.168.99.100:8080/some_fake_page_name</a></p>
+                <p>Now let's manipulate this page to execute code on the client machine</p>
+                <p><a href='http://localhost:8080/&lt;script&gt;alert("TEST");&lt;/script&gt;'>http://localhost:8080/&lt;script&gt;alert("TEST");&lt;/script&gt;</a></p>
+                <p><a href='http://192.168.99.100:8080/&lt;script&gt;alert("TEST");&lt;/script&gt;'>http://192.168.99.100:8080/&lt;script&gt;alert("TEST");&lt;/script&gt;</a></p>
+                <br>
+                <p>If you are using Chrome, it might block it with the following error: ERR_BLOCKED_BY_XSS_AUDITOR. Firefox does not appear to block this request.</p>
+                <p></p>
+
+                <h1>Defending Against XSS</h1>
+                <p><a href="https://www.owasp.org/index.php/XSS_(Cross_Site_Scripting)_Prevention_Cheat_Sheet">https://www.owasp.org/index.php/XSS_(Cross_Site_Scripting)_Prevention_Cheat_Sheet</a></p>
+                <p>XSS prevention could be a class on it's own. The link above provides a ton of information and strategies to protect your applications. Here I will summarize some of the major points to consider while planning and developing your web interface.
+                </p>
+                <h2>Have an XSS Prevention Model</h2>
+                <p>A significant part of XSS prevention is carefully controlling where and when untrusted data is allowed to be put on your application. Depending on where untrusted data goes, it changes the concerns and vulnerabilities you open yourself
+                    up to. For example, untrusted data in a &lt;script&gt; tag is more vulnerable than data in a DOM attribute, which in turn is more vulnerable than data in a &lt;div&gt;, etc. The link above follows a slotted "whitelist" model.
+                </p>
+
+                <h2>Sanitize User (Untrusted) Data</h2>
+                <p>It is important to sanitize all untrusted input from users, other apps, etc. If you used HTML entity encoding and only put untrusted data in the body of a document (such as a &lt;div&gt; tag) it would likely be ok. However, if untrusted
+                    data can make it into &lt;script&gt; tags, CSS, or URLs, even that isn't enough. As a result, the rules below are additional things you must consider to harden your application.
+                </p>
+                <p class="alert alert-warning">Remeber that the way you encode HTML content, attributes, scripts, CSS, and URLs will each be different!</p>
+
+                <h2>Use a Security Encoding Library</h2>
+                <p>Writing an encoding library is not simple and requires a lot of experience, knowledge, and testing to get right. I recommend you start with a well known and tested library if at all possible. For example, .NET users can utilize the
+                    <a href="http://wpl.codeplex.com/">Microsoft Anti-Cross Site Scripting Library</a> and Java develoeprs can look into the <a href="https://www.owasp.org/index.php/OWASP_Java_Encoder_Project">OWASP Java Encoder Project.</a>
+                </p>
+
+                <h2>XSS Prevention Rules</h2>
+                <p>These rules can be found in detail with examples
+                    <p><a href="https://www.owasp.org/index.php/XSS_(Cross_Site_Scripting)_Prevention_Cheat_Sheet#XSS_Prevention_Rules">HERE</a></p>
+                </p>
+                <h3>RULE #0 - Never Insert Untrusted Data Except in Allowed Locations</h3>
+                <h3>RULE #1 - HTML Escape Before Inserting Untrusted Data into HTML Element Content</h3>
+                <h3>RULE #2 - Attribute Escape Before Inserting Untrusted Data into HTML Common Attributes</h3>
+                <h3>RULE #3 - JavaScript Escape Before Inserting Untrusted Data into JavaScript Data Values</h3>
+                <h4>RULE #3.1 - HTML escape JSON values in an HTML context and read the data with JSON.parse</h4>
+                <h3>RULE #4 - CSS Escape And Strictly Validate Before Inserting Untrusted Data into HTML Style Property Values</h3>
+                <h3>RULE #5 - URL Escape Before Inserting Untrusted Data into HTML URL Parameter Values</h3>
+                <h3>RULE #6 - Sanitize HTML Markup with a Library Designed for the Job</h3>
+                <h3>RULE #7 - Prevent DOM-based XSS</h3>
+                <p><a href="https://www.owasp.org/index.php/DOM_based_XSS_Prevention_Cheat_Sheet">https://www.owasp.org/index.php/DOM_based_XSS_Prevention_Cheat_Sheet</a></p>
+
+
+                <h2>XSS Filter Evasion Cheat Sheet</h2>
+                <p><a href="https://www.owasp.org/index.php/XSS_Filter_Evasion_Cheat_Sheet">https://www.owasp.org/index.php/XSS_Filter_Evasion_Cheat_Sheet</a></p>
+
+                <h1>User Data Validation (Sanitization)</h1>
+                <p>Related to our discussion above, it is important to filter all untrusted data so that our application is robust against invalid or malicious input, whether obtained from users, infrastructure, databases, or external entities.
+                </p>
+                <p>As usual, the OWASP website has a great resource on <a href="https://www.owasp.org/index.php/Data_Validation">Data Validation</a></p>
+
+                <p>Here are the different types of data validations we will look into:</p>
+                <h4>Data encoding and sanitization</h4>
+                <p>Make sure data that will be presented to the user's browser is encoding untrusted data (see XSS info above)</p>
+                <h4>Integrity Checks</h4>
+                <p>Ensure that the data has not been tampered with. For example, if a user id is provided to change a password, make sure other items aren't changed in the payload (such as name, email, etc)</p>
+                <p>Integrity checks must be included wherever data passes from a trusted to a less trusted boundary, such as from the application to the user's browser in a hidden field, or to a third party payment gateway, such as a transaction ID used
+                    internally upon return.</p>
+                <p>The type of integrity control (checksum, HMAC, encryption, digital signature) should be directly related to the risk of the data transiting the trust boundary.</p>
+                <h4>Validation</h4>
+                <p>Ensure that the data is strongly typed, correct syntax, within length boundaries, contains only permitted characters, or that numbers are correctly signed and within range boundaries.</p>
+                <p>Validation must be performed on every tier. However, validation should be performed as per the function of the server executing the code. For example, the web / presentation tier should validate for web related issues, persistence layers
+                    should validate for persistence issues such as SQL / HQL injection, directory lookups should check for LDAP injection, and so on.</p>
+                <h4>Business Rule Validation</h4>
+                <p>Ensure that data is not only validated, but business rule correct. For example, interest rates fall within permitted boundaries.</p>
+                <br>
+                <p class="alert alert-warning">Validation should be applied at all tiers of the application!</p>
+                <p>For example, if the front-end is enforcing a 20 character max on a string length, the API and the Database should also respect and validate that rule.</p>
+
+                <h2>Delimiter and Special Characters</h2>
+                <p>Here is a partial list of special charactes that mean something to the various programs and languages involved in your web app. These are the characters which will often lead to issues or vulnerabilities in your app. This is not a comprehensive
+                    list.
+                </p>
+                <ul>
+                    <li>NULL (zero) %00</li>
+                    <li>LF - ANSI chr(10) "\r"</li>
+                    <li>CR - ANSI chr(13) "\n"</li>
+                    <li>CRLF - "\n\r"</li>
+                    <li>CR - EBCDIC 0x0f</li>
+                    <li>Quotes " '</li>
+                    <li>Commas, slashes spaces and tabs and other white space - used in CSV, tab delimited output, and other specialist formats</li>
+                    <li>&lt;&gt; - XML and HTML tag markers, redirection characters</li>
+                    <li>; &amp; - Unix and NT file system continuance</li>
+                    <li>@ - used for e-mail addresses</li>
+                    <li>0xff</li>
+                </ul>
+
+                <h1>Assignment: XSS Prevention</h1>
+                <p>Apply the techniques we have learned to harden our Blog from Cross Site Scripting.</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <br>
+                <hr>
+                <h1 class="header-subtext bold">Resources</h1>
+                <ul id="resources"></ul>
+            </div>
+        </div>
+    </div>
+
+    <!--Footer-->
+    <br><br>
+    <footer class="page-footer">
+        <div style="background-color: #b9b9b9;">
+            <!-- Copyright-->
+            <div class="footer-copyright">
+                <div class="container-fluid text-center">
+                    &copy; 2017 -
+                    <script type="text/javascript">
+                        document.write(new Date().getFullYear());
+                    </script>
+                    <a href="https://geekwiseacademy.com">Geekwise Academy</a> &amp; <a href="http://coreyshuman.com">Corey Shuman</a>
+                </div>
+            </div>
+            <!--/.Copyright -->
+        </div>
+    </footer>
+    <!--/.Footer-->
+
+    <!-- jQuery first, then Tether, then Bootstrap JS. -->
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+    <script src="../common/js/scripts.js"></script>
+    <script src="../common/js/ta-name.js"></script>
+</body>
+
+</html>
