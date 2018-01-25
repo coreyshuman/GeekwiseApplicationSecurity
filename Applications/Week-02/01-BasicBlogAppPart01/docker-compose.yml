@@ -23,9 +23,9 @@ services:
       - ./server:/home/node/server
     entrypoint: "/home/node/server/scripts/entrypoint.sh"
   frontend:
-    image: "httpd:2.4"
+    image: "php:7.0-apache"
     volumes:
-      - ./front-end:/usr/local/apache2/htdocs/
+      - ./front-end:/var/www/html
     networks:
       - backend
     ports:
