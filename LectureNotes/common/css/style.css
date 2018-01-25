@@ -29,6 +29,12 @@ a:visited {
     text-decoration: underline;
 }
 
+a.broken-link,
+a.broken-link:hover {
+    color: orangered;
+    background-color: pink;
+}
+
 a:hover {
     color: goldenrod;
 }
@@ -50,4 +56,15 @@ a:hover {
 h2 {
     font-style: italic !important;
     margin-top: 20px;
+}
+
+h4 {
+    font-style: italic !important;
+    font-size: 1.1em;
+}
+
+pre {
+    background: #EEE;
+    padding: 10px 20px;
+    white-space: pre-wrap;
 }
