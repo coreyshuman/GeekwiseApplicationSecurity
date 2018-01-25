@@ -28,13 +28,24 @@
                         <input type="text" class="form-control" id="model" placeholder="Civic">
                     </div>
 
+                    <label class="sr-only" for="make">Year</label>
+                    <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="year" placeholder="2001">
+
                     <input type="submit" id="car-submit" class="btn btn-primary" value="Add Car">
+                </form>
+                <br>
+                <form class="form-inline" id="search-car">
+                    <label class="sr-only" for="make">Search</label>
+                    <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="search" placeholder="Enter text to search...">
+
+                    <input type="submit" id="car-search" class="btn btn-primary" value="Search">&nbsp;
+                    <input type="button" id="car-showall" class="btn btn-primary" value="Show All">
                 </form>
                 <br>
                 <div class="car-container">
                     <h3>Cars:</h3>
                     <ul id="car-list"></ul>
-            </div>
+                </div>
             </div>
         </div>
 
