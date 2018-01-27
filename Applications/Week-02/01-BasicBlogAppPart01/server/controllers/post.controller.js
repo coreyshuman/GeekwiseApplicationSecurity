@@ -92,7 +92,8 @@ class PostController {
 
     async getAll(req, res, next) {
         try {
-            const data = await PostDb.getAll();
+            let order = req.query.order === '1';
+            const data = await PostDb.getAll(order);
             if (data) {
                 let posts = data.map(p => { return new Post(p) });
                 return Common.resultOk(res, posts);
@@ -106,7 +107,8 @@ class PostController {
 
     async search(req, res, next) {
         try {
-            const data = await PostDb.search(req.body.search);
+            let order = req.body.order === '1';
+            const data = await PostDb.search(req.body.search, order);
             if (data) {
                 let posts = data.map(p => { return new Post(p) });
                 return Common.resultOk(res, posts);

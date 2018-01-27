@@ -4,8 +4,9 @@ let _port = "3000";
 
 function getPosts() {
     clearEdit();
+    let order = $('#post-search-order').val();
 
-    jQuery.get(`${_baseUrl}:${_port}/api/post`, function(data) {
+    jQuery.get(`${_baseUrl}:${_port}/api/post?order=${order}`, function(data) {
         generatePosts(data);
     });
 }
@@ -35,10 +36,11 @@ function searchPosts(e) {
     let list = document.getElementById("post-list");
     list.innerHTML = "";
     let searchVal = $('#search').val();
+    let order = $('#post-search-order').val();
     console.log(searchVal)
     clearEdit();
 
-    jQuery.post(`${_baseUrl}:${_port}/api/post/search`, { search: searchVal }, function(data) {
+    jQuery.post(`${_baseUrl}:${_port}/api/post/search`, { search: searchVal, order: order }, function(data) {
         generatePosts(data);
     });
 }
