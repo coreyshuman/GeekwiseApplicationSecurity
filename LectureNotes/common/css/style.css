@@ -63,8 +63,7 @@ h4 {
     font-size: 1.1em;
 }
 
-pre {
-    background: #EEE;
+pre code.hljs {
     padding: 10px 20px;
     white-space: pre-wrap;
 }

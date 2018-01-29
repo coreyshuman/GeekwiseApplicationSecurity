@@ -8,6 +8,7 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/vs2015.min.css">
 
     <link rel="stylesheet" href="../common/css/style.css">
 </head>
@@ -92,42 +93,42 @@
                 </p>
                 <p>Prepared statements ensure an attacker is not able to change the intent of a query, even if SQL commands are inserted by an attacker.</p>
                 <p>NodeJS (pg-promise):</p>
-                <pre>db.any('SELECT * FROM product WHERE price BETWEEN $1 AND $2', [1, 10])</pre>
+                <pre><code>db.any('SELECT * FROM product WHERE price BETWEEN $1 AND $2', [1, 10])</code></pre>
                 <p>PHP:</p>
-                <pre>$stmt = $dbh->prepare("SELECT * FROM product WHERE price BETWEEN :price1 AND :price2");
+                <pre><code>$stmt = $dbh->prepare("SELECT * FROM product WHERE price BETWEEN :price1 AND :price2");
 $stmt->bindParam(':price1', $price1);
 $stmt->bindParam(':price2', $price2);
 $price1 = 1;
 $price2 = 10;
-$stmt->execute();</pre>
+$stmt->execute();</code></pre>
                 <p>ASP.NET:</p>
-                <pre>SqlConnection objCon = new SqlConnection(ConnectionString);
+                <pre><code class="cs">SqlConnection objCon = new SqlConnection(ConnectionString);
 objCon.Open();
 SqlCommand objCommand = new SqlCommand(
 "SELECT * FROM product WHERE price BETWEEN @Price1 AND @Price2",
 objConnection);
 objCommand.Parameters.Add("@Price1", 1);
 objCommand.Parameters.Add("@Price2", 10);
-SqlDataReader objReader = objCommand.ExecuteReader();</pre>
+SqlDataReader objReader = objCommand.ExecuteReader();</code></pre>
 
                 <h2>Whitelist Input Validation</h2>
                 <p>Various parts of SQL queries aren't legal locations for the use of bind variables, such as the names of tables or columns, and the sort order indicator (ASC or DESC). In such situations, input validation or query redesign is the most appropriate
                     defense. For the names of tables or columns, ideally those values come from the code, and not from user parameters. But if user parameter values are used to make different for table names and column names, then the parameter values
                     should be mapped to the legal/expected table or column names to make sure unvalidated user input doesn't end up in the query.</p>
                 <p>Whitelist validation for table selection:</p>
-                <pre>String tableName;
+                <pre><code class="cs">String tableName;
 switch(PARAM):
     case "Value1": tableName = "fooTable";
         break;
     case "Value2": tableName = "barTable";
         break;
     ...
-    default      : throw new InputValidationException("unexpected value provided for table name");</pre>
+    default      : throw new InputValidationException("unexpected value provided for table name");</code></pre>
                 <p>Whitelist validation for Sort Order:</p>
-                <pre>public String someMethod(boolean sortOrder) {
+                <pre><code>public String someMethod(boolean sortOrder) {
 
     String SQLquery = "some SQL ... order by Salary " + (sortOrder ? "ASC" : "DESC");
-    ...</pre>
+    ...</code></pre>
                 <p>More examples are provided in the [OWASP Input Validation Cheat Sheet](https://www.owasp.org/index.php/Input_Validation_Cheat_Sheet)</p>
                 <h2>Escaping All User-Supplied Input (Last Resort)</h2>
                 <p>Why is this option challenging? <a href="https://www.postgresql.org/docs/8.3/static/sql-syntax-lexical.html"> https://www.postgresql.org/docs/8.3/static/sql-syntax-lexical.html</a></p>
@@ -152,28 +153,28 @@ switch(PARAM):
                     link, a specially crafted form, or from the malicious site itself.</p>
                 <h2>Examples of XSS</h2>
                 <p>Basic Script Insertion</p>
-                <pre>&lt;script&gt;alert("You've been hacked!")&lt;/script&gt;</pre>
+                <pre><code>&lt;script&gt;alert("You've been hacked!")&lt;/script&gt;</code></pre>
                 <p>DOM Attribute Insertion</p>
-                <pre>&lt;b onmouseover="alert('Are you havin fun yet?')"&gt;click me!&lt;/b&gt;</pre>
+                <pre><code>&lt;b onmouseover="alert('Are you havin fun yet?')"&gt;click me!&lt;/b&gt;</code></pre>
                 <p>Encoded URI Schemes</p>
-                <pre>&lt;img src=j&amp;#X41vascript:alert('test2')&gt;</pre>
+                <pre><code>&lt;img src=j&amp;#X41vascript:alert('test2')&gt;</code></pre>
                 <p>XSS Using Encoding</p>
-                <pre>&lt;META HTTP-EQUIV="refresh" CONTENT="0;url=data:text/html;base64,PHNjcmlwdD5hbGVydCgndGVzdDMnKTwvc2NyaXB0Pg"&gt;</pre>
+                <pre><code>&lt;META HTTP-EQUIV="refresh" CONTENT="0;url=data:text/html;base64,PHNjcmlwdD5hbGVydCgndGVzdDMnKTwvc2NyaXB0Pg"&gt;</code></pre>
                 <br>
                 <p>Additional Resources:</p>
                 <p><a href="https://www.owasp.org/index.php/Cross-site_Scripting_(XSS)">https://www.owasp.org/index.php/Cross-site_Scripting_(XSS)</a></p>
 
                 <h2>Reflected Attack Example</h2>
                 <p>Let's assume that we have an error page, which is handling requests for a non existing pages, a classic 404 error page. We may use the code below as an example to inform user about what specific page is missing:</p>
-                <pre>&lt;html&gt;
+                <pre><code class="php">&lt;html&gt;
 &lt;body&gt;
 
-&lt;? php
+&lt;?php
 print "Not found: " . urldecode($_SERVER["REQUEST_URI"]);
 ?&gt;
 
 &lt;/body&gt;
-&lt;/html&gt;</pre>
+&lt;/html&gt;</code></pre>
                 <p>This link will open the page for us:</p>
                 <p><a href="http://localhost:8080/some_fake_page_name">http://localhost:8080/some_fake_page_name</a></p>
                 <p><a href="http://192.168.99.100:8080/some_fake_page_name">http://192.168.99.100:8080/some_fake_page_name</a></p>
@@ -303,6 +304,11 @@ print "Not found: " . urldecode($_SERVER["REQUEST_URI"]);
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
     <script src="../common/js/scripts.js"></script>
     <script src="../common/js/ta-name.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+    <script>
+        hljs.initHighlightingOnLoad();
+    </script>
 </body>
 
 </html>
