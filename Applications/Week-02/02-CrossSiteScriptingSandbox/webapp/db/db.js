@@ -14,23 +14,24 @@ const db = pgp()(cn);
 const TABLENAME = 'sandbox';
 
 class SandboxDb {
-    static get() {
+    static async get() {
         let query = `SELECT * FROM ${TABLENAME} ORDER BY id DESC LIMIT 1`;
         console.log(query);
         return db.oneOrNone(query);
     }
 
-    static upsert(newData) {
-        let d = await this.get();
+    static async upsert(newData) {
+        let d = await this.get() || {};
         // update data in object
+        console.log(d, newData)
         d.content = newData.content || d.content;
         d.attribute = newData.attribute || d.attribute;
         d.css = newData.css || d.css;
         d.javascript = newData.javascript || d.javascript;
 
-        let query = `UPDATE ${TABLENAME} SET (content, attribute, css, javascript, updated_at) VALUES($1, $2, $3, $4, $5) WHERE id = $6 RETURNING *`;
+        let query = `UPDATE ${TABLENAME} SET content=$1, attribute=$2, css=$3, javascript=$4, updated_at=$5 WHERE id = $6 RETURNING *`;
         // insert if db entry doesn't already exist
-        if (!d) {
+        if (!d.id) {
             query = `INSERT INTO ${TABLENAME} (content, attribute, css, javascript, updated_at) VALUES($1, $2, $3, $4, $5) RETURNING *`
         }
 
@@ -39,3 +40,5 @@ class SandboxDb {
         return db.one(query, params);
     }
 }
+
+module.exports = SandboxDb;
