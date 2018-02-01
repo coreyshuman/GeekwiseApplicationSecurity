@@ -1,6 +1,5 @@
 $(function() {
-    // make links open in new tab
-    $("a").attr("target", "_blank");
+
 
     // add links to resources
     let res = $("#resources");
@@ -56,6 +55,7 @@ $(function() {
                 .appendTo(toc);
             var a = $('<a/>')
                 .addClass('ui-link')
+                .addClass('link-internal')
                 .text(headText)
                 .attr('href', '#' + headText)
                 .appendTo(li);
@@ -71,13 +71,17 @@ $(function() {
         let found = source.indexOf(`#${p1}`);
         let result = "";
         if (found < 0) {
-            result = `<a class="broken-link" href="#${p1}">${p1}</a>`;
+            result = `<a class="link-internal broken-link" href="#${p1}">${p1}</a>`;
         } else {
-            result = `<a href="#${p1}">${p1}</a>`;
+            result = `<a class="link-internal" href="#${p1}">${p1}</a>`;
         }
         return result;
     });
 
     // todo - make this more efficient (currently rewrites whole DOM)
     document.getElementsByTagName('html')[0].innerHTML = source;
+
+
+    // make links open in new tab
+    $("a").not(".link-internal").attr("target", "_blank");
 });
