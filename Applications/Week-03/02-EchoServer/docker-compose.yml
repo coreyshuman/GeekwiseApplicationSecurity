@@ -1,0 +1,39 @@
+version: "3.3"
+
+services:
+  postgres:
+    build: ./database/postgres
+    image: appsec-postgres:02-02
+    env_file: .env
+    networks:
+      - backend
+    ports:
+      - "5432:5432"
+  migrations:
+    image: "node:8"
+    env_file: .env
+    working_dir: /home/node/app/migration-manager
+    depends_on: 
+      - postgres
+    networks:
+      - backend
+    volumes:
+      - ./database:/home/node/app
+    entrypoint: "/home/node/app/migration-manager/scripts/entrypoint.sh"
+  server:
+    image: "node:8"
+    env_file: .env
+    working_dir: /home/node/server
+    depends_on: 
+      - postgres
+      - migrations
+    networks:
+      - backend
+    ports:
+      - "3399:3000"
+    volumes:
+      - ./server:/home/node/server
+    entrypoint: "/home/node/server/scripts/entrypoint.sh"
+
+networks:
+  backend:

@@ -3,3 +3,31 @@ extends layout
 block content
   h1= title
   p Welcome to #{title}
+  form(action='/', method='POST')
+    div
+      h2 Content
+      input(type="text", name="content", value='#{content}')
+      div
+        !{content}
+      br
+    div
+      h2 Attribute
+      input(type="text", name="attribute", value='#{attribute}')
+      br
+      label(class="!{attribute}") My Label
+      br
+      br
+    div
+      h2 CSS
+      input(type="text", name="css", value='#{css}')
+      style.
+        body {background: !{css}};
+      br
+    div
+      h2 JavaScript
+      input(type="text", name="javascript", value='#{javascript}')
+      script.
+        !{javascript}
+      br
+    div
+      input(type="submit", value="submit")
