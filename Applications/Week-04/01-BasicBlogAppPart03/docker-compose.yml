@@ -1,0 +1,43 @@
+version: "3.3"
+
+services:
+  postgres:
+    build: ./database
+    image: appsec-postgres:02-01
+    env_file: ./server/.env
+    networks:
+      - backend
+    ports:
+      - "5432:5432"
+  apiserver:
+    image: "node:8"
+    env_file: ./server/.env
+    working_dir: /home/node/server
+    depends_on: 
+      - postgres
+    networks:
+      - backend
+      - frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./server:/home/node/server
+    entrypoint: "/home/node/server/scripts/entrypoint.sh"
+  frontend:
+    image: "node:8"
+    env_file: .env
+    working_dir: /home/node/webapp
+    depends_on: 
+      - postgres
+      - migrations
+    networks:
+      - frontend
+    ports:
+      - "8080:3000"
+    volumes:
+      - ./frontend:/home/node/webapp
+    entrypoint: "/home/node/webapp/scripts/entrypoint.sh"
+
+networks:
+  backend:
+  frontend:

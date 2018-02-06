@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h1>Application Security - Basic Blog</h1>
+            </div>
+        </div>
+
+        <form class="form" id="add-post">
+            <div class="form-group row">
+                <label class="col-sm-2" for="posttitle">Title</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="posttitle" placeholder="Title...">
+                </div>
+            </div>
+            <div class="form-group row">
+                <input type="hidden" id="postid">
+                <label class="col-sm-2" for="postbody">Blog Post</label>
+                <div class="col-sm-10">
+                    <textarea type="text" class="form-control" id="postbody"></textarea>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2" for="postname">Author Name</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="postname" placeholder="Enter your name here...">
+                </div>
+            </div>
+
+            <input type="submit" id="post-submit" class="btn btn-primary" value="Add Post">
+            <br><br>
+        </form>
+        <div class="row">
+            <div class="col-12">
+                <form class="form-inline" id="search-post">
+                    <label class="sr-only" for="make">Search</label>
+                    <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="search" placeholder="Enter text to search...">
+
+                    <input type="submit" id="post-search" class="btn btn-primary" value="Search">&nbsp;
+                    <input type="button" id="post-showall" class="btn btn-primary" value="Show All">
+                </form>
+                <br>
+                <h3>Posts:</h3>
+            </div>
+            <div class="col" id="post-list">
+            </div>
+        </div>
+
+        <!-- jQuery first, then Tether, then Bootstrap JS. -->
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+        <script src="./scripts.js"></script>
+</body>
+
+</html>

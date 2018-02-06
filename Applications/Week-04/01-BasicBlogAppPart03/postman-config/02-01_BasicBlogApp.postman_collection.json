@@ -1,0 +1,143 @@
+{
+	"variables": [],
+	"info": {
+		"name": "02-01_BasicBlogApp",
+		"_postman_id": "c9e6ea2d-3504-ccea-4980-bd0fd23dffd5",
+		"description": "Application Security basic insecure app example.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "/api/post/1",
+			"request": {
+				"url": "http://localhost:3000/api/post/1",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": "Get a single post"
+			},
+			"response": []
+		},
+		{
+			"name": "/api/post/",
+			"request": {
+				"url": "http://localhost:3000/api/post",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": "Get all posts"
+			},
+			"response": []
+		},
+		{
+			"name": "/api/post/",
+			"request": {
+				"url": "http://localhost:3000/api/post",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "title",
+							"value": "This is the Title",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "post",
+							"value": "This is the post body",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "author",
+							"value": "Corey Shuman",
+							"type": "text",
+							"enabled": true
+						}
+					]
+				},
+				"description": "Create a new post"
+			},
+			"response": []
+		},
+		{
+			"name": "/api/post/1",
+			"request": {
+				"url": "http://localhost:3000/api/post/1",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "post",
+							"value": "Here is a post update.",
+							"type": "text",
+							"enabled": true
+						}
+					]
+				},
+				"description": "Update a post"
+			},
+			"response": []
+		},
+		{
+			"name": "/api/post/1",
+			"request": {
+				"url": "http://localhost:3000/api/post/1",
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"description": "Delete a post"
+			},
+			"response": []
+		},
+		{
+			"name": "/api/post/search",
+			"request": {
+				"url": "http://localhost:3000/api/post/search",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "search",
+							"value": "hello world",
+							"type": "text",
+							"enabled": true
+						},
+						{
+							"key": "",
+							"value": "",
+							"type": "text",
+							"enabled": true
+						}
+					]
+				},
+				"description": "Search posts for text in the body"
+			},
+			"response": []
+		}
+	]
+}
