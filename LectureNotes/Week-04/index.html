@@ -9,7 +9,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
 
-    <link rel="stylesheet" href="./common/css/style.css">
+    <link rel="stylesheet" href="../common/css/style.css">
 </head>
 
 <body>
@@ -18,18 +18,44 @@
             <div class="col">
                 <p class="text-center header-text bold">Application Security and Hardening</p>
                 <p class="text-center header-text">Geekwise Academy</p>
-                <br><br>
+                <br>
+                <p class="text-center header-subtext italic">Week 4 - Authentication and Authorization</p>
+                <br>
                 <p class="text-center header-subtext bold">Instructors:</p>
                 <p class="text-center header-subtext">Corey Shuman</p>
                 <p class="text-center header-subtext ta-name-full"></p>
+                <br>
+                <p class="text-center header-subtext bold">Slack Channel:</p>
+                <p class="text-center header-subtext"><a href="https://geekwise.slack.com/messages/C8SHHJQLU/">#application-security</a></p>
+                <p class="text-center header-subtext bold">Github Repo:</p>
+                <p class="text-center header-subtext"><a href="https://github.com/coreyshuman/GeekwiseApplicationSecurity">https://github.com/coreyshuman/GeekwiseApplicationSecurity</a></p>
+                <p class="text-center header-subtext bold">Lecture Notes:</p>
+                <p class="text-center header-subtext"><a href="http://coreyshuman.github.io/GeekwiseApplicationSecurity/LectureNotes">http://coreyshuman.github.io/GeekwiseApplicationSecurity/LectureNotes</a></p>
+                <hr><br>
             </div>
         </div>
         <div class="row">
             <div class="col">
-                <p class="header-subtext bold">Lecture Notes:</p>
-                <p><a href="./Week-01" class="header-subtext">Week 01 - Introduction to APIs and Development Tools</a></p>
-                <p><a href="./Week-02" class="header-subtext">Week 02 - SQL Injection and Cross Site Scripting (XSS)</a></p>
-                <p><a href="./Week-04" class="header-subtext">Week 04 - Authentication and Authorization</a></p>
+                <p class="header-subtext bold">Table of Contents:</p>
+                <ul id="table-of-contents"></ul>
+                <hr><br>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h1>Login page - basic validation</h1>
+                <h1>What is salted password hashing?</h1>
+                <p>
+                    <a href="https://crackstation.net/hashing-security.htm" title="Hashing Security">
+                        Hashing Security
+                    </a>
+                </p> 
+                <h1>Using Bcrypt to Hash Password in NodeJS</h1>
+                <p>
+                    <a href="https://www.npmjs.com/package/bcrypt" title="Bcrypt">Bcrypt</a>
+                </p> 
+                <h2>In Class: Let's build a simple Bcrypt App</h2>
+                <h1>Login page - apply bcrypt</h1>
             </div>
         </div>
     </div>
@@ -57,8 +83,8 @@
     <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
-    <script src="./common/js/scripts.js"></script>
-    <script src="./common/js/ta-name.js"></script>
+    <script src="../common/js/scripts.js"></script>
+    <script src="../common/js/ta-name.js"></script>
 </body>
 
 </html>
