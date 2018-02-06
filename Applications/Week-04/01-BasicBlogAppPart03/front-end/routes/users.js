@@ -14,4 +14,8 @@ router.post('/login', function(req, res, next) {
     res.render('login', {});
 });
 
+router.get('/welcome', function(req, res, next) {
+    res.render('welcome', { name: req.query.name });
+});
+
 module.exports = router;

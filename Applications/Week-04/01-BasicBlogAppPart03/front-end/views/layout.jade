@@ -6,5 +6,12 @@ html
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
     div(class='container')
+        block toasts
+          div(id='toasts')
+    div(class='container')
       block content
-    script(src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js')
+    block scripts
+      script(src='https://code.jquery.com/jquery-3.1.1.slim.min.js')
+      script(src='https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js')
+      script(src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js')
+      script(src='/javascripts/common.js')
