@@ -1,4 +1,4 @@
-# Week 4 - Password Validation and Salted Hashing
+# Week 4 - Authentication and Authorization
 ### Application Security And Hardening
 
 [Return Home](../../../../)  
