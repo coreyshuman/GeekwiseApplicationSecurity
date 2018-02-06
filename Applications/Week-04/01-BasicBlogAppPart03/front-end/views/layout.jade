@@ -2,16 +2,26 @@ doctype html
 html
   head
     title= title
-    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css')
+    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css')
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
-    div(class='container')
+    div(id='navigation').
+      <nav class="navbar navbar-dark bg-dark justify-content-between">
+        <a class="navbar-brand" href='/'>Secure Blog</a>
+        <form class="form-inline">
+          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+      </nav>
+    div(id='main-content' class='container')
+      div(class='row mt-2')
         block toasts
-          div(id='toasts')
-    div(class='container')
+          div(id='toasts' class='col-md-12')
       block content
+    div(id='loading-screen')
     block scripts
       script(src='https://code.jquery.com/jquery-3.1.1.slim.min.js')
       script(src='https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js')
-      script(src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js')
+      script(src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js')
+      script(src='/javascripts/spin.js')
       script(src='/javascripts/common.js')

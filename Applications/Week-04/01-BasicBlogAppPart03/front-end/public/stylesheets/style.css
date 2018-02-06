@@ -1,16 +1,34 @@
 body {
-    padding: 50px;
-    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+    background-color: #220c57;
 }
 
 a {
     color: #00B7FF;
 }
 
-input {
-    width: 90%;
+.border {
+    border: 4px solid;
 }
 
-input[type='submit'] {
-    width: 100px;
+.border-primary {
+    border-color: #0275d8 !important;
+}
+
+.full-height {
+    height: 100%;
+}
+
+#login-container {
+    margin-top: 30px;
+}
+
+div#loading-screen {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: black;
+    width: 100%;
+    height: 100%;
+    opacity: 0.2;
 }

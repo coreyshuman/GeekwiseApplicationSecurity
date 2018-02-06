@@ -1,18 +1,17 @@
 extends layout
 
 block content
-    form(action="login" method="post")
-        div(class="form-group row")
-            label(for="inputEmail" class="col-sm-2 col-form-label") Email
-            div(class="col-sm-10")
-                input(type="email" class="form-control" id="inputEmail" name="email")
-        div(class="form-group row")
-            label(for="inputPassword" class="col-sm-2 col-form-label") Password
-            div(class="col-sm-10")
-                input(type="password" class="form-control" id="inputPassword" name="password")
-        div(class="form-group row") 
-            div(class="offset-sm-2 col-sm-10")
-                input(type="submit" class="btn btn-primary")
+  div(class='row justify-content-center align-items-center')
+    div(id='login-container' class='col-sm-8 border border-primary rounded py-3 bg-light')
+      form(id='login-form' action='login' method='post')
+        div(class='form-group')
+          label(for='inputEmail' class='col-form-label') Email
+          input(type='email' class='form-control' id='inputEmail' aria-describedby='email-help' name='email')
+          small(id='email-help' class='form-text text-muted') We'll never share your email with anyone else.
+        div(class='form-group')
+          label(for='inputPassword' class='col-form-label') Password
+          input(type='password' class='form-control' id='inputPassword' name='password')
+        input(type='submit' class='btn btn-primary')
 
 block append scripts
-    script(src='/javascripts/login.js')
+  script(src='/javascripts/login.js')
