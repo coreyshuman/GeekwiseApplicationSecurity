@@ -1,0 +1,16 @@
+{
+    "name": "migration-manager",
+    "version": "1.0.0",
+    "description": "Check and run migrations on container start-up.",
+    "main": "app.js",
+    "scripts": {
+        "start": "nodemon -L",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "Corey Shuman",
+    "license": "ISC",
+    "dependencies": {
+        "fs": "0.0.1-security",
+        "pg-promise": "^7.4.1"
+    }
+}
