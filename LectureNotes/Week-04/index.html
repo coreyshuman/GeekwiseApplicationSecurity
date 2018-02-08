@@ -8,6 +8,7 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/vs2015.min.css">
 
     <link rel="stylesheet" href="../common/css/style.css">
 </head>
@@ -43,19 +44,78 @@
         </div>
         <div class="row">
             <div class="col">
-                <h1>Login page - basic validation</h1>
-                <h1>What is salted password hashing?</h1>
+                <h1>Authentication</h1>
+                <p>We will use passwords to authenticate our users, and talk about why hashing passwords is important.</p>
+                <h2>Login page - basic validation</h2>
+                <h2>What is salted password hashing?</h2>
                 <p>
                     <a href="https://crackstation.net/hashing-security.htm" title="Hashing Security">
                         Hashing Security
                     </a>
-                </p> 
-                <h1>Using Bcrypt to Hash Password in NodeJS</h1>
+                </p>
+                <h2>Using Bcrypt to Hash Password in NodeJS</h2>
                 <p>
                     <a href="https://www.npmjs.com/package/bcrypt" title="Bcrypt">Bcrypt</a>
-                </p> 
-                <h2>In Class: Let's build a simple Bcrypt App</h2>
-                <h1>Login page - apply bcrypt</h1>
+                </p>
+                <h3>In Class: Let's build a simple Bcrypt App</h3>
+                <h2>Login page - apply bcrypt</h2>
+                <p>Our homework assignment. Use Bcrypt in our application to encrypt user passwords.</p>
+
+                <h1>Authorization</h1>
+                <p>We will investigate using cookies and tokens to provide authorization in our application.</p>
+                <h2>Cookies</h2>
+                <p>Cookies are a data component that is stored in the client (web browser) and included with each request to the server.</p>
+                <p>We can view more details on [W3 School: Cookies](https://www.w3schools.com/js/js_cookies.asp)</p>
+                <h3>Using Cookies with NodeJS</h3>
+                <p>To use cookies on our Node server, we need a way for express to parse the cookie payload. That is where the [Cookie Parse](https://expressjs.com/en/resources/middleware/cookie-parser.html) module comes in.
+                </p>
+                <h3>Using and Hacking Cookies</h3>
+                <p>Let's build an application that uses cookies to remeber the current user.</p>
+                <p>What happens if we go into the console and manipulate the cookie?</p>
+                <h3>More secure cookies: Cookie Session</h3>
+                <p>The [Cookie Session](https://expressjs.com/en/resources/middleware/cookie-session.html) module allows us to store the session info on the server while keeping only a session id in the cookie.</p>
+                <h2>Request Headers</h2>
+                <p>We've talked about how HTTP requests can be of different types (GET, POST) and contain different types of data (url query strings and body content). We will now investigate another way requests can contain data: [HTTP Headers](https://en.wikipedia.org/wiki/List_of_HTTP_header_fields)</p>
+                <p>Example [HTTP Request](https://www.ntu.edu.sg/home/ehchua/programming/webprogramming/HTTP_Basics.html):</p>
+                <p><pre><code>HTTP/1.1 200 OK
+Date: Sun, 18 Oct 2009 08:56:53 GMT
+Server: Apache/2.2.14 (Win32)
+Last-Modified: Sat, 20 Nov 2004 07:16:26 GMT
+ETag: "10000000565a5-2c-3e94b66c2e680"
+Accept-Ranges: bytes
+Content-Length: 44
+Connection: close
+Content-Type: text/html
+    
+<html><body><h1>It works!</h1></body></html></code></pre></p>
+                <p>We can use telnet to view the raw HTTP protocol by requesting Google's home page.</p>
+                <p><pre><code>telnet google.com 80
+GET / HTTP/1.1</code></pre></p>
+                <h3>In Class: Let's use Request Headers in Node</h3>
+                <p>Here's where we can find request headers in our node app:</p>
+                <p><pre><code>console.log(JSON.stringify(req.headers))</code></pre></p>
+                <p>Let's use the Web API [Request Object](https://developer.mozilla.org/en-US/docs/Web/API/Request) to make a request with [Headers](https://developer.mozilla.org/en-US/docs/Web/API/Request/headers)</p>
+
+                <h2>JWT Tokens</h2>
+                <p>JWT Tokens are a compact and secure way to transmit information between services using JSON objects. Read more here: [JWT Tokens Introduction](https://jwt.io/introduction/)</p>
+                <p>We can use the [jwt.io Debugger](http://jwt.io/) to play around with this example token:</p>
+                <p><pre><code>eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ</code></pre></p>
+                <h3>In Class/ Homework: Let's use JWT in our App</h3>
+                <p>[JWT Express](https://www.npmjs.com/package/jwt-express) is a module that makes it easy to use JWT Tokens to secure our API.</p>
+                <p>Use JWT to accomplish the following goals:</p>
+                <ul>
+                    <li>When the user log's in, generate a JWT Token and return that to the client.</li>
+                    <li>Send the JWT Token in the header of all following API requests.</li>
+                    <li>Verify the JWT Token in your API requests. If the token is missing or invalid, the server should return a <em>401: Forbidden</em></li>
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <br>
+                <hr>
+                <h1 class="header-subtext bold">Resources</h1>
+                <ul id="resources"></ul>
             </div>
         </div>
     </div>
@@ -83,6 +143,7 @@
     <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
     <script src="../common/js/scripts.js"></script>
     <script src="../common/js/ta-name.js"></script>
 </body>
