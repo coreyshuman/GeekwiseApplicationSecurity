@@ -1,0 +1,36 @@
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css')
+    link(rel='stylesheet', href='/stylesheets/style.css')
+  body
+    div(id='navigation').
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href='/'>Secure Blog</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <a class="nav-item nav-link active hidden" href="#" id='userButton'><span id='username'>username</span><span class="sr-only">(current)</span></a>
+          <a class="nav-item nav-link hidden" href="#" id='logoutButton'>Log Out</a>
+        </div>
+      </div>
+        <form class="form-inline">
+          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+      </nav>
+    div(id='main-content' class='container')
+      div(class='row mt-2')
+        block toasts
+          div(id='toasts' class='col-md-12')
+      block content
+    div(id='loading-screen')
+    block scripts
+      script(src='https://code.jquery.com/jquery-3.1.1.slim.min.js')
+      script(src='https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js')
+      script(src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js')
+      script(src='/javascripts/spin.js')
+      script(src='/javascripts/common.js')
