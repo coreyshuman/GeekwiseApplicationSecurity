@@ -1,7 +1,7 @@
 const User = require('../models/user.model');
 const UserDb = require('../db/user.db');
 const Common = require('./common');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 
 const SALT_ROUNDS = 15;
 
