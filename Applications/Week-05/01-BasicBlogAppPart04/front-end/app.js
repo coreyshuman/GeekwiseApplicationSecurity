@@ -26,10 +26,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 // check user cookie
 app.use(function(req, res, next) {
     console.log('cookie', req.path, req.cookies);
+    const user = req.cookies['user'] ? JSON.parse(req.cookies['user']) : null;
     if (true) { // set to true to use server-side redirect
-        if (!req.cookies['username'] && (req.path != '/users/login' && req.path != '/users/register')) {
+        if (!user && (req.path != '/users/login' && req.path != '/users/register')) {
             res.redirect('/users/login');
         } else {
+            req.user = user;
             next();
         }
     } else {

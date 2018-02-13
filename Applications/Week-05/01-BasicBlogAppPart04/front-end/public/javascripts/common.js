@@ -124,10 +124,11 @@ let MyBlogApp = {};
     }
 
     MyBlogApp.checkCookie = function() {
-        var user = MyBlogApp.getCookie("username");
-        if (user != "") {
+        const cookie = MyBlogApp.getCookie("user");
+        if (cookie != "") {
+            MyBlogApp.user = JSON.parse(cookie);
             let userSpan = document.getElementById('username');
-            userSpan.textContent = user;
+            userSpan.textContent = MyBlogApp.user.username;
             document.getElementById('userButton').classList.remove('hidden');
             document.getElementById('logoutButton').classList.remove('hidden');
             if (document.location.href.indexOf('/users/login') > -1 ||
@@ -144,12 +145,12 @@ let MyBlogApp = {};
         }
     }
 
-    MyBlogApp.login = function(username) {
-        MyBlogApp.setCookie('username', username, 1);
+    MyBlogApp.login = function(user) {
+        MyBlogApp.setCookie('user', JSON.stringify(user), 1);
     }
 
     MyBlogApp.logout = function() {
-        MyBlogApp.clearCookie('username');
+        MyBlogApp.clearCookie('user');
         setTimeout(function() {
             document.location.href = '/users/logout';
         }, 200);
