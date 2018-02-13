@@ -1,0 +1,12 @@
+extends layout
+
+block content
+  div(class='row justify-content-center align-items-center')
+    div(class='col-3')
+      a(class='btn btn-primary' href='/post') Create New Post
+    div(class='col-3')
+      input(class='btn btn-light' value='Refresh Feed') 
+  div(class='row')
+    div(class='col')
+      div &nbsp;
+  div(id='feed')

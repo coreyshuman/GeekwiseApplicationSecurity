@@ -1,0 +1,27 @@
+extends layout
+
+block content
+  div(class='row justify-content-center align-items-center')
+    div(id='login-container' class='col-sm-8 border border-primary rounded py-3 bg-light')
+      form(id='login-form' action='login' method='post')
+        div(class='form-group')
+          label(for='inputTitle' class='col-form-label') Title
+          input(type='hidden' class='form-control' name='id')
+          input(type='text' class='form-control' id='inputTitle' name='title')
+        div(class='form-group')
+          label(for='inputPost' class='col-form-label') Post
+          input(type='text' class='form-control' id='inputPost' name='post')
+        input(type='submit' class='btn btn-primary' value='#{submitButton}')
+
+block append scripts
+  script.
+    const error = '#{error}';
+    const message = '#{message}';
+
+    if(error) {
+      MyBlogApp.toast('danger', error);
+    }
+
+    if(message) {
+      MyBlogApp.toast('success', message);
+    }

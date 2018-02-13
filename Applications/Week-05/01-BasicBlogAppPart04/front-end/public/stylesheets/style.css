@@ -1,0 +1,55 @@
+body {
+    background-color: #220c57;
+    color: white;
+}
+
+pre {
+    color: white;
+}
+
+a {
+    color: #00B7FF;
+}
+
+.border {
+    border: 4px solid;
+}
+
+.border-primary {
+    border-color: #0275d8 !important;
+}
+
+.full-height {
+    height: 100%;
+}
+
+#login-container {
+    margin-top: 30px;
+}
+
+div#loading-screen {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: black;
+    width: 100%;
+    height: 100%;
+    opacity: 0.2;
+}
+
+h1 {
+    color: white;
+}
+
+.bg-light h1 {
+    color: #888;
+}
+
+.bg-light label {
+    color: black;
+}
+
+.hidden {
+    display: none;
+}
