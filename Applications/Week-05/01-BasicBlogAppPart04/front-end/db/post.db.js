@@ -13,17 +13,29 @@ class PostDb {
         return db.oneOrNone(query, params);
     }
 
-    static getAll() {
+    static getAll(order, by) {
+        let byParam = 'created_at';
+        switch (by) {
+            case 'Author':
+                byParam = 'username';
+                break;
+            case 'Updated':
+                byParam = 'updated_at';
+                break;
+            case 'Title':
+                byParam = 'title';
+                break;
+        }
         const query = `SELECT "posts".*, users.username as username FROM ${TABLENAME} as "posts" ` +
             `JOIN ${USERTABLE} as "users" on "posts"."user_id" = "users"."id" ` +
-            `WHERE is_deleted=false ORDER BY id DESC `;
+            `WHERE is_deleted=false ORDER BY ${byParam} ${order==='Descending' ? 'DESC' : 'ASC'}`;
         console.log(query);
         return db.any(query);
     }
 
     static updateOne(id, data) {
-        const query = `UPDATE ${TABLENAME} SET title=$1, post=$2 WHERE is_deleted=false AND id = $3 RETURNING *`;
-        const params = [data.title, data.post, id];
+        const query = `UPDATE ${TABLENAME} SET title=$1, post=$2, updated_at=$3 WHERE is_deleted=false AND id = $4 RETURNING *`;
+        const params = [data.title, data.post, new Date(), id];
         console.log(query, params);
         return db.one(query, params);
     }

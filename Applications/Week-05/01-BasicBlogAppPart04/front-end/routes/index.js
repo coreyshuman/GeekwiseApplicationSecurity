@@ -3,7 +3,9 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', async function(req, res, next) {
-    res.render('index', {});
+    const order = req.query.order;
+    const by = req.query.by;
+    res.render('index', { order: order ? order : 'Descending', orderBy: by ? by : 'Created' });
 });
 
 router.post('/', async function(req, res, next) {

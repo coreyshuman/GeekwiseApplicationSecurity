@@ -11,6 +11,12 @@ a {
     color: #00B7FF;
 }
 
+hr {
+    border: 0;
+    height: 1px;
+    background-image: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0));
+}
+
 .border {
     border: 4px solid;
 }
@@ -46,10 +52,30 @@ h1 {
     color: #888;
 }
 
-.bg-light label {
+.bg-light {
     color: black;
 }
 
 .hidden {
     display: none;
+}
+
+.post-meta {
+    font-size: .9em;
+    color: #888;
+    margin-top: 20px;
+}
+
+.post-meta label {
+    font-weight: bold;
+}
+
+a.btn-post-edit {
+    color: #00B7FF !important;
+    cursor: pointer;
+}
+
+a.btn-post-del {
+    color: red !important;
+    cursor: pointer;
 }

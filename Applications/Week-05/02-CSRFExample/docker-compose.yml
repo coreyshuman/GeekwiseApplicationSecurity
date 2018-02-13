@@ -1,0 +1,14 @@
+version: "3.3"
+
+services:
+  csrfapp:
+    image: "php:7.0-apache"
+    volumes:
+      - ./:/var/www/html
+    networks:
+      - mainnetwork
+    ports:
+      - "8090:80"
+
+networks:
+  mainnetwork:
