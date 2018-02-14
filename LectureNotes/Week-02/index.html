@@ -93,9 +93,9 @@
                 </p>
                 <p>Prepared statements ensure an attacker is not able to change the intent of a query, even if SQL commands are inserted by an attacker.</p>
                 <p>NodeJS (pg-promise):</p>
-                <pre><code>db.any('SELECT * FROM product WHERE price BETWEEN $1 AND $2', [1, 10])</code></pre>
+                <pre><code class='cs'>db.any("SELECT * FROM product WHERE price BETWEEN $1 AND $2", [1, 10])</code></pre>
                 <p>PHP:</p>
-                <pre><code>$stmt = $dbh->prepare("SELECT * FROM product WHERE price BETWEEN :price1 AND :price2");
+                <pre><code class="php">$stmt = $dbh->prepare("SELECT * FROM product WHERE price BETWEEN :price1 AND :price2");
 $stmt->bindParam(':price1', $price1);
 $stmt->bindParam(':price2', $price2);
 $price1 = 1;
@@ -103,7 +103,7 @@ $price2 = 10;
 $stmt->execute();</code></pre>
                 <p>ASP.NET:</p>
                 <pre><code class="cs">SqlConnection objCon = new SqlConnection(ConnectionString);
-objCon.Open();
+objCon.Open();<p>test&</p>
 SqlCommand objCommand = new SqlCommand(
 "SELECT * FROM product WHERE price BETWEEN @Price1 AND @Price2",
 objConnection);
@@ -149,33 +149,33 @@ switch(PARAM):
                 <h2>Types of Cross Site Scripting</h2>
                 <h3>Stored XSS Attacks</h3>
                 <p>A stored attack has the script payload permanently stored to the web server, usually in a database. The script is then sent to the user as part of a result, text field, error message, etc.</p>
-                <h3>Reflected XSS Attachs</h3>
+                <h3>Reflected XSS Attacks</h3>
                 <p>A reflected attack is one where the script is not stored on the web server. Instead the server is used to distribute the injected script without the need for storage. The malicious script is transported to the victims via e-mail, a malicious
                     link, a specially crafted form, or from the malicious site itself.</p>
                 <h2>Examples of XSS</h2>
                 <p>Basic Script Insertion</p>
-                <pre><code>&lt;script&gt;alert("You've been hacked!")&lt;/script&gt;</code></pre>
+                <pre><code><script type='code-template'><script>alert("You've been hacked!")</script></script></code></pre>
                 <p>DOM Attribute Insertion</p>
-                <pre><code>&lt;b onmouseover="alert('Are you havin fun yet?')"&gt;click me!&lt;/b&gt;</code></pre>
+                <pre><code><b onmouseover="alert('Are you havin fun yet?')">click me!</b></code></pre>
                 <p>Encoded URI Schemes</p>
-                <pre><code>&lt;img src=j&amp;#X41vascript:alert('test2')&gt;</code></pre>
+                <pre><code><img src=j&amp;#X41vascript:alert('test2')></code></pre>
                 <p>XSS Using Encoding</p>
-                <pre><code>&lt;META HTTP-EQUIV="refresh" CONTENT="0;url=data:text/html;base64,PHNjcmlwdD5hbGVydCgndGVzdDMnKTwvc2NyaXB0Pg"&gt;</code></pre>
+                <pre><code><META HTTP-EQUIV="refresh" CONTENT="0;url=data:text/html;base64,PHNjcmlwdD5hbGVydCgndGVzdDMnKTwvc2NyaXB0Pg"></code></pre>
                 <br>
                 <p>Additional Resources:</p>
                 <p><a href="https://www.owasp.org/index.php/Cross-site_Scripting_(XSS)">https://www.owasp.org/index.php/Cross-site_Scripting_(XSS)</a></p>
 
                 <h2>Reflected Attack Example</h2>
                 <p>Let's assume that we have an error page, which is handling requests for a non existing pages, a classic 404 error page. We may use the code below as an example to inform user about what specific page is missing:</p>
-                <pre><code class="php">&lt;html&gt;
-&lt;body&gt;
+                <pre><code class="php"><script type="code-template"><html>
+<body>
 
-&lt;?php
-print "Not found: " . urldecode($_SERVER["REQUEST_URI"]);
-?&gt;
+  <?php
+  print "Not found: " . urldecode($_SERVER["REQUEST_URI"]);
+  ?>
 
-&lt;/body&gt;
-&lt;/html&gt;</code></pre>
+</body>
+</html></script></code></pre>
                 <p>This link will open the page for us:</p>
                 <p><a href="http://localhost:8080/some_fake_page_name">http://localhost:8080/some_fake_page_name</a></p>
                 <p><a href="http://192.168.99.100:8080/some_fake_page_name">http://192.168.99.100:8080/some_fake_page_name</a></p>

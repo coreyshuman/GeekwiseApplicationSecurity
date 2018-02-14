@@ -1,39 +1,62 @@
 $(function() {
-    let self = this;
+    const self = this;
     let source = document.getElementsByTagName('html')[0].innerHTML;
+    //console.log(source)
+
+    // strip code template tags
+    /* Test code - JS doesn't support named groups
+    source.replace(/<script type=['"]code-template['"]>((?><script.*?>(?<OPEN>)|<\/script>(?<-OPEN>)|.)*)(?(OPEN)(?!))<\/script>/g, (match, p1) => {
+        console.log(match)
+        return match;
+    })
+    */
+
+    // todo - fix this. It doesn't work the way I need it to. Needs to track nested script tags
+    source = source.replace(/<script type=['"]code-template['"]>([\s\S]*?)<\/script>/g, (match, p1) => {
+        //console.log(match)
+        //console.log(p1)
+        return p1;
+    });
 
     // encode html characters inside of code tags
-    source = source.replace(/<code>((.|\n|\r\n)*?)<\/code>/g, (match, p1) => {
+    source = source.replace(/<pre>\s?<code.*?>([\s\S]*?)<\/code>\s?<\/pre>/g, (match, p1) => {
         p1 = safe_tags_replace(p1);
-        console.log(p1);
+        //console.log(p1)
+        return `<pre><code>${p1}</code></pre>`;
+    });
+
+    // switch backticks to <code> block
+    source = source.replace(/`(.*?)`/g, (match, p1) => {
+        p1 = safe_tags_replace(p1);
         return `<code>${p1}</code>`;
     });
+
     // todo - make this more efficient (currently rewrites whole DOM)
     document.getElementsByTagName('html')[0].innerHTML = source;
 
     // generate table of contents
-    let toc = $("#table-of-contents");
+    const toc = $("#table-of-contents");
     if (toc.length) {
         $(":header").each((index, el) => {
-            let ell = $(el);
-            let headText = ell.text();
-            let indent = ell[0].localName.substring(1);
+            const ell = $(el);
+            const headText = ell.text();
+            const indent = ell[0].localName.substring(1);
 
             if (indent > 3) {
                 return;
             }
 
-            var anc = $('<a/>')
+            const anc = $('<a/>')
                 .addClass('ui-anchor')
                 .attr('name', headText)
 
             ell.before($('<br>'));
             ell.before(anc);
 
-            var li = $('<li/>')
+            const li = $('<li/>')
                 .addClass('ui-list-' + indent)
                 .appendTo(toc);
-            var a = $('<a/>')
+            const a = $('<a/>')
                 .addClass('ui-link')
                 .addClass('link-internal')
                 .text(headText)
@@ -49,7 +72,7 @@ $(function() {
     });
     // custom simple internal link format
     source = source.replace(/\[\[(.*?)]\]/g, (match, p1) => {
-        let found = source.indexOf(`#${p1}`);
+        const found = source.indexOf(`#${p1}`);
         let result = "";
         if (found < 0) {
             result = `<a class="link-internal broken-link" href="#${p1}">${p1}</a>`;
@@ -67,16 +90,16 @@ $(function() {
     });
 
     // add links to resources
-    let res = $("#resources");
+    const res = $("#resources");
     $("a").not(".link-internal").each((index, el) => {
-        let ell = $(el);
-        let link = ell.attr('href');
+        const ell = $(el);
+        const link = ell.attr('href');
 
         if (!link) {
             return;
         }
 
-        let blacklist = [
+        const blacklist = [
             "localhost",
             "192.168.99.100",
             "coreyshuman",
@@ -90,10 +113,10 @@ $(function() {
             }
         }
 
-        var li = $('<li/>')
+        const li = $('<li/>')
             .addClass('ui-list-0')
             .appendTo(res);
-        var a = $('<a/>')
+        const a = $('<a/>')
             .addClass('ui-link')
             .text(link)
             .attr('href', link)
@@ -105,15 +128,13 @@ $(function() {
 
 
     // utility stuff
-
-
     function replaceTag(tag) {
         const tagsToReplace = {
             '&': '&amp;',
             '<': '&lt;',
-            '>': '&gt;'
+            '>': '&gt;',
+            '`': '&#96'
         };
-        console.log('tag', tag)
         return tagsToReplace[tag] || tag;
     }
 

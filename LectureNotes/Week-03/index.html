@@ -20,7 +20,7 @@
                 <p class="text-center header-text bold">Application Security and Hardening</p>
                 <p class="text-center header-text">Geekwise Academy</p>
                 <br>
-                <p class="text-center header-subtext italic">Week 5 - Cross-Site Scripting Cont. and Keylogging</p>
+                <p class="text-center header-subtext italic">Week 3 - Cross-Site Scripting Cont. and Keylogging</p>
                 <br>
                 <p class="text-center header-subtext bold">Instructors:</p>
                 <p class="text-center header-subtext">Corey Shuman</p>
@@ -49,7 +49,7 @@
                 <p>The sandbox can be found [HERE](../../Applications/Week-02/02-CrossSiteScriptingSandbox)</p>
                 <p>[Mozilla Web Event Reference](https://developer.mozilla.org/en-US/docs/Web/Events)</p>
 
-                <h1>The notorious Eval</h1>
+                <h1>The Notorious Eval</h1>
                 <p>Notes to come...</p>
 
                 <h1>Quick Discussion on Scope</h1>
@@ -80,8 +80,8 @@ corey();</code></pre>
                 <p>Scope in JavaScript is defined by functions. Any functions or variables created in the global scope will be attached to the `document` object. Therefore they will be directly accessible by any code (or users!) running in the browser.
                 </p>
                 <p>Try it: copy the above example into your Chrome console then try running the following two commands:</p>
-                <p><code>corey();</code></p>
-                <p><code>shuman();</code></p>
+                <pre><code>corey();</code></pre>
+                <pre><code>shuman();</code></pre>
                 <p>Notice how the `corey()` function is in the global scope, but `shuman()` is scoped within the `corey()` function and is not directly accessible.</p>
                 <h1>Dissecting a Malicious Site</h1>
                 <p>Iotaseed was a website that generated seeds used by Cryptocurrency wallets. Even though they shared their code on github, they managed to sneak some malicious code into their site and track users's seeds. They stole over $4 million from

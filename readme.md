@@ -6,9 +6,9 @@ This is a 12 week (72 hour) course on Application Security covering a variety of
 ### Lecture Notes
 - [Week 01 - Introduction to APIs and Development Tools](./LectureNotes/Week-01)
 - [Week 02 - SQL Injection and Cross Site Scripting](./LectureNotes/Week-02)
-- [Week 03 - Cross-Site Scripting Cont. and Keylogging](./LectureNotes/Week-02)
+- [Week 03 - Cross-Site Scripting Cont. and Keylogging](./LectureNotes/Week-03)
 - [Week 04 - Authentication and Authorization](./LectureNotes/Week-04)
-- [Week 05 - Authorization Cont. and Cross-Site Request Forgery (CSRF)](./LectureNotes/Week-02)
+- [Week 05 - Authorization Cont. and Cross-Site Request Forgery (CSRF)](./LectureNotes/Week-05)
 
 ### Applications
 - [Week 01 - Basic Insecure Web App Example](./Applications/Week-01/01-BasicInsecureWebApp)
