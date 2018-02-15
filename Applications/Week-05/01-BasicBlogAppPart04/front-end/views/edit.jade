@@ -8,6 +8,7 @@ block content
         div(class='form-group')
           label(for='inputTitle' class='col-form-label') Title
           input(type='hidden' class='form-control' id='id' name='id' value='#{id}')
+          input(type='hidden' class='form-control' id='_csrf' name='_csrf' value='#{csrfToken}')
           input(type='text' class='form-control' id='inputTitle' name='title' value='#{title}')
         div(class='form-group')
           label(for='inputPost' class='col-form-label') Post

@@ -4,7 +4,7 @@ services:
   csrfapp:
     image: "php:7.0-apache"
     volumes:
-      - ./:/var/www/html
+      - ./html:/var/www/html
     networks:
       - mainnetwork
     ports:

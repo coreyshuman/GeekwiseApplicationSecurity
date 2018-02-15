@@ -14,4 +14,17 @@ router.post('/', async function(req, res, next) {
     res.render('index', {});
 });
 
+router.get('/error/:code', function(req, res, next) {
+    if (req.params.code) {
+        let message = "We don't know what happend. Please try again.";
+        switch (req.params.code) {
+            case '403':
+                message = "You are not authorized to perform that action.";
+        }
+        res.render('error', { message: message });
+    } else {
+        res.render('error', { message: "We don't know what happend. Please try again." });
+    }
+});
+
 module.exports = router;
