@@ -67,3 +67,17 @@ pre code.hljs {
     padding: 10px 20px;
     white-space: pre-wrap;
 }
+
+.outline {
+    margin-top: 20px;
+    padding: 5px 15px;
+    border: solid 2px rgb(84, 144, 233);
+    box-shadow: 4px rgb(118, 116, 116);
+}
+
+.outline h1,
+.outline h2,
+.outline h3 {
+    margin-top: -10px;
+    color: rgb(84, 144, 233);
+}

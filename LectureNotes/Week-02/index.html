@@ -103,7 +103,7 @@ $price2 = 10;
 $stmt->execute();</code></pre>
                 <p>ASP.NET:</p>
                 <pre><code class="cs">SqlConnection objCon = new SqlConnection(ConnectionString);
-objCon.Open();<p>test&</p>
+objCon.Open();
 SqlCommand objCommand = new SqlCommand(
 "SELECT * FROM product WHERE price BETWEEN @Price1 AND @Price2",
 objConnection);
