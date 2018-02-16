@@ -1,175 +1,199 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
+  <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ"
+      crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/vs2015.min.css">
 
     <link rel="stylesheet" href="../common/css/style.css">
-</head>
+  </head>
 
-<body>
+  <body>
     <div class="container">
-        <div class="row">
-            <div class="col">
-                <p class="text-center header-text bold">Application Security and Hardening</p>
-                <p class="text-center header-text">Geekwise Academy</p>
-                <br>
-                <p class="text-center header-subtext italic">Week 5 - Authorization Cont. and Cross-Site Request Forgery (CSRF)</p>
-                <br>
-                <p class="text-center header-subtext bold">Instructors:</p>
-                <p class="text-center header-subtext">Corey Shuman</p>
-                <p class="text-center header-subtext ta-name-full"></p>
-                <br>
-                <p class="text-center header-subtext bold">Slack Channel:</p>
-                <p class="text-center header-subtext"><a href="https://geekwise.slack.com/messages/C8SHHJQLU/">#application-security</a></p>
-                <p class="text-center header-subtext bold">Github Repo:</p>
-                <p class="text-center header-subtext"><a href="https://github.com/coreyshuman/GeekwiseApplicationSecurity">https://github.com/coreyshuman/GeekwiseApplicationSecurity</a></p>
-                <p class="text-center header-subtext bold">Lecture Notes:</p>
-                <p class="text-center header-subtext"><a href="http://coreyshuman.github.io/GeekwiseApplicationSecurity/LectureNotes">http://coreyshuman.github.io/GeekwiseApplicationSecurity/LectureNotes</a></p>
-                <hr><br>
-            </div>
+      <div class="row">
+        <div class="col">
+          <p class="text-center header-text bold">Application Security and Hardening</p>
+          <p class="text-center header-text">Geekwise Academy</p>
+          <br>
+          <p class="text-center header-subtext italic">Week 5 - Authorization Cont. and Cross-Site Request Forgery (CSRF)</p>
+          <br>
+          <p class="text-center header-subtext bold">Instructors:</p>
+          <p class="text-center header-subtext">Corey Shuman</p>
+          <p class="text-center header-subtext ta-name-full"></p>
+          <br>
+          <p class="text-center header-subtext bold">Slack Channel:</p>
+          <p class="text-center header-subtext"><a href="https://geekwise.slack.com/messages/C8SHHJQLU/">#application-security</a></p>
+          <p class="text-center header-subtext bold">Github Repo:</p>
+          <p class="text-center header-subtext"><a href="https://github.com/coreyshuman/GeekwiseApplicationSecurity">https://github.com/coreyshuman/GeekwiseApplicationSecurity</a></p>
+          <p class="text-center header-subtext bold">Lecture Notes:</p>
+          <p class="text-center header-subtext"><a href="http://coreyshuman.github.io/GeekwiseApplicationSecurity/LectureNotes">http://coreyshuman.github.io/GeekwiseApplicationSecurity/LectureNotes</a></p>
+          <hr><br>
         </div>
-        <div class="row">
-            <div class="col">
-                <p class="header-subtext bold">Table of Contents:</p>
-                <ul id="table-of-contents"></ul>
-                <hr><br>
-            </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <p class="header-subtext bold">Table of Contents:</p>
+          <ul id="table-of-contents"></ul>
+          <hr><br>
         </div>
-        <div class="row">
-            <div class="col">
-                <h1>Authentication Continued</h1>
-                <p>This week we will continue with Authentication, starting with cookie vulnerabilities in the form of Cross-Site Forgery Requests.</p>
+      </div>
+      <div class="row">
+        <div class="col">
+          <h1>Authentication Continued</h1>
+          <p>This week we will continue with Authentication, starting with cookie vulnerabilities in the form of Cross-Site
+            Forgery Requests.</p>
 
-                <h2>Cross-Site Forgery Request (CSRF)</h2>
-                <p>[OWASP CSRF Page](https://www.owasp.org/index.php/Cross-Site_Request_Forgery_(CSRF%29)</p>
-                <p>Cross-Site Request Forgery (CSRF) is an attack that forces an end user to execute unwanted actions on a web application in which they're currently authenticated. CSRF attacks specifically target state-changing requests, not theft of data,
-                    since the attacker has no way to see the response to the forged request. With a little help of social engineering (such as sending a link via email or chat), an attacker may trick the users of a web application into executing actions
-                    of the attacker's choosing. If the victim is a normal user, a successful CSRF attack can force the user to perform state changing requests like transferring funds, changing their email address, and so forth. If the victim is an administrative
-                    account, CSRF can compromise the entire web application.</p>
-                <p>CSRF attacks leverage the fact that a user is authenticated in the current browser and perform the attack from a completely different website or domain. For example, I could create a blog post which, when visited, transfers money from
-                    the user's bank. See the first example below for how that could work.
-                </p>
-                <p>Examples of a CSRF attack:</p>
-                <pre><code><img src="http://bank.com/transfer.do?acct=MARIA&amount=100000" width="0" height="0" border="0"></code></pre>
-                <pre><code><script type="code-template"><html>
-    <body onload="document.forms[0].submit()">
-        <form action="http://localhost:8080/post" method="POST">
-            <input type="hidden" id="id" name="id" value="1" />
-            <input type="hidden" name="title" value="you have been hacked" />
-            <input type="hidden" name="post" value="hahahahah!" />
-            <input type="submit" value="Submit" />
-        </form>
-    </body>
-</html></script></code></pre>
+          <h2>Cross-Site Forgery Request (CSRF)</h2>
+          <p>[OWASP CSRF Page](https://www.owasp.org/index.php/Cross-Site_Request_Forgery_(CSRF%29)</p>
+          <p>Cross-Site Request Forgery (CSRF) is an attack that forces an end user to execute unwanted actions on a web application
+            in which they're currently authenticated. CSRF attacks specifically target state-changing requests, not theft
+            of data, since the attacker has no way to see the response to the forged request. With a little help of social
+            engineering (such as sending a link via email or chat), an attacker may trick the users of a web application
+            into executing actions of the attacker's choosing. If the victim is a normal user, a successful CSRF attack can
+            force the user to perform state changing requests like transferring funds, changing their email address, and
+            so forth. If the victim is an administrative account, CSRF can compromise the entire web application.</p>
+          <p>CSRF attacks leverage the fact that a user is authenticated in the current browser and perform the attack from
+            a completely different website or domain. For example, I could create a blog post which, when visited, transfers
+            money from the user's bank. See the first example below for how that could work.
+          </p>
+          <p>Examples of a CSRF attack:</p>
+          <pre><code><img src="http://bank.com/transfer.do?acct=MARIA&amount=100000" width="0" height="0" border="0"></code></pre>
+          <script type="template/code">
+              <body onload="document.forms[0].submit()">
+                  <form action="http://localhost:8080/post" method="POST">
+                      <input type="hidden" id="id" name="id" value="1" />
+                      <input type="hidden" name="title" value="you have been hacked" />
+                      <input type="hidden" name="post" value="hahahahah!" />
+                      <input type="submit" value="Submit" />
+                  </form>
+              </body>
+          </script>
 
-                <h2>CSRF Prevention</h2>
-                <p>[OWASP CSRF Prevention Cheatsheet](https://www.owasp.org/index.php/Cross-Site_Request_Forgery_(CSRF%29_Prevention_Cheat_Sheet)</p>
-                <h3>Verify Same Origin</h3>
-                <p>Verifying that the Source, Referer, and Target origins are the same is an important part of protecting against CSRF. We will look into this topic when we cover CORS.</p>
+          <h2>CSRF Prevention</h2>
+          <p>[OWASP CSRF Prevention Cheatsheet](https://www.owasp.org/index.php/Cross-Site_Request_Forgery_(CSRF%29_Prevention_Cheat_Sheet)</p>
+          <h3>Verify Same Origin</h3>
+          <p>Verifying that the Source, Referer, and Target origins are the same is an important part of protecting against
+            CSRF. We will look into this topic when we cover CORS.</p>
 
-                <h3>Synchronizer (CSRF) Tokens (Nonce)</h3>
-                <p>Synchronizer Tokens (also called Nonces) are a cryptographically secure random number that is added as part of a web form or request. The nonce should be unique per user session, and the server should reject the requested action if the
-                    CSRF token fails validation. Any state-changing operation should require a nonce to prevent CSRF attacks.
-                </p>
-                <p>There is a [Synchronizer Token Pattern](http://www.corej2eepatterns.com/Design/PresoDesign.htm) you can use to guide in the development of a secure CSRF solution.</p>
-                <p>Here's an example of what an embedded CSRF token field could look like:</p>
-                <pre><code><form action="/transfer.do" method="post">
-<input type="hidden" name="CSRFToken" 
-value="OWY4NmQwODE4ODRjN2Q2NTlhMmZlYWE...
-wYzU1YWQwMTVhM2JmNGYxYjJiMGI4MjJjZDE1ZDZ...
-MGYwMGEwOA==">
-…
-</form></code></pre>
+          <h3>Synchronizer (CSRF) Tokens (Nonce)</h3>
+          <p>Synchronizer Tokens (also called Nonces) are a cryptographically secure random number that is added as part of
+            a web form or request. The nonce should be unique per user session, and the server should reject the requested
+            action if the CSRF token fails validation. Any state-changing operation should require a nonce to prevent CSRF
+            attacks.
+          </p>
+          <p>There is a [Synchronizer Token Pattern](http://www.corej2eepatterns.com/Design/PresoDesign.htm) you can use to
+            guide in the development of a secure CSRF solution.</p>
+          <p>Here's an example of what an embedded CSRF token field could look like:</p>
+          <script type='template/code'>
+            <form action="/transfer.do" method="post">
+              <input type="hidden" name="CSRFToken" 
+                value="OWY4NmQwODE4ODRjN2Q2NTlhMmZlYWE...
+                    wYzU1YWQwMTVhM2JmNGYxYjJiMGI4MjJjZDE1ZDZ...
+                    MGYwMGEwOA==">
+              …
+            </form>
+          </script>
+          <div class="outline">
+            <h2>Assignment: Implement Synchronizer Tokens</h2>
+            <p>Implement synchronizer tokens to protect the `/post` endpoints.</p>
+            <p>We can use the following npm module to simplify our code: [ExpressJS CSURF](https://github.com/expressjs/csurf)</p>
+          </div>
 
-                <div class="outline">
-                    <h2>Assignment: Implement Synchronizer Tokens</h2>
-                    <p>Implement synchronizer tokens to protect the `/post` endpoints.</p>
-                    <p>We can use the following npm module to simplify our code: [ExpressJS CSURF](https://github.com/expressjs/csurf)</p>
-                </div>
+          <h2>Request Headers</h2>
+          <p>We've talked about how HTTP requests can be of different types (GET, POST) and contain different types of data
+            (url query strings and body content). We will now investigate another way requests can contain data: [HTTP Headers](https://en.wikipedia.org/wiki/List_of_HTTP_header_fields)</p>
+          <p>Example [HTTP Request](https://www.ntu.edu.sg/home/ehchua/programming/webprogramming/HTTP_Basics.html):</p>
+          <script type='code-template'>
+            HTTP/1.1 200 OK
+            Date: Sun, 18 Oct 2009 08:56:53 GMT
+            Server: Apache/2.2.14 (Win32)
+            Last-Modified: Sat, 20 Nov 2004 07:16:26 GMT
+            ETag: "10000000565a5-2c-3e94b66c2e680"
+            Accept-Ranges: bytes
+            Content-Length: 44
+            Connection: close
+            Content-Type: text/html
+                
+            <html><body><h1>It works!</h1></body></html>
+          </script>
+          <p>We can use telnet to view the raw HTTP protocol by requesting Google's home page.</p>
+          <script type='template/code'>
+            telnet google.com 80
+            GET / HTTP/1.1
+          </script>
+          <h3>In Class: Let's use Request Headers in Node</h3>
+          <p>Here's where we can find request headers in our node app:</p>
+          <p><pre><code>console.log(JSON.stringify(req.headers));</code></pre></p>
+          <p>Let's use the Web API [Request Object](https://developer.mozilla.org/en-US/docs/Web/API/Request) to make a request
+            with [Headers](https://developer.mozilla.org/en-US/docs/Web/API/Request/headers)</p>
+          <p>To test this, we can add headers in Postman request.</p>
 
-                <h2>Request Headers</h2>
-                <p>We've talked about how HTTP requests can be of different types (GET, POST) and contain different types of data (url query strings and body content). We will now investigate another way requests can contain data: [HTTP Headers](https://en.wikipedia.org/wiki/List_of_HTTP_header_fields)</p>
-                <p>Example [HTTP Request](https://www.ntu.edu.sg/home/ehchua/programming/webprogramming/HTTP_Basics.html):</p>
-                <p><pre><code class="xml"><script type='code-template'>HTTP/1.1 200 OK
-Date: Sun, 18 Oct 2009 08:56:53 GMT
-Server: Apache/2.2.14 (Win32)
-Last-Modified: Sat, 20 Nov 2004 07:16:26 GMT
-ETag: "10000000565a5-2c-3e94b66c2e680"
-Accept-Ranges: bytes
-Content-Length: 44
-Connection: close
-Content-Type: text/html
-    
-<html><body><h1>It works!</h1></body></html></script></code></pre></p>
-                <p>We can use telnet to view the raw HTTP protocol by requesting Google's home page.</p>
-                <p><pre><code>telnet google.com 80
-GET / HTTP/1.1</code></pre></p>
-
-                <h3>In Class: Let's use Request Headers in Node</h3>
-                <p>Here's where we can find request headers in our node app:</p>
-                <p><pre><code>console.log(JSON.stringify(req.headers))</code></pre></p>
-                <p>Let's use the Web API [Request Object](https://developer.mozilla.org/en-US/docs/Web/API/Request) to make a request with [Headers](https://developer.mozilla.org/en-US/docs/Web/API/Request/headers)</p>
-                <p>To test this, we can add headers in Postman request.</p>
-
-                <h2>JWT Tokens</h2>
-                <p>JWT Tokens are a compact and secure way to transmit information between services using JSON objects. Read more here: [JWT Tokens Introduction](https://jwt.io/introduction/)</p>
-                <p>We can use the [jwt.io Debugger](http://jwt.io/) to play around with this example token:</p>
-                <p><pre><code>eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ</code></pre></p>
-
-                <h3>In Class/ Homework: Let's use JWT in our App</h3>
-                <p>[JWT Express](https://www.npmjs.com/package/jwt-express) is a module that makes it easy to use JWT Tokens to secure our API.</p>
-                <p>Use JWT to accomplish the following goals:</p>
-                <ul>
-                    <li>When the user log's in, generate a JWT Token and return that to the client.</li>
-                    <li>Send the JWT Token in the header of all following API requests.</li>
-                    <li>Verify the JWT Token in your API requests. If the token is missing or invalid, the server should return a <em>401: Forbidden</em></li>
-                </ul>
-
-            </div>
+          <h2>JWT Tokens</h2>
+          <p>JWT Tokens are a compact and secure way to transmit information between services using JSON objects. Read more
+            here: [JWT Tokens Introduction](https://jwt.io/introduction/)</p>
+          <p>We can use the [jwt.io Debugger](http://jwt.io/) to play around with this example token:</p>
+          <script type='template/code' class='wrap jwt'>
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ
+          </script>
+          <div class="outline">
+            <h3>In Class/ Homework: Let's use JWT in our App</h3>
+            <p>[JWT Express](https://www.npmjs.com/package/jwt-express) is a module that makes it easy to use JWT Tokens to
+              secure our API.</p>
+            <p>Use JWT to accomplish the following goals:</p>
+            <ul>
+              <li>When the user log's in, generate a JWT Token and return that to the client.</li>
+              <li>Send the JWT Token in the header of all following API requests.</li>
+              <li>Verify the JWT Token in your API requests. If the token is missing or invalid, the server should return a <em>401: Forbidden</em></li>
+            </ul>
+          </div>
         </div>
-        <div class="row">
-            <div class="col">
-                <br>
-                <hr>
-                <h1 class="header-subtext bold">Resources</h1>
-                <ul id="resources"></ul>
-            </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <br>
+          <hr>
+          <h1 class="header-subtext bold">Resources</h1>
+          <ul id="resources"></ul>
         </div>
+      </div>
     </div>
 
     <!--Footer-->
     <br><br>
     <footer class="page-footer">
-        <div style="background-color: #b9b9b9;">
-            <!-- Copyright-->
-            <div class="footer-copyright">
-                <div class="container-fluid text-center">
-                    &copy; 2017 -
-                    <script type="text/javascript">
+      <div style="background-color: #b9b9b9;">
+        <!-- Copyright-->
+        <div class="footer-copyright">
+          <div class="container-fluid text-center">
+            &copy; 2017 -
+            <script type="text/javascript">
                         document.write(new Date().getFullYear());
                     </script>
-                    <a href="https://geekwiseacademy.com">Geekwise Academy</a> &amp; <a href="http://coreyshuman.com">Corey Shuman</a>
-                </div>
-            </div>
-            <!--/.Copyright -->
+            <a href="https://geekwiseacademy.com">Geekwise Academy</a> &amp; <a href="http://coreyshuman.com">Corey Shuman</a>
+          </div>
         </div>
+        <!--/.Copyright -->
+      </div>
     </footer>
     <!--/.Footer-->
 
     <!-- jQuery first, then Tether, then Bootstrap JS. -->
-    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n"
+      crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
+      crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
+      crossorigin="anonymous"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
     <script src="../common/js/scripts.js"></script>
     <script src="../common/js/ta-name.js"></script>
-</body>
+
+  </body>
 
 </html>

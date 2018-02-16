@@ -42,6 +42,13 @@ app.use(function(req, res, next) {
 // validate csrf (this must come before routes)
 app.use(csrf({ cookie: true }));
 
+// print headers
+app.use(function(req, res, next) {
+    console.log('headers:', JSON.stringify(req.headers));
+    next();
+});
+
+// routes
 app.use('/', index);
 app.use('/users', users);
 app.use('/post', post);

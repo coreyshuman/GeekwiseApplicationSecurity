@@ -1,119 +1,130 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
+  <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ"
+      crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/vs2015.min.css">
 
     <link rel="stylesheet" href="../common/css/style.css">
-</head>
+  </head>
 
-<body>
+  <body>
     <div class="container">
-        <div class="row">
-            <div class="col">
-                <p class="text-center header-text bold">Application Security and Hardening</p>
-                <p class="text-center header-text">Geekwise Academy</p>
-                <br>
-                <p class="text-center header-subtext italic">Week 4 - Authentication and Authorization</p>
-                <br>
-                <p class="text-center header-subtext bold">Instructors:</p>
-                <p class="text-center header-subtext">Corey Shuman</p>
-                <p class="text-center header-subtext ta-name-full"></p>
-                <br>
-                <p class="text-center header-subtext bold">Slack Channel:</p>
-                <p class="text-center header-subtext"><a href="https://geekwise.slack.com/messages/C8SHHJQLU/">#application-security</a></p>
-                <p class="text-center header-subtext bold">Github Repo:</p>
-                <p class="text-center header-subtext"><a href="https://github.com/coreyshuman/GeekwiseApplicationSecurity">https://github.com/coreyshuman/GeekwiseApplicationSecurity</a></p>
-                <p class="text-center header-subtext bold">Lecture Notes:</p>
-                <p class="text-center header-subtext"><a href="http://coreyshuman.github.io/GeekwiseApplicationSecurity/LectureNotes">http://coreyshuman.github.io/GeekwiseApplicationSecurity/LectureNotes</a></p>
-                <hr><br>
-            </div>
+      <div class="row">
+        <div class="col">
+          <p class="text-center header-text bold">Application Security and Hardening</p>
+          <p class="text-center header-text">Geekwise Academy</p>
+          <br>
+          <p class="text-center header-subtext italic">Week 4 - Authentication and Authorization</p>
+          <br>
+          <p class="text-center header-subtext bold">Instructors:</p>
+          <p class="text-center header-subtext">Corey Shuman</p>
+          <p class="text-center header-subtext ta-name-full"></p>
+          <br>
+          <p class="text-center header-subtext bold">Slack Channel:</p>
+          <p class="text-center header-subtext"><a href="https://geekwise.slack.com/messages/C8SHHJQLU/">#application-security</a></p>
+          <p class="text-center header-subtext bold">Github Repo:</p>
+          <p class="text-center header-subtext"><a href="https://github.com/coreyshuman/GeekwiseApplicationSecurity">https://github.com/coreyshuman/GeekwiseApplicationSecurity</a></p>
+          <p class="text-center header-subtext bold">Lecture Notes:</p>
+          <p class="text-center header-subtext"><a href="http://coreyshuman.github.io/GeekwiseApplicationSecurity/LectureNotes">http://coreyshuman.github.io/GeekwiseApplicationSecurity/LectureNotes</a></p>
+          <hr><br>
         </div>
-        <div class="row">
-            <div class="col">
-                <p class="header-subtext bold">Table of Contents:</p>
-                <ul id="table-of-contents"></ul>
-                <hr><br>
-            </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <p class="header-subtext bold">Table of Contents:</p>
+          <ul id="table-of-contents"></ul>
+          <hr><br>
         </div>
-        <div class="row">
-            <div class="col">
-                <h1>Authentication</h1>
-                <p>We will use passwords to authenticate our users, and talk about why hashing passwords is important.</p>
-                <h2>Login page - basic validation</h2>
-                <h2>What is salted password hashing?</h2>
-                <p>
-                    <a href="https://crackstation.net/hashing-security.htm" title="Hashing Security">
+      </div>
+      <div class="row">
+        <div class="col">
+          <h1>Authentication</h1>
+          <p>We will use passwords to authenticate our users, and talk about why hashing passwords is important.</p>
+          <h2>Login page - basic validation</h2>
+          <h2>What is salted password hashing?</h2>
+          <p>
+            <a href="https://crackstation.net/hashing-security.htm" title="Hashing Security">
                         Hashing Security
                     </a>
-                </p>
-                <h2>Using Bcrypt to Hash Password in NodeJS</h2>
-                <p>
-                    <a href="https://www.npmjs.com/package/bcrypt" title="Bcrypt">Bcrypt</a>
-                </p>
-                <h3>In Class: Let's build a simple Bcrypt App</h3>
-                <h2>Login page - apply bcrypt</h2>
-                <p>Our homework assignment. Use Bcrypt in our application to encrypt user passwords.</p>
+          </p>
+          <h2>Using Bcrypt to Hash Password in NodeJS</h2>
+          <p>
+            <a href="https://www.npmjs.com/package/bcrypt" title="Bcrypt">Bcrypt</a>
+          </p>
+          <div class="outline">
+            <h3>In Class: Let's build a simple Bcrypt App</h3>
+          </div>
+          <h2>Login page - apply bcrypt</h2>
+          <p>Our homework assignment. Use Bcrypt in our application to encrypt user passwords.</p>
 
-                <h1>Authorization</h1>
-                <p>We will investigate using cookies and tokens to provide authorization in our application.</p>
-                <h2>Cookies</h2>
-                <p>Cookies are a data component that is stored in the client (web browser) and included with each request to the server.</p>
-                <p>We can view more details on [W3 School: Cookies](https://www.w3schools.com/js/js_cookies.asp)</p>
-                <h3>Using Cookies with NodeJS</h3>
-                <p>To use cookies on our Node server, we need a way for express to parse the cookie payload. That is where the [Cookie Parse](https://expressjs.com/en/resources/middleware/cookie-parser.html) module comes in.
-                </p>
-                <h3>Using and Hacking Cookies</h3>
-                <p>Let's build an application that uses cookies to remeber the current user.</p>
-                <p>What happens if we go into the console and manipulate the cookie?</p>
-                <h3>More secure cookies: Cookie Session</h3>
-                <p>The [Cookie Session](https://expressjs.com/en/resources/middleware/cookie-session.html) module allows us to store the session info on the server while keeping only a session id in the cookie.</p>
+          <h1>Authorization</h1>
+          <p>We will investigate using cookies and tokens to provide authorization in our application.</p>
+          <h2>Cookies</h2>
+          <p>Cookies are a data component that is stored in the client (web browser) and included with each request to the server.</p>
+          <p>We can view more details on [W3 School: Cookies](https://www.w3schools.com/js/js_cookies.asp)</p>
+          <h3>Using Cookies with NodeJS</h3>
+          <p>To use cookies on our Node server, we need a way for express to parse the cookie payload. That is where the [CookieParse](https://expressjs.com/en/resources/middleware/cookie-parser.html)
+            module comes in.
+          </p>
 
+          <div class="outline">
+            <h3>Using and Hacking Cookies</h3>
+            <p>Let's build an application that uses cookies to remeber the current user.</p>
+            <p>What happens if we go into the console and manipulate the cookie?</p>
+          </div>
+          <h3>More secure cookies: Cookie Session</h3>
+          <p>The [Cookie Session](https://expressjs.com/en/resources/middleware/cookie-session.html) module allows us to store
+            the session info on the server while keeping only a session id in the cookie.</p>
+          <p>TODO: add cookie encryption</p>
 
-            </div>
         </div>
-        <div class="row">
-            <div class="col">
-                <br>
-                <hr>
-                <h1 class="header-subtext bold">Resources</h1>
-                <ul id="resources"></ul>
-            </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <br>
+          <hr>
+          <h1 class="header-subtext bold">Resources</h1>
+          <ul id="resources"></ul>
         </div>
+      </div>
     </div>
 
     <!--Footer-->
     <br><br>
     <footer class="page-footer">
-        <div style="background-color: #b9b9b9;">
-            <!-- Copyright-->
-            <div class="footer-copyright">
-                <div class="container-fluid text-center">
-                    &copy; 2017 -
-                    <script type="text/javascript">
+      <div style="background-color: #b9b9b9;">
+        <!-- Copyright-->
+        <div class="footer-copyright">
+          <div class="container-fluid text-center">
+            &copy; 2017 -
+            <script type="text/javascript">
                         document.write(new Date().getFullYear());
                     </script>
-                    <a href="https://geekwiseacademy.com">Geekwise Academy</a> &amp; <a href="http://coreyshuman.com">Corey Shuman</a>
-                </div>
-            </div>
-            <!--/.Copyright -->
+            <a href="https://geekwiseacademy.com">Geekwise Academy</a> &amp; <a href="http://coreyshuman.com">Corey Shuman</a>
+          </div>
         </div>
+        <!--/.Copyright -->
+      </div>
     </footer>
     <!--/.Footer-->
 
     <!-- jQuery first, then Tether, then Bootstrap JS. -->
-    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n"
+      crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
+      crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
+      crossorigin="anonymous"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
     <script src="../common/js/scripts.js"></script>
     <script src="../common/js/ta-name.js"></script>
-</body>
+  </body>
 
 </html>

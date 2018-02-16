@@ -1,245 +1,263 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
+  <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ"
+      crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/vs2015.min.css">
 
     <link rel="stylesheet" href="../common/css/style.css">
-</head>
+  </head>
 
-<body>
+  <body>
     <div class="container">
-        <div class="row">
-            <div class="col">
-                <p class="text-center header-text bold">Application Security and Hardening</p>
-                <p class="text-center header-text">Geekwise Academy</p>
-                <br>
-                <p class="text-center header-subtext italic">Week 01 - Introduction to APIs and Development Tools</p>
-                <br>
-                <p class="text-center header-subtext bold">Instructors:</p>
-                <p class="text-center header-subtext">Corey Shuman</p>
-                <p class="text-center header-subtext ta-name-full"></p>
-                <br>
-                <p class="text-center header-subtext bold">Slack Channel:</p>
-                <p class="text-center header-subtext"><a href="https://geekwise.slack.com/messages/C8SHHJQLU/">#application-security</a></p>
-                <p class="text-center header-subtext bold">Github Repo:</p>
-                <p class="text-center header-subtext"><a href="https://github.com/coreyshuman/GeekwiseApplicationSecurity">https://github.com/coreyshuman/GeekwiseApplicationSecurity</a></p>
-                <p class="text-center header-subtext bold">Lecture Notes:</p>
-                <p class="text-center header-subtext"><a href="http://coreyshuman.github.io/GeekwiseApplicationSecurity/LectureNotes">http://coreyshuman.github.io/GeekwiseApplicationSecurity/LectureNotes</a></p>
-                <hr><br>
-            </div>
+      <div class="row">
+        <div class="col">
+          <p class="text-center header-text bold">Application Security and Hardening</p>
+          <p class="text-center header-text">Geekwise Academy</p>
+          <br>
+          <p class="text-center header-subtext italic">Week 01 - Introduction to APIs and Development Tools</p>
+          <br>
+          <p class="text-center header-subtext bold">Instructors:</p>
+          <p class="text-center header-subtext">Corey Shuman</p>
+          <p class="text-center header-subtext ta-name-full"></p>
+          <br>
+          <p class="text-center header-subtext bold">Slack Channel:</p>
+          <p class="text-center header-subtext"><a href="https://geekwise.slack.com/messages/C8SHHJQLU/">#application-security</a></p>
+          <p class="text-center header-subtext bold">Github Repo:</p>
+          <p class="text-center header-subtext"><a href="https://github.com/coreyshuman/GeekwiseApplicationSecurity">https://github.com/coreyshuman/GeekwiseApplicationSecurity</a></p>
+          <p class="text-center header-subtext bold">Lecture Notes:</p>
+          <p class="text-center header-subtext"><a href="http://coreyshuman.github.io/GeekwiseApplicationSecurity/LectureNotes">http://coreyshuman.github.io/GeekwiseApplicationSecurity/LectureNotes</a></p>
+          <hr><br>
         </div>
-        <div class="row">
-            <div class="col">
-                <p class="header-subtext bold">Table of Contents:</p>
-                <ul id="table-of-contents"></ul>
-                <hr><br>
-            </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <p class="header-subtext bold">Table of Contents:</p>
+          <ul id="table-of-contents"></ul>
+          <hr><br>
         </div>
-        <div class="row">
-            <div class="col">
-                <h1>Introductions</h1>
-                <ul>
-                    <li>What is your name?</li>
-                    <li>Tell us some background about yourself.</li>
-                    <li>Have you had any experience with web security or a data breach?</li>
-                </ul>
+      </div>
+      <div class="row">
+        <div class="col">
+          <h1>Introductions</h1>
+          <ul>
+            <li>What is your name?</li>
+            <li>Tell us some background about yourself.</li>
+            <li>Have you had any experience with web security or a data breach?</li>
+          </ul>
 
-                <h1>Goals for Week 1</h1>
-                <ul>
-                    <li>Outline the general goals and topics of the class</li>
-                    <li>Review some examples and highlight the importance of Application Security</li>
-                    <li>Setup a development environment for a simple NodeJS RESTful API and basic frontend application using Docker as our development platform</li>
-                </ul>
+          <h1>Goals for Week 1</h1>
+          <ul>
+            <li>Outline the general goals and topics of the class</li>
+            <li>Review some examples and highlight the importance of Application Security</li>
+            <li>Setup a development environment for a simple NodeJS RESTful API and basic frontend application using Docker as
+              our development platform</li>
+          </ul>
 
-                <h1>What is Application Security?</h1>
-                <p>
-                    Application Security is the processes and measures taken to improve the security of an application. This includes:
-                </p>
-                <ul>
-                    <li>Finding and fixing bugs</li>
-                    <li>Conducting tests, security reviews, and code reviews</li>
-                    <li>Conducting design reviews and building a threat model of the application</li>
-                    <li>Using automated tools to monitor for suspicious activity</li>
-                    <li>Regular audits of security practices and logs</li>
-                </ul>
-                <p>This class will focus on the development side of application security. An important part of secure development is following strong security practices as a development team. Before you can develop these practices, it helps to understand
-                    what threats and vulnerabilities you are trying to defend against. Therefore this class will be a hands-on opportunity to learn, perform, and defends against common web application vulnerabilities.
-                </p>
-                <p class="bold italic">Hackers only need to get it right once. You need to get it right every time!</p>
-                <br>
-                <p>The following are common classes of application security threats from the book <i>Improving Web Application Security</i></p>
-                <table class="table table-striped table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Category</th>
-                            <th>Threats / Attacks</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><i>Input Validation</i></td>
-                            <td><a href="https://en.wikipedia.org/wiki/Buffer_overflow" title="Buffer overflow">Buffer overflow</a>; <a href="https://en.wikipedia.org/wiki/Cross-site_scripting" title="Cross-site scripting">cross-site scripting</a>; <a href="https://en.wikipedia.org/wiki/SQL_injection"
-                                    title="SQL injection">SQL injection</a>;
-                                <a href="https://en.wikipedia.org/wiki/Canonicalization" title="Canonicalization">canonicalization</a></td>
-                        </tr>
-                        <tr>
-                            <td><i><a href="https://en.wikipedia.org/wiki/Anti-tamper_software" title="Anti-tamper software">Software Tampering</a></i></td>
-                            <td>Attacker modifies an existing application's runtime behavior to perform unauthorized actions; exploited via binary patching, code substitution, or code extension</td>
-                        </tr>
-                        <tr>
-                            <td><i><a href="https://en.wikipedia.org/wiki/Authentication" title="Authentication">Authentication</a></i></td>
-                            <td>Network eavesdropping&nbsp;; <a href="https://en.wikipedia.org/wiki/Brute_force_attack" class="mw-redirect" title="Brute force attack">Brute force attack</a>; <a href="https://en.wikipedia.org/wiki/Dictionary_attack" title="Dictionary attack">dictionary attacks</a>;
-                                cookie replay; credential theft</td>
-                        </tr>
-                        <tr>
-                            <td><i><a href="https://en.wikipedia.org/wiki/Authorization" title="Authorization">Authorization</a></i></td>
-                            <td>Elevation of privilege; disclosure of confidential data; data tampering; luring attacks</td>
-                        </tr>
-                        <tr>
-                            <td><i><a href="https://en.wikipedia.org/wiki/Configuration_management" title="Configuration management">Configuration management</a></i></td>
-                            <td>Unauthorized access to administration interfaces; unauthorized access to configuration stores; retrieval of clear text configuration data; lack of individual accountability; over-privileged process and service accounts</td>
-                        </tr>
-                        <tr>
-                            <td><i><a href="https://en.wikipedia.org/wiki/Information_sensitivity" title="Information sensitivity">Sensitive information</a></i></td>
-                            <td>Access sensitive code or data in storage; network eavesdropping; code/data tampering</td>
-                        </tr>
-                        <tr>
-                            <td><i><a href="https://en.wikipedia.org/wiki/Session_management" class="mw-redirect" title="Session management">Session management</a></i></td>
-                            <td><a href="https://en.wikipedia.org/wiki/Session_hijacking" title="Session hijacking">Session hijacking</a>; <a href="https://en.wikipedia.org/wiki/Replay_attack" title="Replay attack">session replay</a>; <a href="https://en.wikipedia.org/wiki/Man-in-the-middle_attack"
-                                    title="Man-in-the-middle attack">man in the middle</a></td>
-                        </tr>
-                        <tr>
-                            <td><i><a href="https://en.wikipedia.org/wiki/Cryptography" title="Cryptography">Cryptography</a></i></td>
-                            <td>Poor key generation or key management; weak or custom encryption</td>
-                        </tr>
-                        <tr>
-                            <td><i>Parameter manipulation</i></td>
-                            <td>Query string manipulation; form field manipulation; cookie manipulation; HTTP header manipulation</td>
-                        </tr>
-                        <tr>
-                            <td><i>Exception management</i></td>
-                            <td>Information disclosure; <a href="https://en.wikipedia.org/wiki/Denial-of-service_attack" title="Denial-of-service attack">denial of service</a></td>
-                        </tr>
-                        <tr>
-                            <td><i>Auditing and logging</i></td>
-                            <td>User denies performing an operation; attacker exploits an application without trace; attacker covers his or her tracks</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <p class="italic">This table is from the <a href="https://en.wikipedia.org/wiki/Application_security">Application Security</a> page on Wikipedia</p>
-                <h2>Topics We Will Cover</h2>
-                <ul>
-                    <li>SQL Injection</li>
-                    <li>Cross Site Scripting</li>
-                    <li>Authorization (tokens, cookies, etc)</li>
-                    <li>User Data Sanitization</li>
-                    <li>Passwords and Validation</li>
-                    <li>Session Hijacking/ Session Replay</li>
-                    <li>Handling of Sensitive Data</li>
-                    <li>Encryption</li>
-                    <li>Cryptography</li>
-                    <li>Error Handling</li>
-                    <li>Auditing and Logging</li>
-                    <li>Development and Testing Techniques</li>
-                    <li>Setting up SSL</li>
-                    <li>Fuzzing</li>
-                    <li>Content Security Policy</li>
-                    <li>CORS</li>
-                </ul>
-                <h2>Tools We Will Use</h2>
-                <ul>
-                    <li>Docker</li>
-                    <li>Kali Linux</li>
-                    <li>NodeJS</li>
-                    <li>PHP</li>
-                    <li>RESTful API</li>
-                    <li>Wireshark</li>
-                    <li>Postman</li>
-                    <li>PostgresSQL</li>
-                    <li>Postico</li>
-                    <li>MongoDB</li>
-                </ul>
+          <h1>What is Application Security?</h1>
+          <p>
+            Application Security is the processes and measures taken to improve the security of an application. This includes:
+          </p>
+          <ul>
+            <li>Finding and fixing bugs</li>
+            <li>Conducting tests, security reviews, and code reviews</li>
+            <li>Conducting design reviews and building a threat model of the application</li>
+            <li>Using automated tools to monitor for suspicious activity</li>
+            <li>Regular audits of security practices and logs</li>
+          </ul>
+          <p>This class will focus on the development side of application security. An important part of secure development
+            is following strong security practices as a development team. Before you can develop these practices, it helps
+            to understand what threats and vulnerabilities you are trying to defend against. Therefore this class will be
+            a hands-on opportunity to learn, perform, and defends against common web application vulnerabilities.
+          </p>
+          <p class="bold italic">Hackers only need to get it right once. You need to get it right every time!</p>
+          <br>
+          <p>The following are common classes of application security threats from the book <i>Improving Web Application Security</i></p>
+          <table class="table table-striped table-bordered">
+            <thead>
+              <tr>
+                <th>Category</th>
+                <th>Threats / Attacks</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><i>Input Validation</i></td>
+                <td><a href="https://en.wikipedia.org/wiki/Buffer_overflow" title="Buffer overflow">Buffer overflow</a>; <a href="https://en.wikipedia.org/wiki/Cross-site_scripting"
+                    title="Cross-site scripting">cross-site scripting</a>; <a href="https://en.wikipedia.org/wiki/SQL_injection"
+                    title="SQL injection">SQL injection</a>;
+                  <a href="https://en.wikipedia.org/wiki/Canonicalization" title="Canonicalization">canonicalization</a></td>
+              </tr>
+              <tr>
+                <td><i><a href="https://en.wikipedia.org/wiki/Anti-tamper_software" title="Anti-tamper software">Software Tampering</a></i></td>
+                <td>Attacker modifies an existing application's runtime behavior to perform unauthorized actions; exploited via
+                  binary patching, code substitution, or code extension</td>
+              </tr>
+              <tr>
+                <td><i><a href="https://en.wikipedia.org/wiki/Authentication" title="Authentication">Authentication</a></i></td>
+                <td>Network eavesdropping&nbsp;; <a href="https://en.wikipedia.org/wiki/Brute_force_attack" class="mw-redirect"
+                    title="Brute force attack">Brute force attack</a>; <a href="https://en.wikipedia.org/wiki/Dictionary_attack"
+                    title="Dictionary attack">dictionary attacks</a>; cookie replay; credential theft</td>
+              </tr>
+              <tr>
+                <td><i><a href="https://en.wikipedia.org/wiki/Authorization" title="Authorization">Authorization</a></i></td>
+                <td>Elevation of privilege; disclosure of confidential data; data tampering; luring attacks</td>
+              </tr>
+              <tr>
+                <td><i><a href="https://en.wikipedia.org/wiki/Configuration_management" title="Configuration management">Configuration management</a></i></td>
+                <td>Unauthorized access to administration interfaces; unauthorized access to configuration stores; retrieval
+                  of clear text configuration data; lack of individual accountability; over-privileged process and service
+                  accounts</td>
+              </tr>
+              <tr>
+                <td><i><a href="https://en.wikipedia.org/wiki/Information_sensitivity" title="Information sensitivity">Sensitive information</a></i></td>
+                <td>Access sensitive code or data in storage; network eavesdropping; code/data tampering</td>
+              </tr>
+              <tr>
+                <td><i><a href="https://en.wikipedia.org/wiki/Session_management" class="mw-redirect" title="Session management">Session management</a></i></td>
+                <td><a href="https://en.wikipedia.org/wiki/Session_hijacking" title="Session hijacking">Session hijacking</a>;
+                  <a href="https://en.wikipedia.org/wiki/Replay_attack" title="Replay attack">session replay</a>; <a href="https://en.wikipedia.org/wiki/Man-in-the-middle_attack"
+                    title="Man-in-the-middle attack">man in the middle</a></td>
+              </tr>
+              <tr>
+                <td><i><a href="https://en.wikipedia.org/wiki/Cryptography" title="Cryptography">Cryptography</a></i></td>
+                <td>Poor key generation or key management; weak or custom encryption</td>
+              </tr>
+              <tr>
+                <td><i>Parameter manipulation</i></td>
+                <td>Query string manipulation; form field manipulation; cookie manipulation; HTTP header manipulation</td>
+              </tr>
+              <tr>
+                <td><i>Exception management</i></td>
+                <td>Information disclosure; <a href="https://en.wikipedia.org/wiki/Denial-of-service_attack" title="Denial-of-service attack">denial of service</a></td>
+              </tr>
+              <tr>
+                <td><i>Auditing and logging</i></td>
+                <td>User denies performing an operation; attacker exploits an application without trace; attacker covers his
+                  or her tracks</td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="italic">This table is from the <a href="https://en.wikipedia.org/wiki/Application_security">Application Security</a> page
+            on Wikipedia</p>
+          <h2>Topics We Will Cover</h2>
+          <ul>
+            <li>SQL Injection</li>
+            <li>Cross Site Scripting</li>
+            <li>Authorization (tokens, cookies, etc)</li>
+            <li>User Data Sanitization</li>
+            <li>Passwords and Validation</li>
+            <li>Session Hijacking/ Session Replay</li>
+            <li>Handling of Sensitive Data</li>
+            <li>Encryption</li>
+            <li>Cryptography</li>
+            <li>Error Handling</li>
+            <li>Auditing and Logging</li>
+            <li>Development and Testing Techniques</li>
+            <li>Setting up SSL</li>
+            <li>Fuzzing</li>
+            <li>Content Security Policy</li>
+            <li>CORS</li>
+          </ul>
+          <h2>Tools We Will Use</h2>
+          <ul>
+            <li>Docker</li>
+            <li>Kali Linux</li>
+            <li>NodeJS</li>
+            <li>PHP</li>
+            <li>RESTful API</li>
+            <li>Wireshark</li>
+            <li>Postman</li>
+            <li>PostgresSQL</li>
+            <li>Postico</li>
+            <li>MongoDB</li>
+          </ul>
 
-                <h1>Largest Data Breaches of 2017</h1>
-                <p>In 2016, reported data breaches increased by 40% and Yahoo announced the largest breach in history.
-                </p>
-                <ul>
-                    <li>April: The IRS reports 100,000 taxpayers may have had personal info stolen</li>
-                    <li>May: OneLogin reports a data breach</li>
-                    <li>May: Gmail phishing scam affects 1 million users</li>
-                    <li>July: 14 million Verizon customers affected by data breach</li>
-                    <li>September: 143 million consumers affected by Equifax (Credit Bureau) data breach</li>
-                    <li>October: Yahoo updates status of 2016 breach from 1 billion to 3 billion users affected</li>
-                    <li>October: Hyatt Hotels reports 41 properties had unauthorized access to debit and credit card info</li>
-                    <li>November: Uber revealved that 57 million users personal info was exposed, and they paid hackers $100,000 to try and keep the breach a secret.</li>
-                    <li>December: eBay leaked user info and purchase history via Google's Shopping platform due to improper configuration</li>
-                    <li>December: Alteryx, a California-based analytics company, was found to have stored information on more than 120 million American households on an open Amazon cloud storage bucket.</li>
-                </ul>
-                <p><b>More Info:</b> <a href="https://www.identityforce.com/blog/2017-data-breaches">https://www.identityforce.com/blog/2017-data-breaches</a> </p>
-                <br>
-                <blockquote class="blockquote">
-                    <p class="mb-0">“The fact security guidance is labeled as ‘Best Practices’ and not ‘Standard Operating Procedures’ is what attackers count on for success.”</p>
-                    <footer class="blockquote-footer">Jessica Payne <cite title="Microsoft">Microsoft</cite></footer>
-                </blockquote>
+          <h1>Largest Data Breaches of 2017</h1>
+          <p>In 2016, reported data breaches increased by 40% and Yahoo announced the largest breach in history.
+          </p>
+          <ul>
+            <li>April: The IRS reports 100,000 taxpayers may have had personal info stolen</li>
+            <li>May: OneLogin reports a data breach</li>
+            <li>May: Gmail phishing scam affects 1 million users</li>
+            <li>July: 14 million Verizon customers affected by data breach</li>
+            <li>September: 143 million consumers affected by Equifax (Credit Bureau) data breach</li>
+            <li>October: Yahoo updates status of 2016 breach from 1 billion to 3 billion users affected</li>
+            <li>October: Hyatt Hotels reports 41 properties had unauthorized access to debit and credit card info</li>
+            <li>November: Uber revealved that 57 million users personal info was exposed, and they paid hackers $100,000 to try
+              and keep the breach a secret.</li>
+            <li>December: eBay leaked user info and purchase history via Google's Shopping platform due to improper configuration</li>
+            <li>December: Alteryx, a California-based analytics company, was found to have stored information on more than 120
+              million American households on an open Amazon cloud storage bucket.</li>
+          </ul>
+          <p><b>More Info:</b> <a href="https://www.identityforce.com/blog/2017-data-breaches">https://www.identityforce.com/blog/2017-data-breaches</a>            </p>
+          <br>
+          <blockquote class="blockquote">
+            <p class="mb-0">“The fact security guidance is labeled as ‘Best Practices’ and not ‘Standard Operating Procedures’ is what attackers
+              count on for success.”</p>
+            <footer class="blockquote-footer">Jessica Payne <cite title="Microsoft">Microsoft</cite></footer>
+          </blockquote>
 
-                <h1>Setting Up Our Development Environment</h1>
-                <ol>
-                    <li>Setup an IDE or Text Editor (Visual Code, Sublime, Webstorm, Atom, etc...)</li>
-                    <li>Install Docker (<a href="https://docs.docker.com/engine/installation/">Instructions here</a>)</li>
-                    <li>Setup <a href="https://git-scm.com/book/en/v2/Getting-Started-Installing-Git">Git</a> and <a href="http://github.com">Github</a> if necessary</li>
-                    <li>Install <a href="https://www.getpostman.com/">Postman</a></li>
-                    <li>Install <a href="https://eggerapps.at/postico/">Postico</a> (Mac) or <a href="https://www.pgadmin.org/">pgAdmin</a> (Windows/Linux)</li>
-                    <li>Fork this repository on Github</li>
-                    <li>Pull down your fork of the repo to your machine</li>
-                    <li>Move on to the next section to test our simple application</li>
-                </ol>
+          <h1>Setting Up Our Development Environment</h1>
+          <ol>
+            <li>Setup an IDE or Text Editor (Visual Code, Sublime, Webstorm, Atom, etc...)</li>
+            <li>Install Docker (<a href="https://docs.docker.com/engine/installation/">Instructions here</a>)</li>
+            <li>Setup <a href="https://git-scm.com/book/en/v2/Getting-Started-Installing-Git">Git</a> and <a href="http://github.com">Github</a>              if necessary</li>
+            <li>Install <a href="https://www.getpostman.com/">Postman</a></li>
+            <li>Install <a href="https://eggerapps.at/postico/">Postico</a> (Mac) or <a href="https://www.pgadmin.org/">pgAdmin</a>              (Windows/Linux)</li>
+            <li>Fork this repository on Github</li>
+            <li>Pull down your fork of the repo to your machine</li>
+            <li>Move on to the next section to test our simple application</li>
+          </ol>
 
-                <h1>Basic Insecure Web Application Example</h1>
-                <p>Our basic application will give us an intruduction to NodeJS, Postgres, Postico, Postman, and Docker.</p>
-                <a href="https://github.com/coreyshuman/GeekwiseApplicationSecurity/tree/master/Applications/Week-01/01-BasicInsecureWebApp">Click Here</a> to go to the application page.
+          <h1>Basic Insecure Web Application Example</h1>
+          <p>Our basic application will give us an intruduction to NodeJS, Postgres, Postico, Postman, and Docker.</p>
+          <a href="https://github.com/coreyshuman/GeekwiseApplicationSecurity/tree/master/Applications/Week-01/01-BasicInsecureWebApp">Click Here</a>          to go to the application page.
 
-                <h2>Docker Environment</h2>
-                <p>The Docker environment for our basic application includes 3 docker <em>containers</em>. You can think of a <em>container</em> as a lightweight virtual machine running on your computer. Each container is built from an <em>image</em> which
-                    represents what the underlying operating system is for the container.
-                </p>
-                <img src="../common/images/BasicInsecureAppDocker.svg">
-            </div>
+          <h2>Docker Environment</h2>
+          <p>The Docker environment for our basic application includes 3 docker <em>containers</em>. You can think of a <em>container</em>            as a lightweight virtual machine running on your computer. Each container is built from an <em>image</em> which
+            represents what the underlying operating system is for the container.
+          </p>
+          <img src="../common/images/BasicInsecureAppDocker.svg">
         </div>
+      </div>
     </div>
 
     <!--Footer-->
     <br><br>
     <footer class="page-footer">
-        <div style="background-color: #b9b9b9;">
-            <!-- Copyright-->
-            <div class="footer-copyright">
-                <div class="container-fluid text-center">
-                    &copy; 2017 -
-                    <script type="text/javascript">
+      <div style="background-color: #b9b9b9;">
+        <!-- Copyright-->
+        <div class="footer-copyright">
+          <div class="container-fluid text-center">
+            &copy; 2017 -
+            <script type="text/javascript">
                         document.write(new Date().getFullYear());
                     </script>
-                    <a href="https://geekwiseacademy.com">Geekwise Academy</a> &amp; <a href="http://coreyshuman.com">Corey Shuman</a>
-                </div>
-            </div>
-            <!--/.Copyright -->
+            <a href="https://geekwiseacademy.com">Geekwise Academy</a> &amp; <a href="http://coreyshuman.com">Corey Shuman</a>
+          </div>
         </div>
+        <!--/.Copyright -->
+      </div>
     </footer>
     <!--/.Footer-->
 
     <!-- jQuery first, then Tether, then Bootstrap JS. -->
-    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n"
+      crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
+      crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
+      crossorigin="anonymous"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
     <script src="../common/js/scripts.js"></script>
     <script src="../common/js/ta-name.js"></script>
-</body>
+  </body>
 
 </html>

@@ -1,6 +1,7 @@
 const express = require('express');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
+const jwt = require('express-jwt');
 const app = express();
 require('dotenv').config();
 
@@ -35,6 +36,13 @@ app.use(function(req, res, next) {
     next();
 });
 
+// JWT Authentication
+app.use(jwt({ secret: process.env.JWT_SECRET })
+    .unless({
+        path: ['/api/user/login', '/api/user/logout', '/api/user/register']
+    })
+);
+
 
 //////////////////
 // API Queries
@@ -45,6 +53,12 @@ app.use('/api', controllers);
 ////////////////////
 // Error Handlers
 ////////////////////
+// not authenticated handler
+app.use(function(err, req, res, next) {
+    if (err.name === 'UnauthorizedError') {
+        res.status(401).send('invalid token...');
+    }
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -2,6 +2,7 @@ const User = require('../models/user.model');
 const UserDb = require('../db/user.db');
 const Common = require('./common');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 const SALT_ROUNDS = 15;
 
@@ -33,7 +34,11 @@ class UserController {
                 const result = await bcrypt.compare(password, data.password);
                 if (result) {
                     const user = new User(data);
-                    return Common.resultOk(res, user);
+                    console.log(process.env.JWT_SECRET)
+                    const token = jwt.sign({ id: user.id, username: user.username },
+                        process.env.JWT_SECRET, { expiresIn: '1h' }
+                    );
+                    return Common.resultOk(res, { token: token, user: user });
                 } else {
                     return Common.resultNotFound(res, LOGIN_FAIL);
                 }
