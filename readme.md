@@ -9,6 +9,7 @@ This is a 12 week (72 hour) course on Application Security covering a variety of
 - [Week 03 - Cross-Site Scripting Cont. and Keylogging](./LectureNotes/Week-03)
 - [Week 04 - Authentication and Authorization](./LectureNotes/Week-04)
 - [Week 05 - Authorization Cont. and Cross-Site Request Forgery (CSRF)](./LectureNotes/Week-05)
+- [Week 06 - Authorization Continued](./LectureNotes/Week-06)
 
 ### Applications
 - [Week 01 - Basic Insecure Web App Example](./Applications/Week-01/01-BasicInsecureWebApp)
@@ -25,6 +26,9 @@ This is a 12 week (72 hour) course on Application Security covering a variety of
   - A work-in-progress blogging application with basic user authentication and authorization
 - [Week 05 - Insecure Blog App Part 4](./Applications/Week-05/01-BasicBlogAppPart04)
   - A work-in-progress blogging application with basic user authentication and authorization
-  - This week we've added authorization via cookies and tokens
+  - This week we've added authorization via cookies
 - [Week 05 - CSRF Example](./Applications/Week-05/02-CSRFExample)
   - This example app performs a CSRF attack on our blogging app when using cookies to authorize the user
+- [Week 06 - Insecure Blog App Part 5](./Applications/Week-06/01-BasicBlogAppPart05)
+  - A work-in-progress blogging application with basic user authentication and authorization
+  - This week we've added authorization via tokens

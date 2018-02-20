@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ"
+      crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/vs2015.min.css">
+
+    <link rel="stylesheet" href="../common/css/style.css">
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <p class="text-center header-text bold">Application Security and Hardening</p>
+          <p class="text-center header-text">Geekwise Academy</p>
+          <br>
+          <p class="text-center header-subtext italic">Week 6 - Authorization Continued</p>
+          <br>
+          <p class="text-center header-subtext bold">Instructors:</p>
+          <p class="text-center header-subtext">Corey Shuman</p>
+          <p class="text-center header-subtext ta-name-full"></p>
+          <br>
+          <p class="text-center header-subtext bold">Slack Channel:</p>
+          <p class="text-center header-subtext"><a href="https://geekwise.slack.com/messages/C8SHHJQLU/">#application-security</a></p>
+          <p class="text-center header-subtext bold">Github Repo:</p>
+          <p class="text-center header-subtext"><a href="https://github.com/coreyshuman/GeekwiseApplicationSecurity">https://github.com/coreyshuman/GeekwiseApplicationSecurity</a></p>
+          <p class="text-center header-subtext bold">Lecture Notes:</p>
+          <p class="text-center header-subtext"><a href="http://coreyshuman.github.io/GeekwiseApplicationSecurity/LectureNotes">http://coreyshuman.github.io/GeekwiseApplicationSecurity/LectureNotes</a></p>
+          <hr><br>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <p class="header-subtext bold">Table of Contents:</p>
+          <ul id="table-of-contents"></ul>
+          <hr><br>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <h1>Authentication Continued</h1>
+          <p>This week we will continue to implement JWT authentication throughout our application.</p>
+
+          <h2>Storing JWT Tokens in the Browser</h2>
+          <p>Once a user has logged in and a JWT token has been created, it must be stored in the user's browser so that the
+            token can be added to the header on each subsequent API request.
+          </p>
+          <p>We could store the token in a variety of places. For this application, let's put it into Local Storage.</p>
+
+          <h3>Local Storage</h3>
+          <p>[Local Storage (Mozilla)](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage)</p>
+          <p>Modern browsers have a `localStorage` property on the window object which gives us access to a storage object for
+            the given domain's origin. We can set, get, and remove item's using the following methods:
+          </p>
+          <script type='template/code'>window.localStorage.setItem('jwtToken', 'aTexbdtHDse6Y...');</script>
+          <script type='template/code'>let jwtToken = window.localStorage.getItem('jwtToken');</script>
+          <script type='template/code'>window.localStorage.removeItem('jwtToken');</script>
+
+          <h2>Adding Headers to Requests</h2>
+          <p>[Request Object](https://developer.mozilla.org/en-US/docs/Web/API/Request/headers):</p>
+          <script type='template/code'>
+            var myHeaders = new Headers();
+            myHeaders.append('Content-Type', 'image/jpeg');
+            
+            var myInit = { method: 'GET',
+                               headers: myHeaders,
+                               mode: 'cors',
+                               cache: 'default' };
+            
+            var myRequest = new Request('flowers.jpg',myInit);
+            
+            myContentType = myRequest.headers.get('Content-Type'); // returns 'image/jpeg'
+          </script>
+          <p>[AJAX](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/setRequestHeader):</p>
+          <script type='template/code'>
+            $.ajax({
+              url: 'https://api.sandbox.slcedu.org/api/rest/v1/students/test1',
+              type: 'GET',
+              beforeSend: function (xhr) {
+                  xhr.setRequestHeader('Authorization', 'Bearer t-7614f875-8423-4f20-a674-d7cf3096290e');
+              },
+              data: {},
+              success: function () { },
+              error: function () { },
+              });
+          </script>
+
+          <div class='outline'>
+            <h2>In Class: Let's Use JWT and Request Headers Together</h2>
+            <ul>
+              <li>Use `Local Storage` to save the JWT token after logging in.</li>
+              <li>Attach the stored JWT token to the home page's `GET /post` request.</li>
+            </ul>
+          </div>
+
+          <hr>
+          <div class='outline'>
+            <h1>In Class Lab Assignment</h1>
+            <p>The application is currently wired up to work on a single server using cookies and form submits. We will work
+              together to add a second mode of operation which will allow our application to work with JWT Tokens and an
+              API server.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <br>
+          <hr>
+          <h1 class="header-subtext bold">Resources</h1>
+          <ul id="resources"></ul>
+        </div>
+      </div>
+    </div>
+
+    <!--Footer-->
+    <br><br>
+    <footer class="page-footer">
+      <div style="background-color: #b9b9b9;">
+        <!-- Copyright-->
+        <div class="footer-copyright">
+          <div class="container-fluid text-center">
+            &copy; 2017 -
+            <script type="text/javascript">
+                        document.write(new Date().getFullYear());
+                    </script>
+            <a href="https://geekwiseacademy.com">Geekwise Academy</a> &amp; <a href="http://coreyshuman.com">Corey Shuman</a>
+          </div>
+        </div>
+        <!--/.Copyright -->
+      </div>
+    </footer>
+    <!--/.Footer-->
+
+    <!-- jQuery first, then Tether, then Bootstrap JS. -->
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n"
+      crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
+      crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
+      crossorigin="anonymous"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    <script src="../common/js/scripts.js"></script>
+    <script src="../common/js/ta-name.js"></script>
+
+  </body>
+
+</html>

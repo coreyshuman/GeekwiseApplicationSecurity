@@ -1,0 +1,81 @@
+body {
+    background-color: #220c57;
+    color: white;
+}
+
+pre {
+    color: white;
+}
+
+a {
+    color: #00B7FF;
+}
+
+hr {
+    border: 0;
+    height: 1px;
+    background-image: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0));
+}
+
+.border {
+    border: 4px solid;
+}
+
+.border-primary {
+    border-color: #0275d8 !important;
+}
+
+.full-height {
+    height: 100%;
+}
+
+#login-container {
+    margin-top: 30px;
+}
+
+div#loading-screen {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: black;
+    width: 100%;
+    height: 100%;
+    opacity: 0.2;
+}
+
+h1 {
+    color: white;
+}
+
+.bg-light h1 {
+    color: #888;
+}
+
+.bg-light {
+    color: black;
+}
+
+.hidden {
+    display: none;
+}
+
+.post-meta {
+    font-size: .9em;
+    color: #888;
+    margin-top: 20px;
+}
+
+.post-meta label {
+    font-weight: bold;
+}
+
+a.btn-post-edit {
+    color: #00B7FF !important;
+    cursor: pointer;
+}
+
+a.btn-post-del {
+    color: red !important;
+    cursor: pointer;
+}
