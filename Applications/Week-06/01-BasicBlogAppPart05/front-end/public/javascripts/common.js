@@ -1,171 +1,219 @@
 // common api functionality
 
 let MyBlogApp = {};
-(function() {
-    'use strict';
-    MyBlogApp.apiUrl = 'http://localhost:3000/api';
-    MyBlogApp.request = function(method, url, payload, handler) {
-        const xhr = new XMLHttpRequest();
-        if (!handler && typeof payload === 'function') {
-            handler = payload;
-            payload = null;
-        }
+( function() {
+  'use strict';
+  const session = window.sessionStorage;
+  const storage = window.localStorage;
+  const MODEKEY = 'AppMode';
+  const JWTKEY = 'AppJwtToken';
 
-        xhr.open(method, MyBlogApp.apiUrl + url);
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.onload = function() {
-            handler(xhr.status, JSON.parse(xhr.responseText));
-        };
-        xhr.send(JSON.stringify(payload));
+  MyBlogApp.apiUrl = 'http://localhost:3000/api';
+  MyBlogApp.request = function( method, url, payload, handler ) {
+    const xhr = new XMLHttpRequest();
+    if ( !handler && typeof payload === 'function' ) {
+      handler = payload;
+      payload = null;
     }
 
-    MyBlogApp.getFormInput = function(formEvent, name) {
-        if (formEvent && formEvent.srcElement) {
-            let elements = formEvent.srcElement;
-            for (let i = 0; i < elements.length; i++) {
-                if (elements[i].name === name) {
-                    return elements[i].value;
-                }
-            }
-            return null;
-        } else {
-            return null;
-        }
-    }
-
-    MyBlogApp.toast = function(level, message) {
-        let toast = document.createElement('div');
-        let toastClose = document.createElement('button');
-        let toastMessage = document.createElement('span');
-        toast.setAttribute('role', 'alert');
-        toast.className = `alert alert-${level} alert-dismissible fade show`;
-
-        toastClose.textContent = "X";
-        toastClose.className = "close";
-        toastClose.setAttribute('data-dismiss', 'alert');
-        toastClose.setAttribute('aria-label', 'Close');
-        toast.appendChild(toastClose);
-
-        toastMessage.textContent = message;
-        toast.appendChild(toastMessage);
-
-        document.querySelector("div[id='toasts']").appendChild(toast);
-    }
-
-    /*************** spinner  *******************/
-    MyBlogApp.spinnerCount = 0;
-    MyBlogApp.spinnerOpts = {
-        lines: 5, // The number of lines to draw
-        length: 80, // The length of each line
-        width: 2, // The line thickness
-        radius: 22, // The radius of the inner circle
-        scale: 1.3, // Scales overall size of the spinner
-        corners: 1, // Corner roundness (0..1)
-        color: '#2ef9a1', // CSS color or array of colors
-        fadeColor: 'blue', // CSS color or array of colors
-        opacity: 0.35, // Opacity of the lines
-        rotate: 0, // The rotation offset
-        direction: -1, // 1: clockwise, -1: counterclockwise
-        speed: 1.6, // Rounds per second
-        trail: 100, // Afterglow percentage
-        fps: 20, // Frames per second when using setTimeout() as a fallback in IE 9
-        zIndex: 2e9, // The z-index (defaults to 2000000000)
-        className: 'spinner', // The CSS class to assign to the spinner
-        top: '50%', // Top position relative to parent
-        left: '50%', // Left position relative to parent
-        shadow: '10px', // Box-shadow for the lines
-        position: 'absolute' // Element positioning
+    xhr.open( method, MyBlogApp.apiUrl + url );
+    xhr.setRequestHeader( 'Content-Type', 'application/json' );
+    xhr.setRequestHeader( 'Authorization', `Bearer ${MyBlogApp.token()}` );
+    xhr.onload = function() {
+      handler( xhr.status, JSON.parse( xhr.responseText ) );
     };
+    xhr.send( JSON.stringify( payload ) );
+  }
 
-    MyBlogApp.spinnerTarget = document.getElementById('main-content');
-    MyBlogApp.loadingTarget = document.getElementById('loading-screen');
-    MyBlogApp.spinner = new Spinner(MyBlogApp.spinnerOpts);
-
-    MyBlogApp.spin = function() {
-        MyBlogApp.spinnerCount++;
-        if (MyBlogApp.spinnerCount === 1) {
-            MyBlogApp.loadingTarget.style.display = 'block';
-            MyBlogApp.spinner.spin(MyBlogApp.spinnerTarget);
+  MyBlogApp.getFormInput = function( formEvent, name ) {
+    if ( formEvent && formEvent.srcElement ) {
+      let elements = formEvent.srcElement;
+      for ( let i = 0; i < elements.length; i++ ) {
+        if ( elements[ i ].name === name ) {
+          return elements[ i ].value;
         }
+      }
+      return null;
+    } else {
+      return null;
     }
+  }
 
-    MyBlogApp.spinStop = function() {
-        MyBlogApp.spinnerCount--;
-        if (MyBlogApp.spinnerCount === 0) {
-            MyBlogApp.loadingTarget.style.display = 'none';
-            MyBlogApp.spinner.stop();
-        }
+  MyBlogApp.toast = function( level, message ) {
+    let toast = document.createElement( 'div' );
+    let toastClose = document.createElement( 'button' );
+    let toastMessage = document.createElement( 'span' );
+    toast.setAttribute( 'role', 'alert' );
+    toast.className = `alert alert-${level} alert-dismissible fade show`;
+
+    toastClose.textContent = "X";
+    toastClose.className = "close";
+    toastClose.setAttribute( 'data-dismiss', 'alert' );
+    toastClose.setAttribute( 'aria-label', 'Close' );
+    toast.appendChild( toastClose );
+
+    toastMessage.textContent = message;
+    toast.appendChild( toastMessage );
+
+    document.querySelector( "div[id='toasts']" )
+      .appendChild( toast );
+  }
+
+  /*************** spinner  *******************/
+  MyBlogApp.spinnerCount = 0;
+  MyBlogApp.spinnerOpts = {
+    lines: 5, // The number of lines to draw
+    length: 80, // The length of each line
+    width: 2, // The line thickness
+    radius: 22, // The radius of the inner circle
+    scale: 1.3, // Scales overall size of the spinner
+    corners: 1, // Corner roundness (0..1)
+    color: '#2ef9a1', // CSS color or array of colors
+    fadeColor: 'blue', // CSS color or array of colors
+    opacity: 0.35, // Opacity of the lines
+    rotate: 0, // The rotation offset
+    direction: -1, // 1: clockwise, -1: counterclockwise
+    speed: 1.6, // Rounds per second
+    trail: 100, // Afterglow percentage
+    fps: 20, // Frames per second when using setTimeout() as a fallback in IE 9
+    zIndex: 2e9, // The z-index (defaults to 2000000000)
+    className: 'spinner', // The CSS class to assign to the spinner
+    top: '50%', // Top position relative to parent
+    left: '50%', // Left position relative to parent
+    shadow: '10px', // Box-shadow for the lines
+    position: 'absolute' // Element positioning
+  };
+
+  MyBlogApp.spinnerTarget = document.getElementById( 'main-content' );
+  MyBlogApp.loadingTarget = document.getElementById( 'loading-screen' );
+  MyBlogApp.spinner = new Spinner( MyBlogApp.spinnerOpts );
+
+  MyBlogApp.spin = function() {
+    MyBlogApp.spinnerCount++;
+    if ( MyBlogApp.spinnerCount === 1 ) {
+      MyBlogApp.loadingTarget.style.display = 'block';
+      MyBlogApp.spinner.spin( MyBlogApp.spinnerTarget );
     }
+  }
 
-    MyBlogApp.setCookie = function(cname, cvalue, exdays) {
-        var d = new Date();
-        d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-        var expires = "expires=" + d.toUTCString();
-        document.cookie = cname + "=" + cvalue + ";" + expires + "; path=/";
+  MyBlogApp.spinStop = function() {
+    MyBlogApp.spinnerCount--;
+    if ( MyBlogApp.spinnerCount === 0 ) {
+      MyBlogApp.loadingTarget.style.display = 'none';
+      MyBlogApp.spinner.stop();
     }
+  }
 
-    MyBlogApp.clearCookie = function(cname) {
-        document.cookie = `${cname}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+  MyBlogApp.setCookie = function( cname, cvalue, exdays ) {
+    var d = new Date();
+    d.setTime( d.getTime() + ( exdays * 24 * 60 * 60 * 1000 ) );
+    var expires = "expires=" + d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + "; path=/";
+  }
+
+  MyBlogApp.clearCookie = function( cname ) {
+    document.cookie = `${cname}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+  }
+
+  MyBlogApp.getCookie = function( cname ) {
+    var name = cname + "=";
+    var ca = document.cookie.split( ';' );
+    for ( var i = 0; i < ca.length; i++ ) {
+      var c = ca[ i ];
+      while ( c.charAt( 0 ) == ' ' ) {
+        c = c.substring( 1 );
+      }
+      if ( c.indexOf( name ) == 0 ) {
+        return c.substring( name.length, c.length );
+      }
     }
+    return "";
+  }
 
-    MyBlogApp.getCookie = function(cname) {
-        var name = cname + "=";
-        var ca = document.cookie.split(';');
-        for (var i = 0; i < ca.length; i++) {
-            var c = ca[i];
-            while (c.charAt(0) == ' ') {
-                c = c.substring(1);
-            }
-            if (c.indexOf(name) == 0) {
-                return c.substring(name.length, c.length);
-            }
-        }
-        return "";
+  MyBlogApp.checkCookie = function() {
+    const cookie = MyBlogApp.getCookie( "user" );
+    if ( cookie != "" ) {
+      MyBlogApp.user = JSON.parse( cookie );
+      let userSpan = document.getElementById( 'username' );
+      userSpan.textContent = MyBlogApp.user.username;
+      document.getElementById( 'userButton' )
+        .classList.remove( 'hidden' );
+      document.getElementById( 'logoutButton' )
+        .classList.remove( 'hidden' );
+      if ( document.location.href.indexOf( '/users/login' ) > -1 ||
+        document.location.href.indexOf( '/users/register' ) > -1 ) {
+        document.location.href = '/';
+      }
+    } else {
+      if ( document.location.href.indexOf( '/users/login' ) > -1 ||
+        document.location.href.indexOf( '/users/logout' ) > -1 ||
+        document.location.href.indexOf( '/users/register' ) > -1 ) {
+        return;
+      }
+      document.location.href = '/users/login';
     }
+  }
 
-    MyBlogApp.checkCookie = function() {
-        const cookie = MyBlogApp.getCookie("user");
-        if (cookie != "") {
-            MyBlogApp.user = JSON.parse(cookie);
-            let userSpan = document.getElementById('username');
-            userSpan.textContent = MyBlogApp.user.username;
-            document.getElementById('userButton').classList.remove('hidden');
-            document.getElementById('logoutButton').classList.remove('hidden');
-            if (document.location.href.indexOf('/users/login') > -1 ||
-                document.location.href.indexOf('/users/register') > -1) {
-                document.location.href = '/';
-            }
-        } else {
-            if (document.location.href.indexOf('/users/login') > -1 ||
-                document.location.href.indexOf('/users/logout') > -1 ||
-                document.location.href.indexOf('/users/register') > -1) {
-                return;
-            }
-            document.location.href = '/users/login';
-        }
+  MyBlogApp.modeCheck = function() {
+    const modeStatus = document.getElementById( 'modeStatus' )
+      .checked;
+    const mode = MyBlogApp.mode( modeStatus ? 'token' : 'cookie' );
+    const cookieLabel = document.getElementsByClassName( 'label-cookie' )[ 0 ];
+    const tokenLabel = document.getElementsByClassName( 'label-token' )[ 0 ];
+    cookieLabel.classList.remove( 'selected' );
+    tokenLabel.classList.remove( 'selected' );
+    mode === 'token' ? tokenLabel.classList.add( 'selected' ) : cookieLabel.classList.add( 'selected' );
+  }
+
+  MyBlogApp.login = function( data ) {
+    MyBlogApp.setCookie( 'user', JSON.stringify( data.user ), 1 );
+    MyBlogApp.token( data.token );
+  }
+
+  MyBlogApp.logout = function() {
+    MyBlogApp.clearCookie( 'user' );
+    MyBlogApp.token( null );
+    setTimeout( function() {
+      document.location.href = '/users/logout';
+    }, 200 );
+  }
+
+  MyBlogApp.token = function( tok ) {
+    if ( tok ) {
+      storage.setItem( JWTKEY, tok );
+    } else if ( tok === null ) {
+      storage.removeItem( JWTKEY );
     }
+    return storage.getItem( JWTKEY );
+  }
 
-    MyBlogApp.login = function(user) {
-        MyBlogApp.setCookie('user', JSON.stringify(user), 1);
+  MyBlogApp.mode = function( mod ) {
+    if ( mod ) {
+      session.setItem( MODEKEY, mod );
+    } else if ( mod === null ) {
+      session.removeItem( MODEKEY );
     }
+    return session.getItem( MODEKEY );
+  }
 
-    MyBlogApp.logout = function() {
-        MyBlogApp.clearCookie('user');
-        setTimeout(function() {
-            document.location.href = '/users/logout';
-        }, 200);
+  MyBlogApp.useApi = function() {
+    return MyBlogApp.mode() === 'token';
+  }
 
-    }
+  // run startup functions
+  MyBlogApp.checkCookie();
+  document.getElementById( 'logoutButton' )
+    .addEventListener( 'click', ( e ) => {
+      MyBlogApp.logout();
+    } );
 
+  document.getElementById( 'modeStatus' )
+    .addEventListener( 'click', ( e ) => {
+      MyBlogApp.modeCheck();
+    } );
 
-
-
-
-
-
-    // run startup functions
-    MyBlogApp.checkCookie();
-    document.getElementById('logoutButton').addEventListener('click', function(e) {
-        MyBlogApp.logout();
-    });
-}());
+  // setup mode status on startup
+  document.getElementById( 'modeStatus' )
+    .checked = session.getItem( MODEKEY ) === 'token';
+  MyBlogApp.modeCheck();
+}() );
