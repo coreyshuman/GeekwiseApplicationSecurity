@@ -3,13 +3,16 @@
 let MyBlogApp = {};
 ( function() {
   'use strict';
-  const session = window.sessionStorage;
+  const sessionStorage = window.sessionStorage;
   const storage = window.localStorage;
   const MODEKEY = 'AppMode';
   const JWTKEY = 'AppJwtToken';
+  const SESSIONCOOKIE = 'session';
 
+  MyBlogApp.user = null;
+  MyBlogApp.tok = null;
   MyBlogApp.apiUrl = 'http://localhost:3000/api';
-  MyBlogApp.request = function( method, url, payload, handler ) {
+  MyBlogApp.apiRequest = function( method, url, payload, handler ) {
     const xhr = new XMLHttpRequest();
     if ( !handler && typeof payload === 'function' ) {
       handler = payload;
@@ -59,51 +62,6 @@ let MyBlogApp = {};
       .appendChild( toast );
   }
 
-  /*************** spinner  *******************/
-  MyBlogApp.spinnerCount = 0;
-  MyBlogApp.spinnerOpts = {
-    lines: 5, // The number of lines to draw
-    length: 80, // The length of each line
-    width: 2, // The line thickness
-    radius: 22, // The radius of the inner circle
-    scale: 1.3, // Scales overall size of the spinner
-    corners: 1, // Corner roundness (0..1)
-    color: '#2ef9a1', // CSS color or array of colors
-    fadeColor: 'blue', // CSS color or array of colors
-    opacity: 0.35, // Opacity of the lines
-    rotate: 0, // The rotation offset
-    direction: -1, // 1: clockwise, -1: counterclockwise
-    speed: 1.6, // Rounds per second
-    trail: 100, // Afterglow percentage
-    fps: 20, // Frames per second when using setTimeout() as a fallback in IE 9
-    zIndex: 2e9, // The z-index (defaults to 2000000000)
-    className: 'spinner', // The CSS class to assign to the spinner
-    top: '50%', // Top position relative to parent
-    left: '50%', // Left position relative to parent
-    shadow: '10px', // Box-shadow for the lines
-    position: 'absolute' // Element positioning
-  };
-
-  MyBlogApp.spinnerTarget = document.getElementById( 'main-content' );
-  MyBlogApp.loadingTarget = document.getElementById( 'loading-screen' );
-  MyBlogApp.spinner = new Spinner( MyBlogApp.spinnerOpts );
-
-  MyBlogApp.spin = function() {
-    MyBlogApp.spinnerCount++;
-    if ( MyBlogApp.spinnerCount === 1 ) {
-      MyBlogApp.loadingTarget.style.display = 'block';
-      MyBlogApp.spinner.spin( MyBlogApp.spinnerTarget );
-    }
-  }
-
-  MyBlogApp.spinStop = function() {
-    MyBlogApp.spinnerCount--;
-    if ( MyBlogApp.spinnerCount === 0 ) {
-      MyBlogApp.loadingTarget.style.display = 'none';
-      MyBlogApp.spinner.stop();
-    }
-  }
-
   MyBlogApp.setCookie = function( cname, cvalue, exdays ) {
     var d = new Date();
     d.setTime( d.getTime() + ( exdays * 24 * 60 * 60 * 1000 ) );
@@ -130,24 +88,53 @@ let MyBlogApp = {};
     return "";
   }
 
-  MyBlogApp.checkCookie = function() {
-    const cookie = MyBlogApp.getCookie( "user" );
-    if ( cookie != "" ) {
-      MyBlogApp.user = JSON.parse( cookie );
-      let userSpan = document.getElementById( 'username' );
-      userSpan.textContent = MyBlogApp.user.username;
-      document.getElementById( 'userButton' )
-        .classList.remove( 'hidden' );
-      document.getElementById( 'logoutButton' )
-        .classList.remove( 'hidden' );
-      if ( document.location.href.indexOf( '/users/login' ) > -1 ||
-        document.location.href.indexOf( '/users/register' ) > -1 ) {
-        document.location.href = '/';
+  MyBlogApp.isInsecurePage = function() {
+    const loc = document.location.href;
+    const insecure = [
+      '/users/login',
+      '/users/logout',
+      '/users/register',
+      '/error/'
+    ];
+    for ( let i = 0; i < insecure.length; i++ ) {
+      if ( loc.indexOf( insecure[ i ] ) >= 0 ) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  MyBlogApp.checkSession = function() {
+    let session = null;
+    try {
+      session = atob( MyBlogApp.getCookie( 'session' ) );
+    } catch ( e ) {
+      console.log( e );
+    }
+    if ( session != "" ) {
+      try {
+        session = JSON.parse( session );
+        MyBlogApp.user = JSON.parse( session.user );
+        if ( MyBlogApp.user.id !== MyBlogApp.parseJwt( MyBlogApp.token() )
+          .id ) {
+          throw new Error( 'Ids dont match.' );
+        }
+        let userSpan = document.getElementById( 'username' );
+        userSpan.textContent = MyBlogApp.user.username;
+        document.getElementById( 'userButton' )
+          .classList.remove( 'hidden' );
+        document.getElementById( 'logoutButton' )
+          .classList.remove( 'hidden' );
+        if ( document.location.href.indexOf( '/users/login' ) > -1 ||
+          document.location.href.indexOf( '/users/register' ) > -1 ) {
+          document.location.href = '/';
+        }
+      } catch ( e ) {
+        console.log( e );
+        MyBlogApp.logout();
       }
     } else {
-      if ( document.location.href.indexOf( '/users/login' ) > -1 ||
-        document.location.href.indexOf( '/users/logout' ) > -1 ||
-        document.location.href.indexOf( '/users/register' ) > -1 ) {
+      if ( MyBlogApp.isInsecurePage() ) {
         return;
       }
       document.location.href = '/users/login';
@@ -165,16 +152,26 @@ let MyBlogApp = {};
     mode === 'token' ? tokenLabel.classList.add( 'selected' ) : cookieLabel.classList.add( 'selected' );
   }
 
+  MyBlogApp.parseJwt = function( token ) {
+    try {
+      var base64Url = token.split( '.' )[ 1 ];
+      var base64 = base64Url.replace( '-', '+' )
+        .replace( '_', '/' );
+      return JSON.parse( atob( base64 ) );
+    } catch ( e ) {
+      return null;
+    }
+  }
+
   MyBlogApp.login = function( data ) {
-    MyBlogApp.setCookie( 'user', JSON.stringify( data.user ), 1 );
     MyBlogApp.token( data.token );
   }
 
-  MyBlogApp.logout = function() {
-    MyBlogApp.clearCookie( 'user' );
+  MyBlogApp.logout = function( m ) {
+    MyBlogApp.session( null );
     MyBlogApp.token( null );
     setTimeout( function() {
-      document.location.href = '/users/logout';
+      document.location.href = '/users/logout' + ( m ? `?m=${m}` : '' );
     }, 200 );
   }
 
@@ -187,21 +184,30 @@ let MyBlogApp = {};
     return storage.getItem( JWTKEY );
   }
 
+  /// Read or clear the session
+  MyBlogApp.session = function( dat ) {
+    if ( dat === null ) {
+      MyBlogApp.clearCookie( SESSIONCOOKIE );
+    }
+    return MyBlogApp.getCookie( SESSIONCOOKIE );
+  }
+
   MyBlogApp.mode = function( mod ) {
     if ( mod ) {
-      session.setItem( MODEKEY, mod );
+      sessionStorage.setItem( MODEKEY, mod );
     } else if ( mod === null ) {
-      session.removeItem( MODEKEY );
+      sessionStorage.removeItem( MODEKEY );
     }
-    return session.getItem( MODEKEY );
+    return sessionStorage.getItem( MODEKEY );
   }
 
   MyBlogApp.useApi = function() {
     return MyBlogApp.mode() === 'token';
   }
 
-  // run startup functions
-  MyBlogApp.checkCookie();
+  // *****************************************
+  // Functions to run at startup.
+  // *****************************************
   document.getElementById( 'logoutButton' )
     .addEventListener( 'click', ( e ) => {
       MyBlogApp.logout();
@@ -214,6 +220,27 @@ let MyBlogApp = {};
 
   // setup mode status on startup
   document.getElementById( 'modeStatus' )
-    .checked = session.getItem( MODEKEY ) === 'token';
+    .checked = MyBlogApp.mode() === 'token';
   MyBlogApp.modeCheck();
+
+  // keep token and session cookie in sync
+  if ( MyBlogApp.token() ) {
+    MyBlogApp.tok = MyBlogApp.parseJwt( MyBlogApp.token() );
+    if ( !MyBlogApp.tok || !MyBlogApp.tok.exp || Date.now() / 1000 > MyBlogApp.tok.exp ) {
+      console.log( 'expired token.' );
+      MyBlogApp.logout( 'expired' );
+      return;
+    }
+  } else {
+    MyBlogApp.session( null );
+  }
+
+  if ( MyBlogApp.session() ) {
+    const sesdata = MyBlogApp.session();
+  } else {
+    MyBlogApp.token( null );
+  }
+
+  MyBlogApp.checkSession();
+
 }() );

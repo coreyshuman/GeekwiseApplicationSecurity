@@ -11,9 +11,11 @@ block content
         div(class='form-group')
           label(for='inputPassword' class='col-form-label') Password
           input(type='password' class='form-control' id='inputPassword' name='password')
-        input(type='submit' class='btn btn-primary')
+          input(type='hidden' class='form-control' id='_csrf' name='_csrf' value='#{csrfToken}')
+        input(type='submit' class='btn btn-primary' id='loginSubmit')
         a(class='float-right' href='/users/register') Create Account
           
 
 block append scripts
   script(src='/javascripts/login.js')
+  

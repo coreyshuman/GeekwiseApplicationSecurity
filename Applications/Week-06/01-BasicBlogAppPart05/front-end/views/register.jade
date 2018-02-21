@@ -15,18 +15,6 @@ block content
         div(class='form-group')
           label(for='inputPassword' class='col-form-label') Password
           input(type='password' class='form-control' id='inputPassword' name='password')
+          input(type='hidden' class='form-control' id='_csrf' name='_csrf' value='#{csrfToken}')
         input(type='submit' class='btn btn-primary')
 
-
-block append scripts
-  script.
-    const error = '#{error}';
-    const message = '#{message}';
-
-    if(error) {
-      MyBlogApp.toast('danger', error);
-    }
-
-    if(message) {
-      MyBlogApp.toast('success', message);
-    }

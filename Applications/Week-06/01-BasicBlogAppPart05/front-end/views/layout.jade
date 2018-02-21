@@ -4,6 +4,7 @@ html
     title= title
     link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css')
     link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='shortcut icon', href='/favicon.ico', type='image/x-icon')
   body
     div(id='navigation').
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -42,3 +43,15 @@ html
       script(src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js')
       script(src='/javascripts/spin.js')
       script(src='/javascripts/common.js')
+      script(src='/javascripts/spinner.js')
+      script.
+        const error = "#{error}";
+        const message = "#{message}";
+
+        if(error) {
+          MyBlogApp.toast('danger', error);
+        }
+
+        if(message) {
+          MyBlogApp.toast('success', message);
+        }

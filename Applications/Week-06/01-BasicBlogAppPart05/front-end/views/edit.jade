@@ -20,17 +20,6 @@ block content
 
 block append scripts
   script.
-    const error = "#{error}";
-    const message = "#{message}";
-
-    if(error) {
-      MyBlogApp.toast('danger', error);
-    }
-
-    if(message) {
-      MyBlogApp.toast('success', message);
-    }
-
     if(document.getElementById('id').value > 0) {
       document.querySelector('.btn-danger').classList.remove('hidden');
     }

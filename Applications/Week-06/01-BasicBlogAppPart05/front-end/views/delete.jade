@@ -8,6 +8,7 @@ block content
         div(class='form-group')
           label(for='inputTitle' class='col-form-label') Title
           input(type='hidden' class='form-control' name='id' value='#{id}')
+          input(type='hidden' class='form-control' id='_csrf' name='_csrf' value='#{csrfToken}')
           input(type='text' class='form-control' id='inputTitle' name='title' value='#{title}' readonly)
         div(class='form-group')
           label(for='inputPost' class='col-form-label') Post
@@ -17,15 +18,3 @@ block content
         input(type='submit' class='btn btn-danger' value='Delete Post')
         a(class='btn btn-light' href='/') Cancel
 
-block append scripts
-  script.
-    const error = "#{error}";
-    const message = "#{message}";
-
-    if(error) {
-      MyBlogApp.toast('danger', error);
-    }
-
-    if(message) {
-      MyBlogApp.toast('success', message);
-    }

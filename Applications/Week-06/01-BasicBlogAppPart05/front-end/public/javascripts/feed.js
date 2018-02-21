@@ -10,7 +10,7 @@
 
     if ( MyBlogApp.useApi() ) {
       console.log( 'GET using API' );
-      MyBlogApp.request( 'GET', `/post?order=${order}&by=${by}`, ( status, payload ) => {
+      MyBlogApp.apiRequest( 'GET', `/post?order=${order}&by=${by}`, ( status, payload ) => {
         console.log( status, payload );
         MyBlogApp.spinStop();
         if ( status === 200 ) {
