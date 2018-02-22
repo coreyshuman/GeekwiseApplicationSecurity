@@ -21,7 +21,7 @@
           <p class="text-center header-text bold">Application Security and Hardening</p>
           <p class="text-center header-text">Geekwise Academy</p>
           <br>
-          <p class="text-center header-subtext italic">Week 6 - Authorization Continued</p>
+          <p class="text-center header-subtext italic">Week 6 - Authorization Continued and Server Hardening</p>
           <br>
           <p class="text-center header-subtext bold">Instructors:</p>
           <p class="text-center header-subtext">Corey Shuman</p>
@@ -100,7 +100,6 @@
             </ul>
           </div>
 
-          <hr>
           <div class='outline'>
             <h1>In Class Lab Assignment</h1>
             <p>The application is currently wired up to work on a single server using cookies and form submits. We will work
@@ -108,7 +107,103 @@
               API server.
             </p>
           </div>
+
+          <br>
+          <hr>
+          <h1>Application Hardening - Best Practices</h1>
+          <p>In this section, we will look at a variety of tools and settings we can use to harden our application against common
+            vulnerabilities. We will use the [ExpressJS Best Practice Security](https://expressjs.com/en/advanced/best-practice-security.html)
+            resource as a starting point.
+          </p>
+
+          <p>When using ExpressJS, the "easy" solution is to install [Helmet](https://www.npmjs.com/package/helmet), which is
+            a collection of smaller middleware functions designed to secure a web app. We will look at some of those smaller
+            functions in detail today so that we understand the underlying vulnerabilities and their accompanying solutions.
+          </p>
+
+          <h2>Content Security Policy</h2>
+          <p>[Reference](https://content-security-policy.com/)</p>
+          <p>[Browser Test](https://content-security-policy.com/browser-test/)</p>
+          <p>The `Content-Security-Policy` is a fairly new HTTP response header which allows us to reduce the risk of XSS on
+            modern broswers by declaring what dynamic resources are allowed to load. The header value is made up of one or
+            more directives separated with a semicolon `;`. The reference above provides a full list of all CSP directives.
+            The following example is a good starting place for most apps:
+          </p>
+          <script type='template/code' class='javascript'>default-src 'none'; script-src 'self'; connect-src 'self'; img-src 'self'; style-src 'self';</script>
+          <p>This example allows images, scripts, AJAX, and CSS from the same origin, and does not allow any other resources
+            to load.</p>
+
+          <h2>X-Powered-By Header</h2>
+          <p>The `X-Powered-By` header can allow hackers to target specific vulnerabilities of our server framework if we declare
+            which server we are using in the header. Disabling this header provides us some [security through obscurity](https://en.wikipedia.org/wiki/Security_through_obscurity).
+            All we need in our code is the following:
+          </p>
+          <script type='template/code'>app.disable('x-powered-by');</script>
+
+          <h2>Cache-Control Header</h2>
+          <p>As Internet speeds and caps are increasing, security is taking precedence over caching and efficiency. If you have
+            old versions of HTML or Scripts cached on client machines, they could be left vulnerable long after you have
+            fixed a bug. The following four headers are used to disable most browser caching:
+          </p>
+          <script type='template/code' class='javascript'>
+            Cache-Control: no-store, no-cache, must-revalidate, proxy-revalidate
+            Pragma: no-cache
+            Expires: 0
+            Surrogate-Control: no-store
+          </script>
+          <p>This of course will negate the performace benefits of caching and may not be a good fit for all applications. As
+            an alternative, bundled resources can be cached and versioned by changing the name of the file when a new version
+            is released. This will inherently bust the cache and load the new file version. </p>
+          <p>More on that topic here: [Revving Filenames](http://www.stevesouders.com/blog/2008/08/23/revving-filenames-dont-use-querystring/)
+          </p>
+
+          <h2>X-XSS-Protection Header</h2>
+          <p>[Mozilla X-XSS-Protection Reference](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-XSS-Protection)</p>
+          <p>The `X-XSS-Protection` header stops pages from loading when they detect a reflected coss-site scripting (XSS) attack.
+            This was initially a feature of Internet Explorer, but Chrome and Safari have adopted the header.
+          </p>
+          <p>This feature has mostly been replaced by using strong Content-Security-Policy settings, but is still used commonly
+            to protect older browsers that don't yet support CSP.
+          </p>
+
+          <h2>Cookie Security Options</h2>
+          <p>Consider signing or encrypting cookies to ensure they are not tampered with. In our app, we use `cookie-session`
+            to sign our session cookie. Additionally, avoid using the default session cookie name as this can open our app
+            to target attacks. Instead use generic cookie names. For example:
+          </p>
+          <script type='template/code'>
+            var session = require('cookie-session')
+            app.set('trust proxy', 1) // trust first proxy
+            app.use(session({
+              secret: 's3cr3tp4ss',
+              name: 'sessionId' // this is the generic session name
+            }))
+          </script>
+          <p>As an aside, explanation of the `trust proxy` setting can be found here: [ExpressJS Behind Proxies](https://expressjs.com/en/guide/behind-proxies.html)</p>
+          <p>Set the following cookie options to enhance security:
+            <ul>
+              <li>**secure** - Ensures the browser only sends the cookie over HTTPS.</li>
+              <li>**httpOnly** - Ensures the cookie is sent only over HTTP(S), not client JavaScript, helping to protect against
+                cross-site scripting attacks.</li>
+              <li>**domain** - indicates the domain of the cookie; use it to compare against the domain of the server in which
+                the URL is being requested. If they match, then check the path attribute next.</li>
+              <li>**path** - indicates the path of the cookie; use it to compare against the request path. If this and domain
+                match, then send the cookie in the request.</li>
+              <li>**expires** - use to set expiration date for persistent cookies.</li>
+            </ul>
+          </p>
+
+          <div class='outline'>
+            <h2>In Class: Content-Security-Policy Project</h2>
+            <p>We will each build a simple test page to demonstrate a feature of CSP. Each person will work on a different protection
+              component in CSP. For example, `script-src`, `img-src`, or `style-src`. The goal is to build an injection based
+              around your specific component, then show how CSP rules can prevent the vulnerability from running. Use the
+              [CSP Browser Test](https://content-security-policy.com/browser-test/) for inspiration.
+            </p>
+          </div>
+
         </div>
+        <!-- End Col-->
       </div>
       <div class="row">
         <div class="col">

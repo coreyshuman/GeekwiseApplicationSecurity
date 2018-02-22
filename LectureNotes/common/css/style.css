@@ -90,3 +90,7 @@ blockquote.blockquote {
   border-left: .25rem solid rgb(140, 174, 187);
   margin-left: 20px;
 }
+
+span.bold {
+  font-weight: bold;
+}

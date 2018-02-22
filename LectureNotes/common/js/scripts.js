@@ -11,9 +11,19 @@ $( function() {
   } );
 
   // switch backticks to <code> block
-  source = source.replace( /`(.*)`/g, ( match, p1 ) => {
+  source = source.replace( /`(.*?)`/g, ( match, p1 ) => {
     p1 = safe_tags_replace( p1 );
     return `<code>${p1}</code>`;
+  } );
+
+  // switch double asterisks to <span class='bold'> block
+  source = source.replace( /\*\*(.*)\*\*/g, ( match, p1 ) => {
+    return `<span class='bold'>${p1}</span>`;
+  } );
+
+  // switch single asterisks to <em> block
+  source = source.replace( /\*(.*)\*/g, ( match, p1 ) => {
+    return `<em>${p1}</em>`;
   } );
 
   // todo - make this more efficient (currently rewrites whole DOM)
