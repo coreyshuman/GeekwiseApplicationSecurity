@@ -157,6 +157,19 @@
           <p>More on that topic here: [Revving Filenames](http://www.stevesouders.com/blog/2008/08/23/revving-filenames-dont-use-querystring/)
           </p>
 
+          <h2>X-Frame-Options Header</h2>
+          <p>The `X-Frame-Options` header restricts which sites put your site into an iframe. For example, on my site (`http://coreyshuman.com`)
+            I could include an iframe with `example.com`. The `X-Frame-Options` that `example.com` chooses will control whether
+            the iframe is allowed or not.
+          </p>
+          <p>`X-Frame-Options` has 3 options: `DENY`, `SAMEORIGIN`, and `ALLOW-FROM`. `DENY` will prevent your site from appearing
+            in any iframes. `SAMEORIGIN` will allow your site to be included in frames from the same origin. `ALLOW-FROM`
+            will let you pick specific domains that are allowed to include your site in an iframe.
+          </p>
+          <p>To test this, try including an iframe with `src='google.com'` on your site. Google's `X-Frame-Options` is set to
+            `SAMEORIGIN`, so the iframe will refuse to load.
+          </p>
+
           <h2>X-XSS-Protection Header</h2>
           <p>[Mozilla X-XSS-Protection Reference](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-XSS-Protection)</p>
           <p>The `X-XSS-Protection` header stops pages from loading when they detect a reflected coss-site scripting (XSS) attack.

@@ -18,6 +18,8 @@
 - Best Practice HTTP Header Settings
 
 ### Applications
-- [Week 05 - Insecure Blog App Part 5](../../Applications/Week-06/01-BasicBlogAppPart05)
+- [Week 06 - Insecure Blog App Part 5](../../Applications/Week-06/01-BasicBlogAppPart05)
   - A work-in-progress blogging application with basic user authentication and authorization
   - This week we've added authorization via cookies and tokens
+- [Week 06 - CSP Example](../../Applications/Week-06/02-CSPExample)
+  - This simple app demonstrates using the `Content-Security-Policy` to control what source is allowed in an iframe.

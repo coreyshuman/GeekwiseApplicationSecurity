@@ -1,0 +1,17 @@
+version: "3.3"
+
+services:
+  webapp:
+    image: "node:8"
+    env_file: .env
+    working_dir: /home/node/webapp
+    networks:
+      - appnet
+    ports:
+      - "8050:3000"
+    volumes:
+      - ./webapp:/home/node/webapp
+    entrypoint: "/home/node/webapp/scripts/entrypoint.sh"
+
+networks:
+  appnet:

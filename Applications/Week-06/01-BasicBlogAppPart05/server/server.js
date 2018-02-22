@@ -41,7 +41,9 @@ app.use( function( req, res, next ) {
 // JWT Authentication
 app.use( jwt( { secret: process.env.JWT_SECRET } )
   .unless( {
-    path: [ '/api/user/login', '/api/user/logout', '/api/user/register' ]
+    path: [ '/api/user/login',
+    '/api/user/logout',
+    '/api/user/register' ]
   } )
 );
 
