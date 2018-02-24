@@ -1,6 +1,6 @@
 # Basic Insecure Blogging Application Part 04
 ### Application Security And Hardening
-**Week 04** [View Lecture Notes](../../../LectureNotes/Week-05)
+**Week 05** [View Lecture Notes](../../../LectureNotes/Week-05)
 
 A work-in-progress blogging application that we will build up in the coming weeks. This application is the perfect platform for us to learn and practice application security fundamentals.
 This application uses Docker to run a database, API server, and web front-end in 3 separate containers.

@@ -1,0 +1,58 @@
+version: "3.3"
+
+services:
+  postgres:
+    build: ./database/postgres
+    image: appsec-postgres:03-01
+    env_file: .env
+    networks:
+      - dbnet
+      - migrationnet
+    ports:
+      - "5432:5432"
+  migrations:
+    image: "node:8"
+    env_file: .env
+    working_dir: /home/node/app/migration-manager
+    depends_on: 
+      - postgres
+    networks:
+      - migrationnet
+    volumes:
+      - ./database:/home/node/app
+    entrypoint: "/home/node/app/migration-manager/scripts/entrypoint.sh"
+  apiserver:
+    image: "node:8"
+    env_file: .env
+    working_dir: /home/node/server
+    depends_on: 
+      - postgres
+      - migrations
+    networks:
+      - dbnet
+      - appnet
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./server:/home/node/server
+    entrypoint: "/home/node/server/scripts/entrypoint.sh"
+  frontend:
+    image: "node:8"
+    env_file: .env
+    working_dir: /home/node/webapp
+    depends_on: 
+      - postgres
+      - migrations
+    networks:
+      - appnet
+      - dbnet
+    ports:
+      - "8080:3000"
+    volumes:
+      - ./front-end:/home/node/webapp
+    entrypoint: "/home/node/webapp/scripts/entrypoint.sh"
+
+networks:
+  dbnet:
+  appnet:
+  migrationnet:

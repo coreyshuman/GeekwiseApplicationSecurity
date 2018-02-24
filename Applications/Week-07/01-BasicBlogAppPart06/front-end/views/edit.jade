@@ -1,0 +1,25 @@
+extends layout
+
+block content
+  div(class='row justify-content-center align-items-center')
+    div(id='post-container' class='col-sm-8 border border-primary rounded py-3 bg-light')
+      form(id='post-form' action='/post/#{id}' method='post')
+        h1 #{mode}
+        div(class='form-group')
+          label(for='inputTitle' class='col-form-label') Title
+          input(type='hidden' class='form-control' id='id' name='id' value='#{id}')
+          input(type='hidden' class='form-control' id='_csrf' name='_csrf' value='#{csrfToken}')
+          input(type='text' class='form-control' id='inputTitle' name='title' value='#{title}')
+        div(class='form-group')
+          label(for='inputPost' class='col-form-label') Post
+          textarea(class='form-control' rows='5' id='inputPost' name='post') #{post}
+        div(class='form-group')
+          div Author: #{username} Post date: #{postdate} Edit date: #{editdate}
+        input(type='submit' class='btn btn-primary' value='#{submitButton}')
+        a(class='btn btn-danger hidden' href='/post/delete/#{id}') Delete Post
+
+block append scripts
+  script.
+    if(document.getElementById('id').value > 0) {
+      document.querySelector('.btn-danger').classList.remove('hidden');
+    }

@@ -1,0 +1,44 @@
+span.octicon {
+  display: inline-block;
+  vertical-align: text-top;
+
+  width: 1.1em;
+  height: 1.1em;
+  margin-right: .5em;
+}
+
+.oct-x {
+  -webkit-mask: url('/icons/x.svg') no-repeat 100% 100%;
+  mask: url('/icons/x.svg') no-repeat 100% 100%;
+}
+
+.oct-alert {
+  -webkit-mask: url('/icons/alert.svg') no-repeat 100% 100%;
+  mask: url('/icons/alert.svg') no-repeat 100% 100%;
+}
+
+.oct-edit {
+  -webkit-mask: url('/icons/pencil.svg') no-repeat 100% 100%;
+  mask: url('/icons/pencil.svg') no-repeat 100% 100%;
+}
+
+.oct-sync {
+  -webkit-mask: url('/icons/sync.svg') no-repeat 100% 100%;
+  mask: url('/icons/sync.svg') no-repeat 100% 100%;
+  mask-size: 80%;
+  -webkit-mask-size: 80%;
+}
+
+.btn-post-edit .octicon {
+  background-color: #00B7FF;
+}
+
+.btn-post-del .octicon {
+  background-color: red;
+}
+
+.btn-feed-sync .octicon {
+  background-color: rgb(110, 111, 114);
+  width: 32px;
+  height: 32px;
+}
