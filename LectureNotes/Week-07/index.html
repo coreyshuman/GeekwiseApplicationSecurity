@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ"
+      crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/vs2015.min.css">
+
+    <link rel="stylesheet" href="../common/css/style.css">
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <p class="text-center header-text bold">Application Security and Hardening</p>
+          <p class="text-center header-text">Geekwise Academy</p>
+          <br>
+          <p class="text-center header-subtext italic">Week 7 - Refresh Tokens, Roles, and Session Hijacking</p>
+          <br>
+          <p class="text-center header-subtext bold">Instructors:</p>
+          <p class="text-center header-subtext">Corey Shuman</p>
+          <p class="text-center header-subtext ta-name-full"></p>
+          <br>
+          <p class="text-center header-subtext bold">Slack Channel:</p>
+          <p class="text-center header-subtext"><a href="https://geekwise.slack.com/messages/C8SHHJQLU/">#application-security</a></p>
+          <p class="text-center header-subtext bold">Github Repo:</p>
+          <p class="text-center header-subtext"><a href="https://github.com/coreyshuman/GeekwiseApplicationSecurity">https://github.com/coreyshuman/GeekwiseApplicationSecurity</a></p>
+          <p class="text-center header-subtext bold">Lecture Notes:</p>
+          <p class="text-center header-subtext"><a href="http://coreyshuman.github.io/GeekwiseApplicationSecurity/LectureNotes">http://coreyshuman.github.io/GeekwiseApplicationSecurity/LectureNotes</a></p>
+          <hr><br>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <p class="header-subtext bold">Table of Contents:</p>
+          <ul id="table-of-contents"></ul>
+          <hr><br>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <h1>Thinking Critically - Some Security Articles</h1>
+          <h2>Article 1: Four Security Principles that Software Developers Should Follow</h2>
+          <p>[Article Link](https://dev.to/robdwaller/four-security-principles-that-software-developers-should-follow-24gi)</p>
+          <div class="outline">
+            <h3>Discussion: 4 Principles</h3>
+            <p>
+              <ul>
+                <li>Avoiding dogma and absolutism</li>
+                <li>"There is no such thing as security"</li>
+                <li>Understanding the threats</li>
+                <li>Implementing a proportionate solution</li>
+              </ul>
+            </p>
+          </div>
+
+          <h2>Article 2: Please Stop Using Local Storage</h2>
+          <p>[Article Link](https://dev.to/rdegges/please-stop-using-local-storage-1i04)</p>
+          <p>While this article goes against item 1 from our previous article (and was specifically called out for it), it is
+            a thought-provoking read. Now I certainly don't agree with the absolutist idea to abolish using Local Storage.
+            Angular recommends Local Storage as a potential place to [store tokens](https://blog.angular-university.io/angular-jwt-authentication/),
+            for example. But after reading this article, I decided we could better with our secure application.
+          </p>
+          <div class="outline">
+            <h3>Discussion: How can we harden our token storage?</h3>
+          </div>
+
+          <h1>Session Hijacking</h1>
+          <p>Let's look at why Local Storage could be a bad place for an access token. [Session Hijacking](https://www.owasp.org/index.php/Session_hijacking_attack)
+            is a type of attack where a malicious attacker is able steal or predict the session token to gain unauthorized
+            access to a Web Server. Common ways in which a session token could be compromised include:
+          </p>
+          <p>
+            <ul>
+              <li>Physical access to the machine</li>
+              <li>Predictable session token</li>
+              <li>Session Sniffing</li>
+              <li>Client-side attacks (XSS, malicous JS code, computer viruses, etc)</li>
+              <li>[Man-in-the-middle attack](https://www.owasp.org/index.php/Man-in-the-middle_attack)</li>
+              <li>[Man-in-the-browser attack](https://www.owasp.org/index.php/Man-in-the-browser_attack)</li>
+            </ul>
+          </p>
+          <p>For example, an external resource (such as jQuery from a CDN) could be hijacked and turned malicious, sending all
+            Local Storage variables to an attacker.</p>
+
+          <h1>Refresh Tokens</h1>
+          <p>[Auth0: Refresh Tokens](https://auth0.com/learn/refresh-tokens/)</p>
+          <p>A Refresh Token is a special kind of token that can be used to obtain a renewed access token —that allows accessing
+            a protected resource— at any time. You can request new access tokens until the refresh token is blacklisted.
+            Refresh tokens must be stored securely by an application because they essentially allow a user to remain authenticated
+            forever.
+          </p>
+
+          <h1>Security Stamp / Token Invalidation</h1>
+          <p>A security stamp is a piece of data used to verify and invalidate access tokens. It in used in the ASP.NET Identity
+            library. While I haven't seen it used by anyone else in NodeJS projects, I've started including it in my JWT
+            projects as a mechanism to invalidate old tokens. Similar to ASP.NET, I like to use a snapshot of the user's
+            credentials as the payload of this data. As a result, any time the user's credentials or access level changes,
+            the current tokens are invalidated.
+          </p>
+          <p>Security stamps also give you the ability to "log out everywhere" in your application.</p>
+
+          <h1>Roles and Access Level</h1>
+
+          <h1>Cross-Origin Resource Sharing (CORS)</h1>
+
+          <div class="outline">
+            <h1>Assigned Reading: Angular JWT Authentication</h1>
+            <p>[Angular University: Angular JWT Authentication](https://blog.angular-university.io/angular-jwt-authentication/)</p>
+          </div>
+        </div>
+        <!-- End Col-->
+      </div>
+      <div class="row">
+        <div class="col">
+          <br>
+          <hr>
+          <h1 class="header-subtext bold">Resources</h1>
+          <ul id="resources"></ul>
+        </div>
+      </div>
+    </div>
+
+    <!--Footer-->
+    <br><br>
+    <footer class="page-footer">
+      <div style="background-color: #b9b9b9;">
+        <!-- Copyright-->
+        <div class="footer-copyright">
+          <div class="container-fluid text-center">
+            &copy; 2017 -
+            <script type="text/javascript">
+                        document.write(new Date().getFullYear());
+                    </script>
+            <a href="https://geekwiseacademy.com">Geekwise Academy</a> &amp; <a href="http://coreyshuman.com">Corey Shuman</a>
+          </div>
+        </div>
+        <!--/.Copyright -->
+      </div>
+    </footer>
+    <!--/.Footer-->
+
+    <!-- jQuery first, then Tether, then Bootstrap JS. -->
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n"
+      crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
+      crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
+      crossorigin="anonymous"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    <script src="../common/js/scripts.js"></script>
+    <script src="../common/js/ta-name.js"></script>
+
+  </body>
+
+</html>

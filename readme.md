@@ -10,6 +10,7 @@ This is a 12 week (72 hour) course on Application Security covering a variety of
 - [Week 04 - Authentication and Authorization](./LectureNotes/Week-04)
 - [Week 05 - Authorization Cont. and Cross-Site Request Forgery (CSRF)](./LectureNotes/Week-05)
 - [Week 06 - Authorization Continued and Server Hardening](./LectureNotes/Week-06)
+- [Week 07 - Refresh Tokens, Roles, and Session Hijacking](./LectureNotes/Week-07)
 
 ### Applications
 - [Week 01 - Basic Insecure Web App Example](./Applications/Week-01/01-BasicInsecureWebApp)
@@ -34,3 +35,8 @@ This is a 12 week (72 hour) course on Application Security covering a variety of
   - This week we've added authorization via tokens
 - [Week 06 - CSP Example](./Applications/Week-06/02-CSPExample)
   - This simple app demonstrates using the `Content-Security-Policy` to control what source is allowed in an iframe.
+- [Week 07 - Insecure Blog App Part 6](../../Applications/Week-07/01-BasicBlogAppPart06)
+  - A work-in-progress blogging application with basic user authentication and authorization
+  - This week we've added authorization via cookies and tokens
+- [Week 07 - Payload RX](../../Applications/Week-07/02-PayloadRx)
+  - A special purpose app :)

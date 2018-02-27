@@ -15,3 +15,5 @@
 [Week 05 - Authorization Cont. and Cross-Site Request Forgery (CSRF)](./Week-05)
 
 [Week 06 - Authorization Cont. and Server Hardening](./Week-06)
+
+[Week 07 - Refresh Tokens, Roles, and Session Hijacking](./Week-07)
