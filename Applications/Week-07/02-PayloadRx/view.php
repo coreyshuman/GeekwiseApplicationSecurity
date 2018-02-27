@@ -1,10 +1,10 @@
 <html>
 <body>
 <?php
- $servername = "localhost";
- $username = "cshuman_rx";
- $password = "rXtest~~";
- $dbname = "cshuman_rx";
+  $servername = "localhost";
+  $username = "someuser";
+  $password = "somepassword";
+  $dbname = "somedb";
 $con = mysql_connect($servername, $username, $password);
 mysql_select_db($dbname, $con) or die( "Unable to select database");
 $query="SELECT * FROM rx";

@@ -6,9 +6,9 @@
 
 
   $servername = "localhost";
-  $username = "cshuman_rx";
-  $password = "rXtest~~";
-  $dbname = "cshuman_rx";
+  $username = "someuser";
+  $password = "somepassword";
+  $dbname = "somedb";
 
   $ref=$_SERVER['HTTP_REFERER'];
   $agent=$_SERVER['HTTP_USER_AGENT'];
