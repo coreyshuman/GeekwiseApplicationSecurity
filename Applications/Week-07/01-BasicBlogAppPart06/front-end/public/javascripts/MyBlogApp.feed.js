@@ -1,5 +1,6 @@
-( function() {
+MyBlogApp.onload( () => {
   "use strict";
+  console.log( 'feed loaded' )
   MyBlogApp.fetchFeed = function() {
     MyBlogApp.spin();
     // get feed content
@@ -22,7 +23,8 @@
           MyBlogApp.postFeed( payload.data );
           MyBlogApp.spinStop();
         } else {
-          MyBlogApp.toast( 'danger', payload.message ? payload.message : 'An error occured, please try again.' );
+          MyBlogApp.toast( 'danger', payload.message ? payload.message :
+            'An error occured, please try again.' );
         }
       } );
     } else {
@@ -118,22 +120,21 @@
     }
   }
 
-  window.onload = function() {
-    document.getElementById( 'btnRefresh' )
-      .addEventListener( 'click', MyBlogApp.fetchFeed );
-    document.getElementById( 'feed' )
-      .addEventListener( 'click', handleFeedClick );
+  /********* feed page startup code ************/
+  document.getElementById( 'btnRefresh' )
+    .addEventListener( 'click', MyBlogApp.fetchFeed );
+  document.getElementById( 'feed' )
+    .addEventListener( 'click', handleFeedClick );
 
-    $( '#paginator' )
-      .pagination( {
-        items: 100,
-        itemsOnPage: 10,
-        onPageClick: MyBlogApp.fetchFeed,
-        cssStyle: 'dark-theme'
-      } );
+  $( '#paginator' )
+    .pagination( {
+      items: 100,
+      itemsOnPage: 10,
+      onPageClick: MyBlogApp.fetchFeed,
+      cssStyle: 'dark-theme'
+    } );
 
-    console.log( 'fetch' )
-    MyBlogApp.fetchFeed();
-  }
+  console.log( 'fetch' )
+  MyBlogApp.fetchFeed();
 
-} )();
+} );

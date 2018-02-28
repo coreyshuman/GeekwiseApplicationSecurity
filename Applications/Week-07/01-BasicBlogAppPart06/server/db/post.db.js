@@ -13,7 +13,7 @@ class PostDb {
     return db.oneOrNone( query, params );
   }
 
-  static getAll( order, by ) {
+  static async getAll( order, by, pageLimit, page ) {
     let byParam = 'created_at';
     switch ( by ) {
       case 'Author':
@@ -26,11 +26,22 @@ class PostDb {
         byParam = 'title';
         break;
     }
+    const queryCount = `SELECT count(*) FROM ${TABLENAME} as "posts" ` +
+      `JOIN ${USERTABLE} as "users" on "posts"."user_id" = "users"."id" ` +
+      `WHERE "posts"."is_deleted"=false AND "users"."is_deleted"=false`;
+    const count = await db.one( queryCount, [], a => +a.count );
+
     const query = `SELECT "posts".*, users.username as username FROM ${TABLENAME} as "posts" ` +
       `JOIN ${USERTABLE} as "users" on "posts"."user_id" = "users"."id" ` +
-      `WHERE "posts"."is_deleted"=false AND "users"."is_deleted"=false ORDER BY ${byParam} ${order==='Descending' ? 'DESC' : 'ASC'}`;
-    console.log( query );
-    return db.any( query );
+      `WHERE "posts"."is_deleted"=false AND "users"."is_deleted"=false ORDER BY ${byParam} ${order==='Descending' ? 'DESC' : 'ASC'} ` +
+      `OFFSET $1 LIMIT $2`;
+    pageLimit = parseInt( pageLimit ) || 10;
+    page = parseInt( page ) || 1;
+    const params = [ ( page - 1 ) * pageLimit, pageLimit ];
+    console.log( query, params );
+    const data = await db.any( query, params );
+
+    return { count: count, pageLimit: pageLimit, page: page, posts: data };
   }
 
   static updateOne( id, data ) {

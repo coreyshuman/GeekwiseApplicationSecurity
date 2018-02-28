@@ -9,21 +9,44 @@ let MyBlogApp = {};
   const JWTKEY = 'AppJwtToken';
   const SESSIONCOOKIE = 'session';
 
+  MyBlogApp.loaded = false;
+  MyBlogApp.loadFunctions = [];
   MyBlogApp.user = null;
-  MyBlogApp.tok = null;
+  MyBlogApp.jwtToken = null;
+  MyBlogApp.tokenData = null;
+  MyBlogApp.refreshTokenOk = true;
   MyBlogApp.apiUrl = 'http://localhost:3000/api';
   MyBlogApp.apiRequest = function( method, url, payload, handler ) {
     const xhr = new XMLHttpRequest();
+    let retry = true;
     if ( !handler && typeof payload === 'function' ) {
       handler = payload;
       payload = null;
     }
 
     xhr.open( method, MyBlogApp.apiUrl + url );
+    if ( url === '/user/login' ) {
+      console.log( 'user credentials' )
+      xhr.withCredentials = true;
+    }
     xhr.setRequestHeader( 'Content-Type', 'application/json' );
     xhr.setRequestHeader( 'Authorization', `Bearer ${MyBlogApp.token()}` );
     xhr.onload = function() {
-      handler( xhr.status, JSON.parse( xhr.responseText ) );
+      // if access token expired, refresh
+      if ( xhr.status === 403 && MyBlogApp.refreshTokenOk ) {
+        MyBlogApp.getAccessToken( ( status ) => {
+          if ( status === true ) {
+            // try again with new access token
+            MyBlogApp.apiRequest( method, url, payload, handler );
+          } else {
+            // refresh token bad
+            MyBlogApp.refreshTokenOk = false;
+            handler( xhr.status, JSON.parse( xhr.responseText ) );
+          }
+        } )
+      } else {
+        handler( xhr.status, JSON.parse( xhr.responseText ) );
+      }
     };
     xhr.send( JSON.stringify( payload ) );
   }
@@ -40,6 +63,21 @@ let MyBlogApp = {};
     } else {
       return null;
     }
+  }
+
+  MyBlogApp.onload = function( func ) {
+    if ( MyBlogApp.loaded ) {
+      func();
+    } else {
+      MyBlogApp.loadFunctions.push( func );
+    }
+  }
+
+  MyBlogApp.finishLoading = function() {
+    MyBlogApp.loaded = true;
+    MyBlogApp.loadFunctions.forEach( ( func ) => {
+      func();
+    } );
   }
 
   MyBlogApp.toast = function( level, message ) {
@@ -163,10 +201,6 @@ let MyBlogApp = {};
     }
   }
 
-  MyBlogApp.login = function( data ) {
-    MyBlogApp.token( data.token );
-  }
-
   MyBlogApp.logout = function( m ) {
     MyBlogApp.session( null );
     MyBlogApp.token( null );
@@ -177,11 +211,32 @@ let MyBlogApp = {};
 
   MyBlogApp.token = function( tok ) {
     if ( tok ) {
-      storage.setItem( JWTKEY, tok );
+      MyBlogApp.jwtToken = tok;
     } else if ( tok === null ) {
-      storage.removeItem( JWTKEY );
+      MyBlogApp.jwtToken = null;
     }
-    return storage.getItem( JWTKEY );
+    return MyBlogApp.jwtToken;
+  }
+
+  // Attempts to retrieve and store access token. Returns result true/false
+  MyBlogApp.getAccessToken = function( callback ) {
+    const xhr = new XMLHttpRequest();
+
+    xhr.open( 'POST', MyBlogApp.apiUrl + '/user/token' );
+    xhr.setRequestHeader( 'Content-Type', 'application/json' );
+    xhr.withCredentials = true;
+    xhr.onload = function() {
+      if ( xhr.status === 200 ) {
+        console.log( JSON.parse( xhr.responseText )
+          .data.accessToken )
+        MyBlogApp.token( JSON.parse( xhr.responseText )
+          .data.accessToken );
+        callback( true );
+      } else {
+        callback( false );
+      }
+    };
+    xhr.send();
   }
 
   /// Read or clear the session
@@ -205,9 +260,55 @@ let MyBlogApp = {};
     return MyBlogApp.mode() === 'token';
   }
 
+  /*************** spinner  *******************/
+  MyBlogApp.spinnerCount = 0;
+  MyBlogApp.spinnerOpts = {
+    lines: 5, // The number of lines to draw
+    length: 80, // The length of each line
+    width: 2, // The line thickness
+    radius: 22, // The radius of the inner circle
+    scale: 1.3, // Scales overall size of the spinner
+    corners: 1, // Corner roundness (0..1)
+    color: '#2ef9a1', // CSS color or array of colors
+    fadeColor: 'blue', // CSS color or array of colors
+    opacity: 0.35, // Opacity of the lines
+    rotate: 0, // The rotation offset
+    direction: -1, // 1: clockwise, -1: counterclockwise
+    speed: 1.6, // Rounds per second
+    trail: 100, // Afterglow percentage
+    fps: 20, // Frames per second when using setTimeout() as a fallback in IE 9
+    zIndex: 2e9, // The z-index (defaults to 2000000000)
+    className: 'spinner', // The CSS class to assign to the spinner
+    top: '50%', // Top position relative to parent
+    left: '50%', // Left position relative to parent
+    shadow: '10px', // Box-shadow for the lines
+    position: 'absolute' // Element positioning
+  };
+
+  MyBlogApp.spinnerTarget = document.getElementById( 'main-content' );
+  MyBlogApp.loadingTarget = document.getElementById( 'loading-screen' );
+  MyBlogApp.spinner = new Spinner( MyBlogApp.spinnerOpts );
+
+  MyBlogApp.spin = function() {
+    MyBlogApp.spinnerCount++;
+    if ( MyBlogApp.spinnerCount === 1 ) {
+      MyBlogApp.loadingTarget.style.display = 'block';
+      MyBlogApp.spinner.spin( MyBlogApp.spinnerTarget );
+    }
+  }
+
+  MyBlogApp.spinStop = function() {
+    MyBlogApp.spinnerCount--;
+    if ( MyBlogApp.spinnerCount === 0 ) {
+      MyBlogApp.loadingTarget.style.display = 'none';
+      MyBlogApp.spinner.stop();
+    }
+  }
+
   // *****************************************
   // Functions to run at startup.
   // *****************************************
+  MyBlogApp.spin();
   document.getElementById( 'logoutButton' )
     .addEventListener( 'click', ( e ) => {
       MyBlogApp.logout();
@@ -223,24 +324,30 @@ let MyBlogApp = {};
     .checked = MyBlogApp.mode() === 'token';
   MyBlogApp.modeCheck();
 
-  // keep token and session cookie in sync
-  if ( MyBlogApp.token() ) {
-    MyBlogApp.tok = MyBlogApp.parseJwt( MyBlogApp.token() );
-    if ( !MyBlogApp.tok || !MyBlogApp.tok.exp || Date.now() / 1000 > MyBlogApp.tok.exp ) {
-      console.log( 'expired token.' );
-      MyBlogApp.logout( 'expired' );
-      return;
+  // get access token
+  MyBlogApp.getAccessToken( ( status ) => {
+    // keep token and session cookie in sync
+    if ( MyBlogApp.token() ) {
+      MyBlogApp.tokenData = MyBlogApp.parseJwt( MyBlogApp.token() );
+      if ( !MyBlogApp.tokenData || !MyBlogApp.tokenData.exp || Date.now() / 1000 > MyBlogApp.tokenData.exp ) {
+        console.log( 'expired token.' );
+        MyBlogApp.spinStop();
+        MyBlogApp.logout( 'expired' );
+        return;
+      }
+    } else {
+      MyBlogApp.session( null );
     }
-  } else {
-    MyBlogApp.session( null );
-  }
 
-  if ( MyBlogApp.session() ) {
-    const sesdata = MyBlogApp.session();
-  } else {
-    MyBlogApp.token( null );
-  }
+    if ( MyBlogApp.session() ) {
+      const sesdata = MyBlogApp.session();
+    } else {
+      MyBlogApp.token( null );
+    }
 
-  MyBlogApp.checkSession();
+    MyBlogApp.checkSession();
+    MyBlogApp.spinStop();
+    MyBlogApp.finishLoading();
+  } );
 
 }() );

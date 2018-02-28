@@ -1,14 +1,15 @@
 class User {
-    constructor(obj) {
-        obj && Object.assign(this, obj);
+  constructor( obj ) {
+    obj && Object.assign( this, obj );
 
-        // don't return user hash in object
-        delete this['password'];
-    }
+    // don't return these objects from db
+    delete this[ 'password' ];
+    delete this[ 'security_stamp' ];
+  }
 
-    toString() {
-        return ``;
-    }
+  toString() {
+    return ``;
+  }
 }
 
 module.exports = User;

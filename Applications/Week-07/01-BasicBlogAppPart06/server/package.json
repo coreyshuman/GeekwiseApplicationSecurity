@@ -10,7 +10,9 @@
     "author": "Corey Shuman (ctshumancode@gmail.com)",
     "license": "ISC",
     "dependencies": {
+        "atob": "^2.0.3",
         "bcryptjs": "^2.4.3",
+        "cookie-parser": "^1.4.3",
         "dotenv": "^4.0.0",
         "express": "^4.16.2",
         "express-jwt": "^5.3.0",
