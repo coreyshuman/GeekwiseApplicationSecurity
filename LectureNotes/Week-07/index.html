@@ -191,6 +191,20 @@
             <h1>Assigned Reading: Angular JWT Authentication</h1>
             <p>[Angular University: Angular JWT Authentication](https://blog.angular-university.io/angular-jwt-authentication/)</p>
           </div>
+
+          <div class="outline">
+            <h1>Homework: Implement Permissions</h1>
+            <p>Using the existing User, Role, and Permission tables, accomplish the following:</p>
+            <p>
+              <ul>
+                <li>Validate the `GET /post` action against the user's permissions</li>
+                <li>If the user has the matching permission from the Permission's table, the server can return the posts</li>
+                <li>If the user does not have the permission, return a 403 status</li>
+                <li>Hint: The `GET /post` permission is tied to the `subscriber` role</li>
+                <li>Hint: The user's roles and permissions can be found in the JWT Token (access token)</li>
+              </ul>
+            </p>
+          </div>
         </div>
         <!-- End Col-->
       </div>
