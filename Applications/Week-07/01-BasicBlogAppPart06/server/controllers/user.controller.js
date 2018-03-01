@@ -1,5 +1,7 @@
 const User = require( '../models/user.model' );
 const UserDb = require( '../db/user.db' );
+const RolesDb = require( '../db/roles.db' );
+const PermissionDb = require( '../db/permissions.db' );
 const TokenStoreDb = require( '../db/tokenStore.db' );
 const Common = require( './common' );
 const bcrypt = require( 'bcryptjs' );
@@ -257,11 +259,13 @@ class UserController {
     return refreshToken;
   }
 
-  static generateAccessToken( user ) {
+  static async generateAccessToken( user ) {
+    const rolesPermissions = await UserController.getUserRolesPermissions( user );
     return new Promise( ( resolve, reject ) => {
       jwt.sign( {
           id: user.id,
           username: user.username,
+          access: rolesPermissions,
           securityStamp: user.security_stamp
         },
         process.env.JWT_SECRET, { expiresIn: '30m' },
@@ -271,6 +275,12 @@ class UserController {
         }
       );
     } );
+  }
+
+  static async getUserRolesPermissions( user ) {
+    const roles = await RolesDb.getForUser( user.id );
+    const permissions = await PermissionDb.getForUser( user.id );
+    return { roles: roles, permission: permissions };
   }
 
   static async updateSecurityStamp( user ) {

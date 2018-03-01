@@ -96,6 +96,8 @@
             Refresh tokens must be stored securely by an application because they essentially allow a user to remain authenticated
             forever.
           </p>
+          <p>Here is the document I used to help me implement Refresh Tokens in our application: [Medium: Using Refresh Tokens](https://medium.com/hyphe/using-refresh-tokens-in-node-to-stay-authenticated-ad0c9d2b444f)
+          </p>
 
           <h1>Security Stamp / Token Invalidation</h1>
           <p>A security stamp is a piece of data used to verify and invalidate access tokens. It in used in the ASP.NET Identity
@@ -106,9 +108,84 @@
           </p>
           <p>Security stamps also give you the ability to "log out everywhere" in your application.</p>
 
-          <h1>Roles and Access Level</h1>
-
           <h1>Cross-Origin Resource Sharing (CORS)</h1>
+          <p>[OWASP: Testing CORS](https://www.owasp.org/index.php/Test_Cross_Origin_Resource_Sharing_(OTG-CLIENT-007))</p>
+          <p></p>
+
+          <p>[OWASP CORS Security Cheat Sheet](https://www.owasp.org/index.php/HTML5_Security_Cheat_Sheet#Cross_Origin_Resource_Sharing):</p>
+          <p>Cross Origin Resource Sharing (CORS) is a mechanism that allows browsers to support "cross-domain" requests in
+            a controlled, more secure manner. Starting with the XMLHttpRequest L2 API, browsers have gained the ability to
+            send requests to cross origins. CORS defines the protocol used between a web browser and a server to determine
+            whether a cross-orign request is allowed. It is important to note that CORS only affects how the <em>browser</em>            behaves. It does not have any effect on what or who the server will respond or send data to.
+          </p>
+          <p>The CORS specification mandates that for non simple requests, such as requests other than GET or POST or requests
+            that uses credentials, a pre-flight OPTIONS request must be sent in advance to check if the type of request will
+            have a bad impact on the data. The pre-flight request checks the methods, headers allowed by the server, and
+            if credentials are permitted, based on the result of the OPTIONS request, the browser decides whether the request
+            is allowed or not.</p>
+          <h2>CORS Headers</h2>
+          <p>CORS is defined using a series of headers sent in both the request and the response:</p>
+          <h3>Origin Access-Control-Allow-Origin</h3>
+          <p>The `Origin` header is always sent by the browser in a CORS request and indicates the origin of the request. The
+            `Origin` header can not be changed from JavaScript however relying on this header for Access Control checks is
+            not a good idea as it may be spoofed outside the browser, so you still need to check that application-level protocols
+            are used to protect sensitive data.</p>
+          <p>`Access-Control-Allow-Origin` is a response header used by a server to indicate which domains are allowed to read
+            the response. Based on the CORS W3 Specification it is up to the client to determine and enforce the restriction
+            of whether the client has access to the response data based on this header.</p>
+          <p>From a penetration testing perspective you should look for insecure configurations as for example using a `*` wildcard
+            as value of the `Access-Control-Allow-Origin` header that means all domains are allowed. Other insecure example
+            is when the server returns back the Origin header without any additional checks, what can lead to access of sensitive
+            data. Note that this configuration is very insecure, and is not acceptable in general terms, except in the case
+            of a public API that is intended to be accessible by everyone.</p>
+          <h3>Access-Control-Request-Method &amp; Access-Control-Allow-Method</h3>
+          <p>The `Access-Control-Request-Method` header is used when a browser performs a preflight `OPTIONS` request and let
+            the client indicate the request method of the final request. On the other hand, the `Access-Control-Allow-Method`
+            is a response header used by the server to describe the methods the clients are allowed to use.</p>
+          <h3>Access-Control-Request-Headers &amp; Access-Control-Allow-Headers</h3>
+          <p>These two headers are used between the browser and the server to determine which headers can be used to perform
+            a cross-origin request.</p>
+          <h3>Access-Control-Allow-Credentials</h3>
+          <p>This header as part of a preflight request indicates that the final request can include user credentials.</p>
+          <p>
+            <ul>
+              <li>Validate URLs passed to `XMLHttpRequest.open`. Current browsers allow these URLs to be cross domain; this behavior
+                can lead to code injection by a remote attacker. Pay extra attention to absolute URLs.</li>
+              <li>Ensure that URLs responding with `Access-Control-Allow-Origin: *` do not include any sensitive content or information
+                that might aid attacker in further attacks. Use the `Access-Control-Allow-Origin` header only on chosen URLs
+                that need to be accessed cross-domain. Don't use the header for the whole domain.</li>
+              <li>Allow only selected, trusted domains in the `Access-Control-Allow-Origin` header. Prefer whitelisting domains
+                over blacklisting or allowing any domain (do not use `*` wildcard nor blindly return the `Origin` header
+                content without any checks).</li>
+              <li>Keep in mind that CORS does not prevent the requested data from going to an unauthenticated location. It's
+                still important for the server to perform usual CSRF prevention.</li>
+              <li>While the RFC recommends a pre-flight request with the `OPTIONS` verb, current implementations might not perform
+                this request, so it's important that "ordinary" (`GET` and `POST`) requests perform any access control necessary.</li>
+              <li>Discard requests received over plain HTTP with HTTPS origins to prevent mixed content bugs.</li>
+              <li>Don't rely only on the Origin header for Access Control checks. Browser always sends this header in CORS requests,
+                but may be spoofed outside the browser. Application-level protocols should be used to protect sensitive data.</li>
+            </ul>
+          </p>
+          <p>View the OWASP link at the beginning of this section for examples of insecure/ vulnerable JavaScript code.</p>
+
+          <h1>Roles and Access Level</h1>
+          <p>In this class we will look at an approach to restricting system access called <em>role-based access control (RBAC)</em>.
+            An RBAC system is built around relationships between users, roles, and permissions. A user can have one or more
+            roles, and a role can allow one or more permissions. This system allows for simple user assignment, while being
+            flexible enough to support thousands of users and permissions.</p>
+          <p>In the table below, we see the simplified and actual structure of our roles system in the database. Each user can
+            have multiple roles, while each role belongs to multiple users. We call this a [many-to-many relationship](https://en.wikipedia.org/wiki/Many-to-many_(data_model)).
+            The roles and permission share a similar structure.
+          </p>
+          <p>To create this type of structure in our database, we need a way to associate our many users to many roles, and
+            many roles to many permissions. To do this, we use [associative tables](https://en.wikipedia.org/wiki/Associative_entity)
+            or *linking tables*.
+          </p>
+          <img src="../common/images/UserRoles.svg">
+          <p>For an example, a user could have the roles `subscriber` and `publisher`. The `subscriber` role could give them
+            access to the `view` method, while the `publisher` role could give them access to the `create`, `edit`, and `delete`
+            methods.
+          </p>
 
           <div class="outline">
             <h1>Assigned Reading: Angular JWT Authentication</h1>

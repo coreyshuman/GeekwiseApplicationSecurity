@@ -78,7 +78,7 @@ $( function() {
 
   source = document.getElementsByTagName( 'html' )[ 0 ].innerHTML;
   // add support for md style links
-  source = source.replace( /\[(.*?)]\((.*?)\)/g, ( match, p1, p2 ) => {
+  source = source.replace( /\[(.*)]\((.*)\)/g, ( match, p1, p2 ) => {
     return `<a href="${p2}">${p1}</a>`;
   } );
   // custom simple internal link format
