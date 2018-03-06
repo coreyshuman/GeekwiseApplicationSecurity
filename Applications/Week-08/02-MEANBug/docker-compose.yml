@@ -9,8 +9,8 @@ services:
       - "27018:27017"
   mongoseed:
     build: ./mongodb
-    links:
-      - mongodb
+    networks:
+      - appnet
   meanbug:
     image: "node:9"
     working_dir: /home/node/app
