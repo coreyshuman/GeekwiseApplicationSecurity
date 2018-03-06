@@ -1,0 +1,90 @@
+<HTML>
+	<head>
+		<title>Invoices</title>
+		<a href='/'>Home</a>
+		<a href='/about'>About</a>
+		<a href='/secure/manageInvoices'>Manage Invoices</a>
+		<a href='/logout'>Logout</a>
+		<script src='../angular.min.js'></script>
+		<script src='../angular-sanitize.min.js'></script>
+	</head>
+	<body ng-app='invoices' ng-controller='invoicesController'>
+		<h3>Query MEAN Bug Invoices</h3>
+		Submit a query to retrieve invoice data.<br>
+		<table>
+			<tr>
+				<td>Query By:</td>
+				<td><select ng-model='queryBy'>
+					<option value='id'>Invoice Id</option>
+					<option value='lName'>Last Name</option>
+				</select></td>
+			<tr>
+				<td>Query Param:</td>
+				<td><input type='text' name='queryInput' ng-model='queryInput'/></td>
+			<tr>
+				<td><button ng-click='query()'>Query</button></td>
+		</table>
+
+		<h3>Results</h3>
+		<table border=1>
+			<tr>
+				<th>ID
+				<th>Last Name
+				<th>First Name
+				<th>Item
+				<th>Quantity
+				<th>Price
+				<th>Total
+				<th>Paid
+				<th>Card Number
+			</tr>
+			<!-- for each item returned in the query, display the following -->
+			<tr ng-repeat='invoice in invoices'>
+			<td ng-bind='invoice.id'/>
+			<td ng-bind='invoice.lName'/>
+			<td ng-bind='invoice.fName'/>
+			<td ng-bind='invoice.item'/>
+			<td ng-bind='invoice.quantity'/>
+			<td>{{'$' + invoice.price}}</td>
+			<td>{{'$' + (invoice.price * invoice.quantity)}}</td>
+			<td ng-bind='invoice.paid'/>
+			<td ng-bind='invoice.ccn'/>
+			</tr>
+		<table>
+
+		<script>
+			var app = angular.module('invoices',['ngSanitize']).
+			controller('invoicesController', function($scope, $http, $sce){
+				$scope.queryBy = 'id';	//default
+				//when query button is clicked
+				$scope.query = function(){
+					//Angular AJAX request using $http service
+					$http({
+						method: 'POST',
+						url: '/secure/query',
+						/*
+						* Hint - To get query selector injection with Express
+						* and Angular $http (which submits JSON, you must change
+						* the content type to urlencoded and change body (using proxy).
+						* The param value[$gt] is parsed during query[id]=value
+						* and becomes query={"id":{"$gt":""}}
+						* Content-Type: application/x-www-form-urlencoded
+						* field=id&value[$gt]=
+						*/
+						data: {
+							value: $scope.queryInput,
+							field: $scope.queryBy
+						}
+					}).then(function success(response){
+						$scope.invoices = response.data;
+						//mask ccn value
+						for(var i = 0; i < $scope.invoices.length; i++){
+							var tmp = String($scope.invoices[i].ccn);
+							$scope.invoices[i].ccn = '************' + tmp.substring(tmp.length - 4);
+						}
+					});
+				}
+			});
+		</script>
+	</body>
+</HTML>

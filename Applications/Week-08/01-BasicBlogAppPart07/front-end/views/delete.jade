@@ -1,0 +1,20 @@
+extends layout
+
+block content
+  div(class='row justify-content-center align-items-center')
+    div(id='post-container' class='col-sm-8 border border-primary rounded py-3 bg-secondary')
+      form(id='post-form' action='/post/delete/#{id}' method='post')
+        h4(class='text-danger') Are you sure you want to delete this post?
+        div(class='form-group')
+          label(for='inputTitle' class='col-form-label') Title
+          input(type='hidden' class='form-control' name='id' value='#{id}')
+          input(type='hidden' class='form-control' id='_csrf' name='_csrf' value='#{csrfToken}')
+          input(type='text' class='form-control' id='inputTitle' name='title' value='#{title}' readonly)
+        div(class='form-group')
+          label(for='inputPost' class='col-form-label') Post
+          textarea(class='form-control' rows='5' id='inputPost' name='post' readonly) #{post}
+        div(class='form-group')
+          div Author: #{username} Post date: #{postdate} Edit date: #{editdate}
+        input(type='submit' class='btn btn-danger' value='Delete Post')
+        a(class='btn btn-light' href='/') Cancel
+

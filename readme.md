@@ -11,6 +11,7 @@ This is a 12 week (72 hour) course on Application Security covering a variety of
 - [Week 05 - Authorization Cont. and Cross-Site Request Forgery (CSRF)](./LectureNotes/Week-05)
 - [Week 06 - Authorization Continued and Server Hardening](./LectureNotes/Week-06)
 - [Week 07 - Refresh Tokens, Roles, and Session Hijacking](./LectureNotes/Week-07)
+- [Week 08 - NoSQL Injection and MEAN Stack Vulnerabilities](./LectureNotes/Week-08)
 
 ### Applications
 - [Week 01 - Basic Insecure Web App Example](./Applications/Week-01/01-BasicInsecureWebApp)
@@ -40,3 +41,5 @@ This is a 12 week (72 hour) course on Application Security covering a variety of
   - This week we've added authorization via cookies and tokens
 - [Week 07 - Payload RX](../../Applications/Week-07/02-PayloadRx)
   - A special purpose app :)
+- [Week 08 - Insecure Blog App Part 7](../../Applications/Week-08/01-BasicBlogAppPart07)
+  - A work-in-progress blogging application with basic user authentication and authorization

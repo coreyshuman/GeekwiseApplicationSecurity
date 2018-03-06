@@ -1,0 +1,61 @@
+extends layout
+
+block append stylesheets
+  link(rel='stylesheet', href='/stylesheets/simplePagination.css')
+
+block content
+  div(class='row justify-content-center align-items-center top-controls')
+    div(class='col-3')
+      a(class='btn btn-primary' href='/post') Create New Post
+    div(class='col-3')
+      
+    div(class='col-3')
+      select(class='form-control' id='orderBy' value='#{orderBy}')
+        - items = ['Title', 'Author', 'Created', 'Updated']
+        for item in items
+          option(value = item selected=orderBy == item) #{item}
+    div(class='col-3')
+      select(class='form-control' id='order' value='#{order}')
+        - items = ['Ascending', 'Descending']
+        for item in items
+          option(value = item selected=order == item) #{item}
+  div(class='row')
+    div(class='col-md-2 post-meta') 
+      span(id='viewCount')
+    div(class='col-md-8 paginate-container align-self-end')
+      div(id='paginator')
+    div(class='col-md-2 feed-right text-right')
+      a(class='btn-feed-sync' id='btnRefresh')
+        span(class="octicon oct-sync" aria-hidden="true") 
+    div(class='col-12')
+      hr
+  div(id='feed')
+  template(id='postTemplate')
+    div(class='row post-body')
+      div(class='col-12 post-title')
+        h2 {{title}}
+      div(class='col-12 post-content')
+        div {{post}}
+      div(class='col-3 post-meta')
+        label Author:&nbsp;
+        span {{author}}
+      div(class='col-3 post-meta')
+        label Created:&nbsp;
+        span {{created}}
+      div(class='col-3 post-meta')
+        div(class='post-updated hidden')
+          label Updated:&nbsp;
+          span {{updated}}
+      div(class='col-3 post-meta text-right user-controls')
+        a(class='btn-post-edit' data-type='edit' data-id='{{id}}')
+          span(class="octicon oct-edit" aria-hidden="true") 
+        a(class='btn-post-del' data-type='del' data-id='{{id}}') 
+          span(class="octicon oct-x" aria-hidden="true") 
+  template(id='postSpacer')
+    div(class='row')
+      div(class='col-12')
+        hr
+
+block append scripts
+  script(src='/javascripts/jquery.simplePagination.js')
+  script(src='/javascripts/MyBlogApp.feed.js')

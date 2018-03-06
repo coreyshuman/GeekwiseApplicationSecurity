@@ -17,3 +17,5 @@
 [Week 06 - Authorization Cont. and Server Hardening](./Week-06)
 
 [Week 07 - Refresh Tokens, Roles, and Session Hijacking](./Week-07)
+
+[Week 08 - NoSQL Injection and MEAN Stack Vulnerabilities](./Week-08)

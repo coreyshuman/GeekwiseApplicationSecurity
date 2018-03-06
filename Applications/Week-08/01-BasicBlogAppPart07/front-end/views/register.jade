@@ -1,0 +1,20 @@
+extends layout
+
+block content
+  div(class='row justify-content-center align-items-center')
+    div(id='register-container' class='col-sm-8 border border-primary rounded py-3 bg-light')
+      form(id='register-form' action='register' method='post')
+        h1 Register New Account
+        div(class='form-group')
+          label(for='inputEmail' class='col-form-label') Email
+          input(type='email' class='form-control' id='inputEmail' aria-describedby='email-help' name='email' value='#{email}')
+          small(id='email-help' class='form-text text-muted') We'll never share your email with anyone else.
+        div(class='form-group')
+          label(for='inputUsername' class='col-form-label') Username
+          input(type='text' class='form-control' id='inputUsername' name='username' value='#{username}')
+        div(class='form-group')
+          label(for='inputPassword' class='col-form-label') Password
+          input(type='password' class='form-control' id='inputPassword' name='password')
+          input(type='hidden' class='form-control' id='_csrf' name='_csrf' value='#{csrfToken}')
+        input(type='submit' class='btn btn-primary')
+

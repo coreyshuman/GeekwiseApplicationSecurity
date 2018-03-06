@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ"
+      crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/vs2015.min.css">
+
+    <link rel="stylesheet" href="../common/css/style.css">
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <p class="text-center header-text bold">Application Security and Hardening</p>
+          <p class="text-center header-text">Geekwise Academy</p>
+          <br>
+          <p class="text-center header-subtext italic">Week 8 - NoSQL Injection and MEAN Stack Vulnerabilities</p>
+          <br>
+          <p class="text-center header-subtext bold">Instructors:</p>
+          <p class="text-center header-subtext">Corey Shuman</p>
+          <p class="text-center header-subtext ta-name-full"></p>
+          <br>
+          <p class="text-center header-subtext bold">Slack Channel:</p>
+          <p class="text-center header-subtext"><a href="https://geekwise.slack.com/messages/C8SHHJQLU/">#application-security</a></p>
+          <p class="text-center header-subtext bold">Github Repo:</p>
+          <p class="text-center header-subtext"><a href="https://github.com/coreyshuman/GeekwiseApplicationSecurity">https://github.com/coreyshuman/GeekwiseApplicationSecurity</a></p>
+          <p class="text-center header-subtext bold">Lecture Notes:</p>
+          <p class="text-center header-subtext"><a href="http://coreyshuman.github.io/GeekwiseApplicationSecurity/LectureNotes">http://coreyshuman.github.io/GeekwiseApplicationSecurity/LectureNotes</a></p>
+          <hr><br>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <p class="header-subtext bold">Table of Contents:</p>
+          <ul id="table-of-contents"></ul>
+          <hr><br>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <h1>MongoDB Vulnerabilities</h1>
+          <p>NoSQL databases are a type of storage structure that use a mechanism other than the tabular relations used in relational
+            databases. As a result, these types of databases usually are not vulnerable to SQL injection. However that doesn't
+            mean they are inherently more secure. Instead they have their own vulnerabilities to contend with.
+          </p>
+          <p>MongoDB is one of the more popular NoSQL databases, and is a primary component of MEAN stack. As a result, we will
+            focus on MongoDB for our examples.</p>
+          <p>To start us off, here is the list of known vulnerabilities in MongoDB:</p>
+          <p>[MongoDB Vulnerability List](https://www.cvedetails.com/vulnerability-list/vendor_id-12752/product_id-25450/Mongodb-Mongodb.html)</p>
+
+          <p>Throughout this lecture, we will be using code and notes created by David Bohannon on the Synopsys.com blog.</p>
+          <p>[Bohannon: Preventing Common Vulnerabilties: Part 1](https://www.synopsys.com/blogs/software-security/preventing-common-mean-stack-vulnerabilities/)</p>
+          <p>[Bohannon: Source Code](https://github.com/dbohannon/MEANBug)</p>
+
+          <h2>Insecure Configuration</h2>
+          <p>Between Christmas 2016 and mid-January 2017, 28,000 public MongoDB installations were hacked due to insecure default
+            settings. MongoDB versions before 2.6.0 would, by default, be open to remote connections without requiring authentication.
+          </p>
+          <p>[The MongoDB Hack](https://snyk.io/blog/mongodb-hack-and-secure-defaults/)</p>
+
+          <h2>Query Selector Injection</h2>
+          <p>While MongoDB is not susceptible to SQL injection, it is vulnerable to a similar attack called Query Selector Injection.
+            MongoDB's query language uses special keywords such as `$where` and `$ne`. In a vulnerable implementation, it
+            is possible for an attacker to pass these parameters into API fields and manipulate the result, or worse.
+          </p>
+          <p>[OWASP: Testing for NoSQL Injection](https://www.owasp.org/index.php/Testing_for_NoSQL_injection)</p>
+
+          <h2>Security Checklist</h2>
+          <p>MongoDB supplies a security checklist which includes the following topics:</p>
+          <p>
+            <ul>
+              <li>Enable access control and enforce authentication</li>
+              <li>Configure role-based access control</li>
+              <li>Encrypt communication</li>
+              <li>Limit network expose</li>
+              <li>Audit system activity</li>
+              <li>Run MongoDB with a dedicated user</li>
+              <li>Request a Security Technical Implemeation Guide (where applicable)</li>
+              <li>Consider Security Standards Compliance</li>
+            </ul>
+          </p>
+          <p>[Security Checklist](https://docs.mongodb.com/manual/administration/security-checklist/)</p>
+
+
+          <h2>Mass Assignment</h2>
+          <p>[Mass Assignment Cheatsheet](https://www.owasp.org/index.php/Mass_Assignment_Cheat_Sheet)</p>
+          <p>Software frameworks sometime allow developers to automatically bind HTTP request parameters into program code variables
+            or objects to make using that framework easier on developers. This can sometimes cause harm. Attackers can sometimes
+            use this methodology to create new parameters that the developer never intended which in turn creates or overwrites
+            new variable or objects in program code that was not intended. This is called a mass assignment vulnerability.</p>
+          <p>Alternate names:</p>
+          <p>
+            <ul>
+              <li>**Mass Assignment**: Ruby on Rails, NodeJS</li>
+              <li>**Autobinding**: Spring MVC, ASP.NET MVC</li>
+              <li>**Object injection**: PHP</li>
+            </ul>
+          </p>
+          <p>To defend against this, we should use whitelisting, blacklisting, or a combinantion of the two to make sure sensitive
+            or unintended fields are not editable by external forces.</p>
+          <p>For MongoDB, we can use a Schema to define the expected structure of our objects. More on that can be found here:</p>
+          <p>[Mongoose](http://mongoosejs.com/docs/guide.html)</p>
+
+          <h1>Common Vulnerabilities in ExpressJS</h1>
+          <p>[Bohannon: Preventing Common Vulnerabilties: Part 2](https://www.synopsys.com/blogs/software-security/preventing-common-expressjs-mean-stack-vulnerabilities/)</p>
+          <p>[Bohannon: Preventing Common Vulnerabilties: Part 3](https://www.synopsys.com/blogs/software-security/preventing-common-expressjs-mean-stack-vulnerabilities-part2/)</p>
+
+          <h1>Common Vulnerabilities in Angular</h1>
+          <h2>AngularJS</h2>
+          <p>[Bohannon: Preventing Common Vulnerabilties: Part 4](https://www.synopsys.com/blogs/software-security/preventing-common-angularjs-vulnerabilities/)</p>
+          <h2>Angular 2+</h2>
+          <p>[Angular Security](https://angular.io/guide/security)</p>
+
+          <h1>Common Vulnerabilities in NodeJS</h1>
+          <p>[Bohannon: Preventing Common Vulnerabilties: Part 5](https://www.synopsys.com/blogs/software-security/nodejs-mean-stack-vulnerabilities/)</p>
+          <!-- End Col-->
+        </div>
+        <div class="row">
+          <div class="col">
+            <br>
+            <hr>
+            <h1 class="header-subtext bold">Resources</h1>
+            <ul id="resources"></ul>
+          </div>
+        </div>
+      </div>
+
+      <!--Footer-->
+      <br><br>
+      <footer class="page-footer">
+        <div style="background-color: #b9b9b9;">
+          <!-- Copyright-->
+          <div class="footer-copyright">
+            <div class="container-fluid text-center">
+              &copy; 2017 -
+              <script type="text/javascript">
+                        document.write(new Date().getFullYear());
+                    </script>
+              <a href="https://geekwiseacademy.com">Geekwise Academy</a> &amp; <a href="http://coreyshuman.com">Corey Shuman</a>
+            </div>
+          </div>
+          <!--/.Copyright -->
+        </div>
+      </footer>
+      <!--/.Footer-->
+
+      <!-- jQuery first, then Tether, then Bootstrap JS. -->
+      <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n"
+        crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
+        crossorigin="anonymous"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
+        crossorigin="anonymous"></script>
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+      <script src="../common/js/scripts.js"></script>
+      <script src="../common/js/ta-name.js"></script>
+
+  </body>
+
+</html>

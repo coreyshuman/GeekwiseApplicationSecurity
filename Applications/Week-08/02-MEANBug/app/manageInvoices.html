@@ -1,0 +1,123 @@
+<HTML>
+	<head>
+		<title>Manage Invoices</title>
+		<a href='/'>Home</a>
+		<a href='/about'>About</a>
+		<a href='/secure/invoices'>Query Invoices</a>
+		<a href='/secure/getLogs?file=logs.txt'>Logs</a>
+		<a href='/logout'>Logout</a>
+		<script src='../angular.min.js'></script>
+		<script src='../angular-sanitize.min.js'></script>
+		<script src='../angular-storage.js'></script>
+	</head>
+	<body ng-app='invoices' ng-controller='invoicesController'>
+		<h3>Manage MEAN Bug Invoices</h3>
+		Remove an invoice from the database.<br>
+		<table>
+			<tr>
+				<td>Invoice ID:</td>
+				<td><input type='text' name='queryInput' ng-model='queryInput'/></td>
+			<tr>
+				<td><button ng-click='remove()'>Remove</button></td>
+		</table>
+		<b ng-bind-html='removeResponse'></b><br>
+
+		Add an invoice to the database.<br>
+		<table>
+			<tr>
+				<td>ID
+				<td><input type='text' ng-model='new.id'>
+			<tr>
+				<td>Last Name
+				<td><input type='text' ng-model='new.lName'>
+			<tr>
+				<td>First Name
+				<td><input type='text' ng-model='new.fName'>
+			<tr>
+				<td>Item Desc.
+				<td><input type='text' ng-model='new.item'>
+			<tr>
+				<td>Quantity
+				<td><input type='text' ng-model='new.quantity'>
+			<tr>
+				<td>Price
+				<td><input type='text' ng-model='new.price'>
+			<tr>
+				<td>Total
+				<td><input type='text' ng-model='new.total'>
+			<tr>
+				<td>Paid
+				<td><select ng-model='new.paid'>
+					<option value=true>Yes</option>
+					<option value=false>No</option>
+				</select>
+			<tr>
+				<td>Credit Card #
+				<td><input type='text' ng-model='new.ccn'>
+			<tr>
+				<td><button ng-click='add()'>Add</button></td>
+		</table>
+		<b ng-bind='addResponse'></b><br>
+
+		<script>
+			var app = angular.module('invoices',['ngSanitize','angular-storage']).
+			config(function($sceProvider){
+				//disable $sce service - untrusted data rendered via ng-bind-html vuln. to XSS! 
+				$sceProvider.enabled(false);
+			}).
+			controller('invoicesController', function($scope, $http, $sce, store){
+				//when showLogs button is clicked
+				$scope.showLogs = function(){
+					console.log('TODO');
+				}	
+
+				//when remove button is clicked
+				$scope.remove = function(){
+					//Angular AJAX request using $http service
+					$http({
+						method: 'GET',
+						url: '/secure/removeInvoice?value='+$scope.queryInput
+					}).then(function success(response){
+						//bypassing $sce protection for response - rendered using ng-bind-html, XSS vulnerability!
+						//$scope.removeResponse = $sce.trustAsHtml(response.data);
+						$scope.removeResponse = response.data;
+						$scope.addResponse = null;
+						store.set('lastInvoiceRemoved', $scope.queryInput);
+					});
+				}
+
+				//when add button is clicked
+				$scope.add = function(){
+					var invoiceData = {
+						id: $scope.new.id,
+						lName: $scope.new.lName,
+						fName: $scope.new.fName,
+						item: $scope.new.item,
+						quantity: $scope.new.quantity,
+						price: $scope.new.price,
+						paid: $scope.new.paid,
+						ccn: $scope.new.ccn	
+					}
+					//Angular AJAX request using $http service
+					$http({
+						method: 'POST',
+						url: '/secure/addInvoice',
+						data: invoiceData 
+					}).then(function success(response){
+						$scope.addResponse = response.data;
+						$scope.new = null;
+						$scope.removeResponse = null;
+						$scope.queryInput= null;
+						//log to web storage
+						store.set('lastInvoiceAdded', invoiceData);
+					}, function err(err){
+						$scope.addResponse = 'Invoice not added: ' + err.data;
+						$scope.new = null;
+						$scope.removeResponse = null;
+						$scope.queryInput= null;
+					});
+				}
+			});
+		</script>
+	</body>
+</HTML>

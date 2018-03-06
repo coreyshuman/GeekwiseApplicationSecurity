@@ -1,0 +1,34 @@
+<HTML>
+	<head>
+		<script src='../jquery.min.js'></script>
+                <script src='../angular.min.js'></script>
+		<title>Login</title>
+	</head>
+	<body ng-app=''>
+		<h3>Login to Access the MEAN Bug Application</h3>
+		<form action='/login' method='POST'>
+			<table>
+				<tr>
+					<td>Username:</td><td><input type='text' name='user'/></td>
+				<tr>
+					<td>Password:</td><td><input type='text' name='pass'/></td>
+				<tr>
+					<td><input type='submit' value='Login'/></td>
+			</table>
+		</form>
+		<p id='message'></p>
+		<script>
+			//get params from URL
+			var params={};
+			window.location.search
+			  .replace(/[?&]+([^=&]+)=([^&]*)/gi, function(str,key,value) {
+			    params[key] = decodeURIComponent(value);
+			  });
+			//if user param, print message	
+			if(params['user']){
+				//using jQuery .text() only encodes HTML control characters, .html() encodes nothing 
+				$('#message').text("Failed authentication attempt for " + params['user'] + "!");
+			}	
+		</script>
+	</body>
+</HTML>
