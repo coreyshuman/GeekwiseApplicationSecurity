@@ -110,16 +110,84 @@
 
           <h1>Common Vulnerabilities in ExpressJS</h1>
           <p>[Bohannon: Preventing Common Vulnerabilties: Part 2](https://www.synopsys.com/blogs/software-security/preventing-common-expressjs-mean-stack-vulnerabilities/)</p>
+          <h2>ExpressJS: Stack Precendence</h2>
+          <p>The order of app middlewares in your Express applications is critical. In our MEANBug app, the `/secure/removeInvoice`
+            endpoint is implemented before the authentication check, therefore an unathenticated user can delete invoices.
+          </p>
+          <h2>ExpressJS: Case-insensitive routing</h2>
+          <p>When creating access rules based on routes, it is critical that your code is not case-sensitive. In MEANBug, all
+            routes beginning with `/secure` require the user to be logged in. However if I connecte with `/SECURE`, the authentication
+            middleware doesn't match the route, even though the endpoint handling code does!
+          </p>
           <p>[Bohannon: Preventing Common Vulnerabilties: Part 3](https://www.synopsys.com/blogs/software-security/preventing-common-expressjs-mean-stack-vulnerabilities-part2/)</p>
+          <h2>Client-Side Session Storage</h2>
+          <p>It is common in MEAN applications to store the session state client-side. This makes the application simpler and
+            more scalable, but makes it so that we can't invalidate the user's session easily or consistently. This can lead
+            to session replay or hijacking attacks. One way to mitigate this is to also do server-side session invalidation.
+            Look at last week's lecture for ideas on how we can use a security stamp to do this.
+          </p>
+          <h2>CSRF Protection</h2>
+          <p>We discussed CSRF protection in Week 05. We can use the `Csurf` module to protect our application. By default,
+            the module will not protect `GET`, `HEAD`, or `OPTION` methods. As we have discussed before, we should not put
+            state-modifying actions on `GET` methods. In this case, they would not be protected from CSRF. In MEANBug, the
+            `secure/removeInvoice` endpoint uses a `GET` method, which is insecure. We should consider switching it to use
+            `POST` for more security.
+          </p>
 
           <h1>Common Vulnerabilities in Angular</h1>
           <h2>AngularJS</h2>
           <p>[Bohannon: Preventing Common Vulnerabilties: Part 4](https://www.synopsys.com/blogs/software-security/preventing-common-angularjs-vulnerabilities/)</p>
+          <h3>XSS Protection</h3>
+          <p>By default, the SCE service strips malicious HTML tags, attributes, and URI protocols from data rended as HTML
+            with the `ng-bind-html` directive. If this is disabled using `$sceProvider.enabled(false)` it can leave our application
+            susceptible to script injections. It is important to leave the SCE service enabled. We should also use the `ng-bind`
+            directive when rendering data, as this will perform HTML encdoing on all malicious characters.
+          </p>
+          <h3>AngularJS Expression Injection</h3>
+          <p>Angular templates use the double curly braces to denote expressions that are evaluated by the Angular rendering
+            engine. We should make sure that users are not able to inject curly braces into a template. This can be used
+            to circumvent HTML sanitization. For example, on the MEANBug login screen, this url would not allow a script
+            to run:
+          </p>
+          <script type='template/code'>
+            http://localhost:9000/login?user=<script>alert(‘XSS_SUCCESS!’)</ script>
+          </script>
+          <p>However, by adding curly braces, we can get our XSS injection to work:</p>
+          <script type='template/code' class='xml'>
+            http://localhost:9000/login?user={{constructor.constructor(‘alert(“XSS_SUCCESS!”)’)()}}
+          </script>
+
           <h2>Angular 2+</h2>
           <p>[Angular Security](https://angular.io/guide/security)</p>
+          <p>For Angular 2+, let's take a look at Angular's own security guide page.</p>
 
           <h1>Common Vulnerabilities in NodeJS</h1>
           <p>[Bohannon: Preventing Common Vulnerabilties: Part 5](https://www.synopsys.com/blogs/software-security/nodejs-mean-stack-vulnerabilities/)</p>
+          <h2>Development Mode</h2>
+          <p>In development mode, NodeJS returns more rebose error messages which can leak information you don't want the public
+            to have. Make sure to set `NODE_ENV=production` on live servers, and double-check the NodeJS mode after deploying
+            a project. I like to have a page that shows project version and mode for this purpose.</p>
+
+          <h2>NodeJS Privileges</h2>
+          <p>On Unix systems, non-root users cannot bind to low-numbered ports. This means that NodeJS must be run as root to
+            bind to port 80. However, if we sudo to root to start our web server then our application will be running with
+            unnecessary privileges. To remedy this, invoke the process.setgid and process.setuid methods in the callback
+            function after binding to port 80 as shown below.</p>
+          <script type='template/code'>
+            app.listen(80, function(){
+              process.setgid('users');
+              process.setuid('db');
+            })
+          </script>
+          <p>[Special File Permissions](https://docs.oracle.com/cd/E19683-01/816-4883/secfile-69/index.html)</p>
+
+          <h2>Node Security Platform</h2>
+          <p>The Node Security Platform maintains a record of NodeJS plugins with known security issues. It can be installed
+            and ran using the following lines:</p>
+          <script type='template/code'>
+            npm install -g nsp 
+            nsp check
+          </script>
           <!-- End Col-->
         </div>
         <div class="row">
