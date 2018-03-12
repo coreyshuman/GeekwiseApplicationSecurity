@@ -19,3 +19,5 @@
 [Week 07 - Refresh Tokens, Roles, and Session Hijacking](./Week-07)
 
 [Week 08 - NoSQL Injection and MEAN Stack Vulnerabilities](./Week-08)
+
+[Week 09 - Encryption and SSL/TLS Certificates](./Week-09)

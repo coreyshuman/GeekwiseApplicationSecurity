@@ -1,0 +1,21 @@
+extends layout
+
+block content
+  div(class='row justify-content-center align-items-center')
+    div(id='login-container' class='col-sm-8 border border-primary rounded py-3 bg-light')
+      form(id='login-form' action='login' method='post')
+        div(class='form-group')
+          label(for='inputEmail' class='col-form-label') Email
+          input(type='email' class='form-control' id='inputEmail' aria-describedby='email-help' name='email')
+          small(id='email-help' class='form-text text-muted') We'll never share your email with anyone else.
+        div(class='form-group')
+          label(for='inputPassword' class='col-form-label') Password
+          input(type='password' class='form-control' id='inputPassword' name='password')
+          input(type='hidden' class='form-control' id='_csrf' name='_csrf' value='#{csrfToken}')
+        input(type='submit' class='btn btn-primary' id='loginSubmit')
+        a(class='float-right' href='/users/register') Create Account
+          
+
+block append scripts
+  script(src='/javascripts/MyBlogApp.login.js')
+  

@@ -1,0 +1,32 @@
+extends layout
+
+block content
+  h1= title
+  p Symmetric Encryption Sandbox
+  form(action='/', method='POST')
+    div
+      h2 AES-CTR 01
+      input(type="text", name="data1", value='#{data1}')
+      br
+      div !{data1Encrypted}
+      br
+    div
+      h2 AES-CTR 02
+      input(type="text", name="data2", value='#{data2}')
+      br
+      div !{data2Encrypted}
+      br
+    div
+      h2 AES-GCM 01
+      input(type="text", name="data3", value='#{data3}')
+      br
+      div !{data3Encrypted}
+      br
+    div
+      h2 AES-GCM 02
+      input(type="text", name="data4", value='#{data4}')
+      br
+      div !{data4Encrypted}
+      br
+    div
+      input(type="submit", value="submit")

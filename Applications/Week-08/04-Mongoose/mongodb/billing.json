@@ -1,0 +1,4 @@
+{ "_id" : { "$oid" : "58b4d6d9345657371a212957" }, "id" : "000001", "lName" : "Smith", "fName" : "John", "item" : "widgets", "quantity" : "100", "price" : "10", "paid" : "true", "ccn" : "9283745829103847" }
+{ "_id" : { "$oid" : "58b4dae3345657371a212958" }, "id" : "000002", "lName" : "Smith", "fName" : "Jane", "item" : "doodads", "quantity" : "1000", "price" : "10", "paid" : "true", "ccn" : "92875629102847" }
+{ "_id" : { "$oid" : "58b62a08158d8152e191f506" }, "id" : "000003", "lName" : "Doe", "fName" : "John", "item" : "widget", "quantity" : "100", "price" : "5", "paid" : "true", "ccn" : "28374910294758394" }
+{ "_id" : { "$oid" : "58b62fa0158d8152e191f507" }, "id" : "000004", "lName" : "Roberts", "fName" : "Alice", "item" : "doodads", "quantity" : "1000", "price" : "2", "paid" : "false", "ccn" : "283747291029729" }

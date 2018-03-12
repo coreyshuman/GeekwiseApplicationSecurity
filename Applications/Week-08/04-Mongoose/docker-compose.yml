@@ -1,0 +1,28 @@
+version: "3.3"
+
+services:
+  mongodb:
+    image: mongo
+    networks:
+      - appnet
+    ports:
+      - "27018:27017"
+  mongoseed:
+    build: ./mongodb
+    networks:
+      - appnet
+  meanbug:
+    image: "node:9"
+    working_dir: /home/node/app
+    depends_on: 
+      - mongodb
+    networks:
+      - appnet
+    ports:
+      - "9000:9000"
+    volumes:
+      - ./app:/home/node/app
+    entrypoint: "/home/node/app/docker-script/entrypoint.sh"
+
+networks:
+  appnet:
