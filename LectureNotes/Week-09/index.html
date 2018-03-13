@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ"
+      crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/vs2015.min.css">
+
+    <link rel="stylesheet" href="../common/css/style.css">
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <p class="text-center header-text bold">Application Security and Hardening</p>
+          <p class="text-center header-text">Geekwise Academy</p>
+          <br>
+          <p class="text-center header-subtext italic">Week 9 - Encryption and SSL/TLS Certificates</p>
+          <br>
+          <p class="text-center header-subtext bold">Instructors:</p>
+          <p class="text-center header-subtext">Corey Shuman</p>
+          <p class="text-center header-subtext ta-name-full"></p>
+          <br>
+          <p class="text-center header-subtext bold">Slack Channel:</p>
+          <p class="text-center header-subtext"><a href="https://geekwise.slack.com/messages/C8SHHJQLU/">#application-security</a></p>
+          <p class="text-center header-subtext bold">Github Repo:</p>
+          <p class="text-center header-subtext"><a href="https://github.com/coreyshuman/GeekwiseApplicationSecurity">https://github.com/coreyshuman/GeekwiseApplicationSecurity</a></p>
+          <p class="text-center header-subtext bold">Lecture Notes:</p>
+          <p class="text-center header-subtext"><a href="http://coreyshuman.github.io/GeekwiseApplicationSecurity/LectureNotes">http://coreyshuman.github.io/GeekwiseApplicationSecurity/LectureNotes</a></p>
+          <hr><br>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <p class="header-subtext bold">Table of Contents:</p>
+          <ul id="table-of-contents"></ul>
+          <hr><br>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <h1>Encryption</h1>
+          <p>[OWASP: Guide to Cryptography](https://www.owasp.org/index.php/Guide_to_Cryptography)</p>
+          <p>This week will we look into encryption. Any time you are storing sensitive data that your clients wouldn't want
+            make public, it is important to encrypt that data to protect it from leaks or hacks. We will start by learning
+            about the most common encryption methods in use today, then we will work on using encryption to secure our user's
+            information in the blogging app.
+          </p>
+
+          <h2>Types of Encryption</h2>
+          <p>**Symmetric Cryptography**</p>
+          <p>With Symmetric Cryptography, data is encrypted and decrypted with the same key. Some examples of symmetric algorithms:</p>
+          <p>
+            <ul>
+              <li>DES (weak)</li>
+              <li>3DES</li>
+              <li>AES</li>
+            </ul>
+          </p>
+
+          <p>**Asymmetric Cryptography**</p>
+          <p>Also called Public/Private Key Cryptography, asymmetric algorithms always have two keys, one to encrypt the data
+            and another to decrypt the data. One key is generally labeled the Public key and can be distributed. The other
+            key is the Private key and must be kept hidden.
+          </p>
+          <p>Examples:</p>
+          <ul>
+            <li>PGP</li>
+            <li>SSL</li>
+          </ul>
+
+          <p>**Hashes**</p>
+          <p>Hash functions take some data of an arbitrary length (and possibly a key or password) and generate a fixed-length
+            hash based on this input. Hash functions used in cryptography have the property that it is easy to calculate
+            the hash, but difficult or impossible to re-generate the original input if only the hash value is known. In addition,
+            hash functions useful for cryptography have the property that it is difficult to craft an initial input such
+            that the hash will match a specific desired value.</p>
+          <p>Examples:</p>
+          <ul>
+            <li>MD5 (weak)</li>
+            <li>SHA-1 (weak)</li>
+            <li>SHA-256</li>
+          </ul>
+
+          <p>**Key Exchange Algorithms**</p>
+          <p>Key exchange algorithms allow us to safely exchange encryption keys with unknown parties. Diffie-Hellman, used
+            in SSL certs, is an example.</p>
+
+
+          <h2>NodeJS Crypto</h2>
+          <p>NodeJS has a built-in cryptography library which we should rely on anytime we need encryption or true random numbers.
+            We can find the documentation here:</p>
+          <p>[NodeJS: Crypto](https://nodejs.org/api/crypto.html)</p>
+
+          <h2>Key Management</h2>
+          <p>[Wiki: Key Management](https://en.wikipedia.org/wiki/Key_management)</p>
+          <p>It is important for us to protect the data of our customers in the case of a server breach. We also need to assume
+            that the hacker will have lots of time to try and crack encrypted data if they manage to steal our database,
+            so we must use strong encryption with good practices. A big no-no is storing the secret keys in the same place
+            as the data. If we do this, then it is trivial for the hacker to decrypt the data. Instead, we must make it difficult
+            for anyone to get access to the secret keys, while still allowing our application to use the key.
+          </p>
+
+          <h2>Encrypting Database Fields</h2>
+          <p>[AWS: Field-Level Encryption](https://aws.amazon.com/blogs/security/how-to-enhance-the-security-of-sensitive-customer-data-by-using-amazon-cloudfront-field-level-encryption/)</p>
+
+          <p>**Our Encryption Sandbox:** (make sure the app is running)</p>
+          <p>[http://localhost:8080](http://localhost:8080)</p>
+
+          <div class='outline'>
+            <h3>In-Class: Additional Encryption</h3>
+            <p>Add new fields to the *Encryption Sandbox* and apply a different encryption method from the ones already used
+              to secure those fields.</p>
+            <p>Determine what are the advantages and disadvantages to the encryption method you selected.</p>
+          </div>
+
+          <h3>Additional Resources</h3>
+          <p>[A basic encryption strategy for storing sensitive data](https://www.itworld.com/article/2693828/data-protection/a-basic-encryption-strategy-for-storing-sensitive-data.html)</p>
+          <p>[Encrypting Sensitive Data in Your MongoDB Database](https://www.compose.com/articles/encrypting-sensitive-data-in-your-mongodb-database/)</p>
+
+          <div class='outline'>
+            <h3>Assignment: Apply AES-256-GCM Encryption</h3>
+            <p>In our Secure Blog application, add secure encryption to the post content.</p>
+          </div>
+
+          <h1>SSL/TLS Certificates</h1>
+          <p>(For Wednesday)</p>
+
+          <!-- End Col-->
+        </div>
+        <div class="row">
+          <div class="col">
+            <br>
+            <hr>
+            <h1 class="header-subtext bold">Resources</h1>
+            <ul id="resources"></ul>
+          </div>
+        </div>
+      </div>
+
+      <!--Footer-->
+      <br><br>
+      <footer class="page-footer">
+        <div style="background-color: #b9b9b9;">
+          <!-- Copyright-->
+          <div class="footer-copyright">
+            <div class="container-fluid text-center">
+              &copy; 2017 -
+              <script type="text/javascript">
+                        document.write(new Date().getFullYear());
+                    </script>
+              <a href="https://geekwiseacademy.com">Geekwise Academy</a> &amp; <a href="http://coreyshuman.com">Corey Shuman</a>
+            </div>
+          </div>
+          <!--/.Copyright -->
+        </div>
+      </footer>
+      <!--/.Footer-->
+
+      <!-- jQuery first, then Tether, then Bootstrap JS. -->
+      <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n"
+        crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
+        crossorigin="anonymous"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
+        crossorigin="anonymous"></script>
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+      <script src="../common/js/scripts.js"></script>
+      <script src="../common/js/ta-name.js"></script>
+
+  </body>
+
+</html>

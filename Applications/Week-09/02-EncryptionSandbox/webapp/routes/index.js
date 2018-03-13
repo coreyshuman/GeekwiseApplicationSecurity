@@ -4,7 +4,7 @@ const db = require( '../db/db' );
 const crypto = require( 'crypto' );
 
 const ENCRYPTKEY = crypto.pbkdf2Sync( process.env.ENCRYPTION_PASSWORD, '*somerandomsalt*', 10000, 32, 'sha512' );
-const TITLE = 'Symmetric Encryption Sandbox';
+const TITLE = 'Encryption Sandbox';
 const DEFAULT = {
   title: TITLE,
   data1: 'Hello World',
