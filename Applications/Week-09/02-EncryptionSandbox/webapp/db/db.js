@@ -28,16 +28,18 @@ class SandboxDb {
     d.data2 = newData.data2 || d.data2;
     d.data3 = newData.data3 || d.data3;
     d.data4 = newData.data4 || d.data4;
+    d.data5 = newData.data5 || d.data5;
+    d.data6 = newData.data6 || d.data6;
 
     let query =
-      `UPDATE ${TABLENAME} SET data1=$1, data2=$2, data3=$3, data4=$4, updated_at=$5 WHERE id = $6 RETURNING *`;
+      `UPDATE ${TABLENAME} SET data1=$1, data2=$2, data3=$3, data4=$4, data5=$5, data6=$6, updated_at=$7 WHERE id = $8 RETURNING *`;
     // insert if db entry doesn't already exist
     if ( !d.id ) {
       query =
-        `INSERT INTO ${TABLENAME} (data1, data2, data3, data4, updated_at) VALUES($1, $2, $3, $4, $5) RETURNING *`
+        `INSERT INTO ${TABLENAME} (data1, data2, data3, data4, data5, data6, updated_at) VALUES($1, $2, $3, $4, $5, $5, $6) RETURNING *`
     }
 
-    let params = [ d.data1, d.data2, d.data3, d.data4, new Date()
+    let params = [ d.data1, d.data2, d.data3, d.data4, d.data5, d.data6, new Date()
       .toISOString(), d.id ];
     console.log( query, params );
     return db.one( query, params );

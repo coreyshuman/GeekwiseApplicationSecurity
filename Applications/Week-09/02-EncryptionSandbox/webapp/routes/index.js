@@ -10,7 +10,9 @@ const DEFAULT = {
   data1: 'Hello World',
   data2: 'ABC 123',
   data3: 'Security is key.',
-  data4: 'Protect your data!'
+  data4: 'Protect your data!',
+  data5: 'placeholder',
+  data6: 'random stuff'
 };
 
 /* GET home page. */
@@ -37,6 +39,8 @@ router.post( '/', async function( req, res, next ) {
     data.data2 = encryptAesCtr( data.data2 );
     data.data3 = encryptAesGcm( '1', data.data3 );
     data.data4 = encryptAesGcm( '2', data.data4 );
+    data.data5 = encryptCamCbc( '1', data.data5 );
+    data.data6 = encryptCamCbc( '2', data.data6 );
     const resp = await db.upsert( data );
     if ( resp ) {
       console.log( resp );
@@ -57,11 +61,15 @@ function getDecodedData( data ) {
   data.data2Encrypted = data.data2;
   data.data3Encrypted = data.data3;
   data.data4Encrypted = data.data4;
+  data.data5Encrypted = data.data5;
+  data.data6Encrypted = data.data6;
   // decode data
   data.data1 = decryptAesCtr( data.data1 );
   data.data2 = decryptAesCtr( data.data2 );
   data.data3 = decryptAesGcm( '1', data.data3 );
   data.data4 = decryptAesGcm( '2', data.data4 );
+  data.data5 = decryptCamCbc( '1', data.data5 );
+  data.data6 = decryptCamCbc( '2', data.data6 );
   return Object.assign( { title: TITLE }, data );
 }
 
@@ -81,7 +89,7 @@ function encryptAesCtr( data ) {
 function decryptAesCtr( data ) {
   try {
     /* AES CTS without initialization vector is ineffective (see above comment) */
-    //const decipher = crypto.createDecipheriv( 'aes-256-ctr', ENCRYPTKEY);
+    //const decipher = crypto.createDecipher( 'aes-256-ctr', ENCRYPTKEY );
     const iv = Buffer.from( data.substring( 0, 32 ), 'hex' );
     const decipher = crypto.createDecipheriv( 'aes-256-ctr', ENCRYPTKEY, iv );
     var dec = decipher.update( data.substring( 32 ), 'hex', 'utf8' );
@@ -116,6 +124,32 @@ function decryptAesGcm( id, data ) {
     var dec = decipher.update( data.substring( 64 ), 'hex', 'utf8' );
     dec += decipher.final( 'utf8' );
     return dec;
+  } catch ( e ) {
+    console.log( e );
+    return '';
+  }
+}
+
+function encryptCamCbc( id, data ) {
+  const iv = crypto.randomBytes( 16 );
+  const cipher = crypto.createCipheriv( 'camellia-256-cbc', ENCRYPTKEY, iv );
+  var crypted = cipher.update( id + data, 'utf8', 'hex' );
+  crypted += cipher.final( 'hex' );
+  crypted = iv.toString( 'hex' ) + crypted;
+  return crypted;
+}
+
+function decryptCamCbc( id, data ) {
+  try {
+    const iv = Buffer.from( data.substring( 0, 32 ), 'hex' );
+    const decipher = crypto.createDecipheriv( 'camellia-256-cbc', ENCRYPTKEY, iv );
+    var dec = decipher.update( data.substring( 32 ), 'hex', 'utf8' );
+    dec += decipher.final( 'utf8' );
+    const idCheck = dec.substring( 0, 1 );
+    if ( idCheck !== id ) {
+      return '';
+    }
+    return dec.substring( 1 );
   } catch ( e ) {
     console.log( e );
     return '';
