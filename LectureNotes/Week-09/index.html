@@ -132,7 +132,81 @@
           </div>
 
           <h1>SSL/TLS Certificates</h1>
-          <p>(For Wednesday)</p>
+          <p>SSL Certificates use public key cryptography to encrypt web traffic between a server and a web browser. Public
+            key cryptography is a type of asymmetric cryptography, meaning there is a private and a public key. The web server
+            uses the private key and your web browser uses the public key. </p>
+
+          <p>SSL Certificates must be signed by a Root Certificate, which is a globally trusted certificate managed by a Certificate
+            Authority. A Certificate Authority is a company like GlobalSign or DigiCert who is trusted by browser and operating
+            system vendors to sign and issue certificates. Our computers and mobile devices maintain a list of the trusted
+            CA Root Certificates. This allows them to verify the legitimacy of an SSL Certificate. That is how Chrome knows
+            it can trust a website when it shows the green lock next to the URL.</p>
+
+          <h2>Creating Self-Signed Certificates using OpenSSL</h2>
+          <p>The easiest certificate to generate is a self-signed certificate. These types of certificates will show an error
+            in web browsers because they are not signed by a Root Authority. However, they will still work, and are useful
+            for testing.
+          </p>
+          <p>We will use a command line tool called [OpenSSL](https://www.openssl.org/) to generate our self-signed certificate.</p>
+          <p>This command will let us create a certificate. OpenSSL will prompt us for additional information required by the
+            certificate.
+          </p>
+          <script type='template/code' class='cs'>
+            openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365
+          </script>
+          <p>It is also possible to generate a certificate fully automatically, with no prompts from OpenSSL</p>
+          <script type='template/code'>
+            openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -nodes -subj "/C=US/ST=Oregon/L=Portland/O=Company Name/OU=Org/CN=www.example.com"
+          </script>
+          <p>It is possible to do this process within a Dockerfile to create an SSL cert when a container is built.</p>
+          <script type='template/code' class='cs'>
+            CMD /usr/bin/openssl genrsa -out /certs/${KEY_NAME}.key 1024 && \
+            /usr/bin/openssl req  -new -newkey rsa:4096 -days 365 -nodes -subj "/C=/ST=/L=/O=/CN=${COMMON_NAME}" -keyout /certs/${KEY_NAME}.key -out /certs/${KEY_NAME}.csr  && \
+            /usr/bin/openssl x509 -req -days 365 -in /certs/${KEY_NAME}.csr -signkey /certs/${KEY_NAME}.key -out /certs/${KEY_NAME}.crt
+          </script>
+
+          <div class='outline'>
+            <h3>In-Class: Create a Certificate</h3>
+            <p>Let's SSH into our application 03-HttpsExpressBasic and generate an SSL certificate. Use the following command
+              to SSH into the container.</p>
+            <script type='template/code'>
+              docker exec -it 03httpsexpressbasic_webapp_1 /bin/bash
+            </script>
+            <p>Put your certificate in the `/cert` folder and update the `PASSPHRASE` env variable.</p>
+          </div>
+
+          <h2>Using Wireshark to Verify our Certificate</h2>
+          <p>[Wireshark](https://www.wireshark.org/) is a tool that will allow us to sniff the packets traveling in our network.</p>
+          <p>Start up Wireshark and listen on the `loopback` device. Now try visiting our app using the unencrypted port `8080`
+            and the secure port `4443`.</p>
+          <p>Filter the Wireshark results to see the unencrypted traffic by using this filter: `tcp.port == 8080`.</p>
+          <p>Do the same with the encrypted traffic: `tcp.port == 4443`. Notice the difference between the two types of traffic?</p>
+
+          <h2>Docker Certificate Using Docker Secret</h2>
+          <p>[Dockerflow: Certs](https://proxy.dockerflow.com/certs/)</p>
+
+          <h2>Getting Certificates</h2>
+          <p>The traditional option for getting a certificate for your site has always been to purchase one from a Certificate
+            Authority, such as DigiCert. Let's take a look at their site: </p>
+          <p>[DigiCert](https://www.digicert.com/)</p>
+          <p>Today, there is a much cheapter (read: free) option. [Let's Encrypt](https://letsencrypt.org/) allows us to generate
+            certificates for free, and we can even automate their creation and renewal.</p>
+
+          <h2>Automating Certificate Renewal</h2>
+          <p>Let's Encrypt offers an API for generating and renewing certificates. Let's take a look at some NPM modules that
+            will let us automate our certificates.</p>
+          <p>[greenlock-express](https://github.com/Daplie/greenlock-express)</p>
+
+          <h2>Using Let's Encrypt with a Web Host</h2>
+          <p>I will demonstrate (or at least attempt) to user Let's Encrypt to add a certificate to my website hosted on Arvixe,
+            which uses Cpanel.</p>
+
+
+          <div class='outline'>
+            <h2>Assignment: Add SSL to Our Blog</h2>
+            <p>Use the process we did in class, plus the code examples, to add SSL to our Secure Blog application.</p>
+          </div>
+
 
           <!-- End Col-->
         </div>

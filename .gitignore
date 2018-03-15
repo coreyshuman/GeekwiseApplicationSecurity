@@ -147,3 +147,7 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+# App - specific
+temp/
+*.pem

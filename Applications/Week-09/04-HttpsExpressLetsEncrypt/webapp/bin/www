@@ -1,0 +1,127 @@
+#!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ */
+
+const app = require( '../app' );
+const debug = require( 'debug' )( '03-httpsexpresssimple:server' );
+const path = require( 'path' );
+const challenge = require( 'le-challenge-fs' );
+const config = require( '../config' )
+  .ssl;
+
+console.log( JSON.stringify( config ) );
+
+// Reference: https://letsencrypt.org/ AND https://github.com/Daplie/letsencrypt-express
+
+if ( config.enabled ) {
+  const LEX = require( 'greenlock-express' );
+  //const certsDir = path.resolve( config.certsDir, config.prod ? 'prod' : 'staging' );
+
+  // Every hour (3600 seconds) the certificates are checked and every certificate
+  // that will expire in the next 30 days (90 days / 3) are auto-renewed.
+  var lex = LEX.create( {
+    server: config.prod ? "https://acme-v01.api.letsencrypt.org/directory" : "staging",
+    challenges: {
+      'http-01': challenge
+        .create( { webrootPath: '/tmp/acme-challenges' } )
+    },
+    store: challenge
+      .create( { webrootPath: '/tmp/acme-challenges' } ),
+
+    approveDomains: approveDomains,
+    app: app,
+    debug: true
+  } );
+
+  lex.listen( config.plainPorts, config.tlsPorts );
+
+} else {
+  // Unsecured ports only
+  config.plainPorts.forEach( function( port ) {
+    const server = http.createServer( app );
+    server.on( 'error', onError );
+    server.on( 'listening', onListening );
+  } );
+}
+
+/**
+ * Normalize a port into a number, string, or false.
+ */
+
+function normalizePort( val ) {
+  const port = parseInt( val, 10 );
+
+  if ( isNaN( port ) ) {
+    // named pipe
+    return val;
+  }
+
+  if ( port >= 0 ) {
+    // port number
+    return port;
+  }
+
+  return false;
+}
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
+
+function onError( error ) {
+  if ( error.syscall !== 'listen' ) {
+    throw error;
+  }
+
+  const bind = typeof port === 'string' ?
+    'Pipe ' + port :
+    'Port ' + port;
+
+  // handle specific listen errors with friendly messages
+  switch ( error.code ) {
+    case 'EACCES':
+      console.error( bind + ' requires elevated privileges' );
+      process.exit( 1 );
+      break;
+    case 'EADDRINUSE':
+      console.error( bind + ' is already in use' );
+      process.exit( 1 );
+      break;
+    default:
+      throw error;
+  }
+}
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+
+function onListening() {
+  const addr = server.address();
+  const bind = typeof addr === 'string' ?
+    'pipe ' + addr :
+    'port ' + addr.port;
+  debug( 'Listening on ' + bind );
+}
+
+function approveDomains( opts, certs, cb ) {
+  // This is where you check your database and associated 
+  // email addresses with domains and agreements and such 
+
+  // The domains being approved for the first time are listed in opts.domains 
+  // Certs being renewed are listed in certs.altnames 
+  if ( certs ) {
+    opts.domains = certs.altnames;
+  } else {
+    opts.email = config.email;
+    opts.agreeTos = true;
+  }
+
+  // NOTE: you can also change other options such as `challengeType` and `challenge` 
+  // opts.challengeType = 'http-01'; 
+  // opts.challenge = require('le-challenge-fs').create({}); 
+
+  cb( null, { options: opts, certs: certs } );
+}

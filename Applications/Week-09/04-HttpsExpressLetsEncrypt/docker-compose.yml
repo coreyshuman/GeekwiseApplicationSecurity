@@ -1,0 +1,14 @@
+version: "3.3"
+
+services:
+  webapp:
+    image: 'node:9'
+    env_file: .env
+    working_dir: /home/node/webapp
+    ports:
+      - "8080:80"
+      - "8443:443"
+    volumes:
+      - ./webapp:/home/node/webapp
+      - ./cert:/cert
+    entrypoint: "/home/node/webapp/scripts/entrypoint.sh"
