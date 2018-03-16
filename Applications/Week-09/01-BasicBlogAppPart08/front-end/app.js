@@ -93,6 +93,8 @@ function isInsecurePage( loc ) {
       '/users/login',
       '/users/logout',
       '/users/register',
+      '/users/forgot-password',
+      '/users/reset-password',
       '/error/'
     ];
   for ( let i = 0; i < insecure.length; i++ ) {

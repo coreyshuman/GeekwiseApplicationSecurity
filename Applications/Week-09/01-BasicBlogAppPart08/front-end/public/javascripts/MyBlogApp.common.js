@@ -132,6 +132,8 @@ let MyBlogApp = {};
       '/users/login',
       '/users/logout',
       '/users/register',
+      '/users/forgot-password',
+      '/users/reset-password',
       '/error/'
     ];
     for ( let i = 0; i < insecure.length; i++ ) {
@@ -258,6 +260,18 @@ let MyBlogApp = {};
 
   MyBlogApp.useApi = function() {
     return MyBlogApp.mode() === 'token';
+  }
+
+  MyBlogApp.getUrlParam = function( sParam ) {
+    var sPageURL = window.location.search.substring( 1 );
+    var sURLVariables = sPageURL.split( '&' );
+    for ( var i = 0; i < sURLVariables.length; i++ ) {
+      var sParameterName = sURLVariables[ i ].split( '=' );
+      if ( sParameterName[ 0 ] == sParam ) {
+        return sParameterName[ 1 ];
+      }
+    }
+    return null;
   }
 
   /*************** spinner  *******************/

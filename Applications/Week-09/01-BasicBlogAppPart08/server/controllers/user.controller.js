@@ -12,6 +12,9 @@ const SALT_ROUNDS = parseInt( process.env.SALT_ROUNDS );
 const STAMP_ROUNDS = 8;
 
 const LOGIN_FAIL = 'Email or Password was incorrect.';
+const FORGOT_PASS = 'An email was sent to you.';
+const INVALID_RESET_TOKEN = 'Your reset token is invalid or expired.';
+const UPDATED_PASS = 'Your password has been updated.';
 
 class UserController {
   constructor( router ) {
@@ -32,6 +35,10 @@ class UserController {
       .post( UserController.allowCredentials, this.login );
     router.route( '/user/register' )
       .post( this.register );
+    router.route( '/user/forgot-password' )
+      .post( this.forgotPassword );
+    router.route( '/user/reset-password' )
+      .post( this.resetPassword );
 
     router.route( '/user/change-password' )
       .post( this.changePassword );
@@ -110,6 +117,51 @@ class UserController {
     }
   }
 
+  async forgotPassword( req, res, next ) {
+    try {
+      const email = req.body.email;
+      const data = await UserDb.getByEmail( email );
+      if ( data ) {
+        const user = new User( data );
+        const tokenData = JSON.stringify( { email: user.email, password: user.password } );
+        const token = await bcrypt.hash( tokenData, STAMP_ROUNDS );
+        await UserDb.updateForgotPasswordToken( user.id, secstamp );
+        // need to send email here
+        const email = process.env.NODE_ENV + token;
+        console.log( email );
+        return Common.resultOk( res, FORGOT_PASS );
+      } else {
+        return Common.resultOk( res, FORGOT_PASS );
+      }
+    } catch ( e ) {
+      // handle error
+      const secstamp = await bcrypt.hash( { thisis: 'fakedata' }, STAMP_ROUNDS );
+      return Common.resultErr( res, e.message );
+    }
+  }
+
+  async resetPassword( req, res, next ) {
+    try {
+      const email = req.body.email;
+      const token = req.body.token;
+      const password = req.body.password;
+      const data = await UserDb.getByEmail( email );
+      if ( data ) {
+        if ( data.forgot_password_token !== token || !data.forgot_password_timestamp || Date.now() - Date.parse(
+            data.forgot_password_timestamp ) > 15 * 60 * 1000 ) {
+          return Common.resultErr( res, INVALID_RESET_TOKEN );
+        } else {
+          await UserController.updatePassword( data, password );
+          return Common.resultOk( res, UPDATED_PASS );
+        }
+      } else {
+        return Common.resultErr( res, INVALID_RESET_TOKEN );
+      }
+    } catch ( e ) {
+      return Common.resultErr( res, INVALID_RESET_TOKEN );
+    }
+  }
+
   async changePassword( req, res, next ) {
     try {
       const email = req.body.email;
@@ -119,10 +171,7 @@ class UserController {
       if ( data ) {
         const result = await bcrypt.compare( password, data.password );
         if ( result ) {
-          // update password
-          const hash = await bcrypt.hash( newPass, SALT_ROUNDS );
-          await UserDb.updatePassword( data.id, hash );
-          await UserController.updateSecurityStamp( data );
+          await updatePassword( data, password );
           // return new tokens
           const accessToken = await UserController.generateAccessToken( data );
           const refreshToken = await UserController.generateRefreshToken( data );
@@ -291,8 +340,15 @@ class UserController {
     await TokenStoreDb.deleteForUser( user.id );
   }
 
+  static async updatePassword( user, password ) {
+    // update password
+    const hash = await bcrypt.hash( password, SALT_ROUNDS );
+    await UserDb.updatePassword( user.id, hash );
+    await UserDb.updateForgotPasswordToken( user.id, null );
+    await UserController.updateSecurityStamp( user );
+  }
+
   static setRefreshTokenCookie( res, refreshToken ) {
-    res.cookie( 'super', 'man' )
     res.cookie( 'refreshToken', refreshToken, {
       maxAge: 3600 * 24 * 90 * 1000, // 180 days
       httpOnly: true,

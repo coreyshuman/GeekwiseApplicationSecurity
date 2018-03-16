@@ -17,6 +17,8 @@ const insecureRoutes = [
   '/api/user/login',
   '/api/user/logout',
   '/api/user/register',
+  '/api/user/forgot-password',
+  '/api/user/reset-password',
   '/api/user/token'
 ];
 

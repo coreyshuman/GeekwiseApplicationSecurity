@@ -47,6 +47,14 @@ class UserDb {
     return db.one( query, params );
   }
 
+  static updateForgotPasswordToken( id, securityStamp ) {
+    const query =
+      `UPDATE ${TABLENAME} SET forgot_password_token=$1, forgot_password_timestamp=$2 WHERE is_deleted=false AND id = $3 RETURNING *`;
+    const params = [ securityStamp, securityStamp ? new Date() : null, id ];
+    console.log( query, params );
+    return db.one( query, params );
+  }
+
   static deleteOne( id ) {
     id = parseInt( id );
     //let query = `DELETE FROM ${TABLENAME} WHERE id = ${id}`;

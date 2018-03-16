@@ -100,6 +100,18 @@ router.post( '/register', async function( req, res, next ) {
   }
 } );
 
+router.get( '/forgot-password', function( req, res, next ) {
+  res.render( 'forgot-password' );
+} );
+
+router.get( '/reset-password', function( req, res, next ) {
+  if ( req.query.token ) {
+    res.render( 'reset-password', { token: req.query.token } );
+  } else {
+    res.redirect( '/users/login' );
+  }
+} );
+
 router.get( '/welcome', function( req, res, next ) {
   res.render( 'welcome', { name: req.query.name } );
 } );
