@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ"
+      crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/vs2015.min.css">
+
+    <link rel="stylesheet" href="../common/css/style.css">
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <p class="text-center header-text bold">Application Security and Hardening</p>
+          <p class="text-center header-text">Geekwise Academy</p>
+          <br>
+          <p class="text-center header-subtext italic">Week 11 - Kali Linux and Audit Logging</p>
+          <br>
+          <p class="text-center header-subtext bold">Instructors:</p>
+          <p class="text-center header-subtext">Corey Shuman</p>
+          <p class="text-center header-subtext ta-name-full"></p>
+          <br>
+          <p class="text-center header-subtext bold">Slack Channel:</p>
+          <p class="text-center header-subtext"><a href="https://geekwise.slack.com/messages/C8SHHJQLU/">#application-security</a></p>
+          <p class="text-center header-subtext bold">Github Repo:</p>
+          <p class="text-center header-subtext"><a href="https://github.com/coreyshuman/GeekwiseApplicationSecurity">https://github.com/coreyshuman/GeekwiseApplicationSecurity</a></p>
+          <p class="text-center header-subtext bold">Lecture Notes:</p>
+          <p class="text-center header-subtext"><a href="http://coreyshuman.github.io/GeekwiseApplicationSecurity/LectureNotes">http://coreyshuman.github.io/GeekwiseApplicationSecurity/LectureNotes</a></p>
+          <hr><br>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <p class="header-subtext bold">Table of Contents:</p>
+          <ul id="table-of-contents"></ul>
+          <hr><br>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <h1>Logging and Auditing</h1>
+          <p>An audit log is a security-relevant chronological set of records that provide evidence of the sequence of activities
+            that have occured at any time. Audit records typically result from activities such as financial transactions,
+            scientific research and health care data transactions, or communications by individual people, systems, accounts,
+            or other entities.</p>
+          <p>[OWASP: Error Handling, Auditing and Logging](https://www.owasp.org/index.php/Error_Handling,_Auditing_and_Logging)</p>
+
+          <h2>Why are Audit Logs Important</h2>
+          <p>[Reference](https://www.datamation.com/columns/article.php/3578916/The-Importance-of-Audit-Logs.htm)</p>
+          <p>Audit logs provide us with the following:</p>
+          <ul>
+            <li>**Accountability** – Log data can identify what accounts are associated with certain events. This information
+              then can be used to highlight where training and/or disciplinary actions are needed.</li>
+            <li>**Reconstruction** – Log data can be reviewed chronologically to determine what was happening both before and
+              during an event. For this to happen, the accuracy and coordination of system clocks are critical. To accurately
+              trace activity, clocks need to be regularly synchronized to a central source to ensure that the date/time stamps
+              are in synch.</li>
+            <li>**Intrusion Detection** – Unusual or unauthorized events can be detected through the review of log data, assuming
+              that the correct data is being logged and reviewed. The definition of what constitutes unusual activity varies,
+              but can include failed login attempts, login attempts outside of designated schedules, locked accounts, port
+              sweeps, network activity levels, memory utilization, key file/data access, etc.</li>
+            <li>**Problem Detection** – In the same way that log data can be used to identify security events, it can be used
+              to identify problems that need to be addressed. For example, investigating causal factors of failed jobs, resource
+              utilization, trending and so on.</li>
+          </ul>
+
+          <h2>Examples of Audit Logging</h2>
+          <p>[Github Audit Logging](https://help.github.com/enterprise/2.12/admin/articles/audit-logging/)</p>
+          <p>[MySQL Audit Log Format](https://dev.mysql.com/doc/refman/5.7/en/audit-log-file-formats.html)</p>
+
+          <div class="outline">
+            <h2>In-Class: What Data Should be Captured in an Audit Log?</h2>
+            <p>The following articles discuss the types of data that should be captured in an audit log. Please read these two
+              articles, then discuss with the group the types of data you would like to see in an audit. Are there any things
+              that you can think of that are missing in these articles? Which items are relevant to our blogging app?
+            </p>
+            <p>[Best Practices for Audit Log Review](http://www.computerweekly.com/tip/Best-practices-for-audit-log-review-for-IT-security-investigations)</p>
+            <p>[Application Logs - Security Best Practices](https://www.paladion.net/blogs/application-logs-security-best-practices)</p>
+            </p>
+          </div>
+
+          <h2>What Data Should NOT Be Logged</h2>
+          <p>[Reference](https://stackoverflow.com/questions/33671027/logging-security-considerations-and-sensitive-data)</p>
+          <p>You want to be careful that sensitive data is not captured in your audit logs, since these logs are generally not
+            encrypted or secured at the appropriate level for sensitive data. For example: passwords, social security numbers,
+            and credit card data should not be entered into an audit log. The audit logging functionality should have special
+            sanitation in place to strip any sensitive data from payloads before storing logs.
+          </p>
+
+          <div class="outline">
+            <h1>Assignment: Apply Audit Logging to All Events in our Blog</h1>
+            <p>Use this as a resource: [OWASP: Logging Cheat Sheet](https://www.owasp.org/index.php/Logging_Cheat_Sheet)</p>
+            <p>Add logging to our blogging application. You will need to create a log database, determine what data to capture,
+              and implement code that will capture all events that occur through the API. The logs should be detailed enough
+              that you can recreate a series of events just by using the logs.</p>
+            <p>Bonus: add sanitization to redact any payloads that contain social security numbers. It should change the number
+              `123-45-6789` to something like `* * * * - * * - * * * * *` or `[SSN Redacted]`</p>
+            <p>Once you've implemented audit logging, have a partner perform a series of 6-10 actions on your blog, then use
+              the audit log to see if you can recreate the steps they performed.
+            </p>
+          </div>
+
+
+          <!-- End Col-->
+        </div>
+        <div class="row">
+          <div class="col">
+            <br>
+            <hr>
+            <h1 class="header-subtext bold">Resources</h1>
+            <ul id="resources"></ul>
+          </div>
+        </div>
+      </div>
+
+      <!--Footer-->
+      <br><br>
+      <footer class="page-footer">
+        <div style="background-color: #b9b9b9;">
+          <!-- Copyright-->
+          <div class="footer-copyright">
+            <div class="container-fluid text-center">
+              &copy; 2017 -
+              <script type="text/javascript">
+                        document.write(new Date().getFullYear());
+                    </script>
+              <a href="https://geekwiseacademy.com">Geekwise Academy</a> &amp; <a href="http://coreyshuman.com">Corey Shuman</a>
+            </div>
+          </div>
+          <!--/.Copyright -->
+        </div>
+      </footer>
+      <!--/.Footer-->
+
+      <!-- jQuery first, then Tether, then Bootstrap JS. -->
+      <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n"
+        crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
+        crossorigin="anonymous"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
+        crossorigin="anonymous"></script>
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+      <script src="../common/js/scripts.js"></script>
+      <script src="../common/js/ta-name.js"></script>
+
+  </body>
+
+</html>

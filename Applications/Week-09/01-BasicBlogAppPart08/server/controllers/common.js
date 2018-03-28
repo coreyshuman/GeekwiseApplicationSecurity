@@ -1,10 +1,20 @@
 class Common {
   static resultOk( res, obj ) {
-    res.json( { data: obj } );
+    if ( typeof obj === 'string' || obj === null || obj === undefined ) {
+      res.json( { message: obj ? obj : 'ok' } );
+    } else {
+      res.json( { data: obj } );
+    }
   }
   static resultErr( res, obj ) {
+    let payload = {};
+    if ( typeof obj === 'string' || obj === null || obj === undefined ) {
+      payload = { message: obj ? obj : 'error' };
+    } else {
+      payload = { error: obj };
+    }
     res.status( 500 )
-      .json( { error: obj } );
+      .json( payload );
   }
   static resultNotFound( res, msg ) {
     res.status( 404 )

@@ -18,7 +18,7 @@ MyBlogApp.onload( () => {
           MyBlogApp.toast( 'danger', data.message );
           MyBlogApp.spinStop();
         } else {
-          MyBlogApp.toast( 'danger', 'An error occured, please try again.' );
+          MyBlogApp.toast( 'danger', data.message );
           MyBlogApp.spinStop();
         }
       } );

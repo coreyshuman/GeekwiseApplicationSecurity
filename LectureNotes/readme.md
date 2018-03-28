@@ -21,3 +21,5 @@
 [Week 08 - NoSQL Injection and MEAN Stack Vulnerabilities](./Week-08)
 
 [Week 09 - Encryption and SSL/TLS Certificates](./Week-09)
+
+[Week 11 - Kali Linux and Audit Logging](./Week-11)

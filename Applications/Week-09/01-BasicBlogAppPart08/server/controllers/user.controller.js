@@ -125,17 +125,18 @@ class UserController {
         const user = new User( data );
         const tokenData = JSON.stringify( { email: user.email, password: user.password } );
         const token = await bcrypt.hash( tokenData, STAMP_ROUNDS );
-        await UserDb.updateForgotPasswordToken( user.id, secstamp );
+        await UserDb.updateForgotPasswordToken( user.id, token );
         // need to send email here
-        const email = process.env.NODE_ENV + token;
+        const email = process.env.FORGET_PASS_REDIRECT + token;
         console.log( email );
         return Common.resultOk( res, FORGOT_PASS );
       } else {
+        const secstamp = await bcrypt.hash( 'randomfakedata', STAMP_ROUNDS );
         return Common.resultOk( res, FORGOT_PASS );
       }
     } catch ( e ) {
       // handle error
-      const secstamp = await bcrypt.hash( { thisis: 'fakedata' }, STAMP_ROUNDS );
+      const secstamp = await bcrypt.hash( 'randomfakedata', STAMP_ROUNDS );
       return Common.resultErr( res, e.message );
     }
   }
@@ -149,6 +150,7 @@ class UserController {
       if ( data ) {
         if ( data.forgot_password_token !== token || !data.forgot_password_timestamp || Date.now() - Date.parse(
             data.forgot_password_timestamp ) > 15 * 60 * 1000 ) {
+          console.log( 'check failed' )
           return Common.resultErr( res, INVALID_RESET_TOKEN );
         } else {
           await UserController.updatePassword( data, password );
@@ -158,6 +160,7 @@ class UserController {
         return Common.resultErr( res, INVALID_RESET_TOKEN );
       }
     } catch ( e ) {
+      console.log( e );
       return Common.resultErr( res, INVALID_RESET_TOKEN );
     }
   }

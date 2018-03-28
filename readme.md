@@ -13,6 +13,7 @@ This is a 12 week (72 hour) course on Application Security covering a variety of
 - [Week 07 - Refresh Tokens, Roles, and Session Hijacking](./LectureNotes/Week-07)
 - [Week 08 - NoSQL Injection and MEAN Stack Vulnerabilities](./LectureNotes/Week-08)
 - [Week 09 - Encryption and SSL/TLS Certificates](./LectureNotes/Week-09)
+- [Week 11 - Kali Linux and Audit Logging](./LectureNotes/Week-11)
 
 ### Applications
 - [Week 01 - Basic Insecure Web App Example](./Applications/Week-01/01-BasicInsecureWebApp)
