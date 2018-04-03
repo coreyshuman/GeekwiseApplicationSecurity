@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ"
+      crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/vs2015.min.css">
+
+    <link rel="stylesheet" href="../common/css/style.css">
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <p class="text-center header-text bold">Application Security and Hardening</p>
+          <p class="text-center header-text">Geekwise Academy</p>
+          <br>
+          <p class="text-center header-subtext italic">Week 12 - Secure Development and Testing</p>
+          <br>
+          <p class="text-center header-subtext bold">Instructors:</p>
+          <p class="text-center header-subtext">Corey Shuman</p>
+          <p class="text-center header-subtext ta-name-full"></p>
+          <br>
+          <p class="text-center header-subtext bold">Slack Channel:</p>
+          <p class="text-center header-subtext"><a href="https://geekwise.slack.com/messages/C8SHHJQLU/">#application-security</a></p>
+          <p class="text-center header-subtext bold">Github Repo:</p>
+          <p class="text-center header-subtext"><a href="https://github.com/coreyshuman/GeekwiseApplicationSecurity">https://github.com/coreyshuman/GeekwiseApplicationSecurity</a></p>
+          <p class="text-center header-subtext bold">Lecture Notes:</p>
+          <p class="text-center header-subtext"><a href="http://coreyshuman.github.io/GeekwiseApplicationSecurity/LectureNotes">http://coreyshuman.github.io/GeekwiseApplicationSecurity/LectureNotes</a></p>
+          <hr><br>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <p class="header-subtext bold">Table of Contents:</p>
+          <ul id="table-of-contents"></ul>
+          <hr><br>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <h1>Secure Practices in Development</h1>
+          <p>[OWASP Developer Guide](https://github.com/OWASP/DevGuide)</p>
+
+          <h2>Using 3rd Party Libraries and Packages</h2>
+          <p>[52&percnt; of All JavaScript npm Packages Could Have Been Hacked via Weak Credentials](https://www.bleepingcomputer.com/news/security/52-percent-of-all-javascript-npm-packages-could-have-been-hacked-via-weak-credentials/)</p>
+          <p>[I’m harvesting credit card numbers and passwords from your site. Here’s how.](https://hackernoon.com/im-harvesting-credit-card-numbers-and-passwords-from-your-site-here-s-how-9a8cb347c5b5)</p>
+          <p>[Part 2: How to stop me harvesting credit card numbers and passwords from your site](https://hackernoon.com/part-2-how-to-stop-me-harvesting-credit-card-numbers-and-passwords-from-your-site-844f739659b9)</p>
+          <p>[How to Reduce Risk and Improve Security Around npm](http://nodesource.com/blog/how-to-reduce-risk-and-improve-security-around-npm/)</p>
+
+
+          <h3>Node Security Platform</h3>
+          <p>The Node Security Platform maintains a record of NodeJS plugins with known security issues. It can be installed
+            and run using the following lines:</p>
+          <script type='template/code'>
+            npm install -g nsp 
+            nsp check
+          </script>
+
+          <h2>Security Fundamentals (The CIA triad)</h2>
+          <p>[Security Fundamentals](https://github.com/OWASP/DevGuide/blob/master/01-Foundations/01-Security%20Fundamentals.md)</p>
+          <img src="../common/images/01x01-CIA_Triad.png">
+
+          <h2>Secure Development Lifecycle</h2>
+          <p>[Secure Development Lifecycle](https://github.com/OWASP/DevGuide/blob/master/01-Foundations/04-Secure%20Development%20Lifecycle.md)</p>
+
+          <h2>Secure Design Principles</h2>
+          <p>[Secure Design Principles](https://github.com/OWASP/DevGuide/blob/master/02-Design/01-Principles%20of%20Security%20Engineering.md)</p>
+
+          <h1>Testing</h1>
+          <p>[OWASP Testing Project](https://www.owasp.org/index.php/OWASP_Testing_Project)</p>
+          <p>[OWASP Testing Guide v4](https://www.owasp.org/images/1/19/OTGv4.pdf)</p>
+          <p>Web Application Security Testing Topics:</p>
+          <ul>
+            <li>Configuration and Deployment Management Testing</li>
+            <li>Identity Management Testing</li>
+            <li>Authentication Testing</li>
+            <li>Authorization Testing</li>
+            <li>Session Management Testing</li>
+            <li>Input Validation Testing</li>
+            <li>Testing for Error Handling</li>
+            <li>Testing for Weak Cryptography</li>
+            <li>Business Logic Testing</li>
+            <li>Client Side Testing</li>
+            <li></li>
+          </ul>
+          <p>Areas we will cover in class:</p>
+          <ul>
+            <li>Principles of Testing</li>
+            <li>Testing Techniques Explained</li>
+          </ul>
+          <p>Read in class:</p>
+          <ul>
+            <li>3 - The OWASP Testing Framework</li>
+          </ul>
+
+          <h1>Google's XSS Game</h1>
+          <p>[XSS Game](https://xss-game.appspot.com/)</p>
+
+          <!-- End Col-->
+        </div>
+        <div class="row">
+          <div class="col">
+            <br>
+            <hr>
+            <h1 class="header-subtext bold">Resources</h1>
+            <ul id="resources"></ul>
+          </div>
+        </div>
+      </div>
+
+      <!--Footer-->
+      <br><br>
+      <footer class="page-footer">
+        <div style="background-color: #b9b9b9;">
+          <!-- Copyright-->
+          <div class="footer-copyright">
+            <div class="container-fluid text-center">
+              &copy; 2017 -
+              <script type="text/javascript">
+                        document.write(new Date().getFullYear());
+                    </script>
+              <a href="https://geekwiseacademy.com">Geekwise Academy</a> &amp; <a href="http://coreyshuman.com">Corey Shuman</a>
+            </div>
+          </div>
+          <!--/.Copyright -->
+        </div>
+      </footer>
+      <!--/.Footer-->
+
+      <!-- jQuery first, then Tether, then Bootstrap JS. -->
+      <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n"
+        crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
+        crossorigin="anonymous"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
+        crossorigin="anonymous"></script>
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+      <script src="../common/js/scripts.js"></script>
+      <script src="../common/js/ta-name.js"></script>
+
+  </body>
+
+</html>

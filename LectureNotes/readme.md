@@ -23,3 +23,5 @@
 [Week 09 - Encryption and SSL/TLS Certificates](./Week-09)
 
 [Week 11 - Kali Linux and Audit Logging](./Week-11)
+
+[Week 12 - Secure Development and Testing](./Week-12)
