@@ -14,6 +14,7 @@ This is a 12 week (72 hour) course on Application Security covering a variety of
 - [Week 08 - NoSQL Injection and MEAN Stack Vulnerabilities](./LectureNotes/Week-08)
 - [Week 09 - Encryption and SSL/TLS Certificates](./LectureNotes/Week-09)
 - [Week 11 - Kali Linux and Audit Logging](./LectureNotes/Week-11)
+- [Week 12 - Secure Development and Testing](./LectureNotes/Week-12)
 
 ### Applications
 - [Week 01 - Basic Insecure Web App Example](./Applications/Week-01/01-BasicInsecureWebApp)
